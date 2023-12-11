@@ -1,13 +1,13 @@
-package com.example.demo;
+package com.projetmeteo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class ProjetmeteoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(ProjetmeteoApplication.class, args);
 	}
 
 }
