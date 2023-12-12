@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class GreetingController {
 	@Autowired
-	WeatherDataRepository repo;
+	WeatherDataRepository repository;
 
 	@GetMapping("/greeting")
 	public String greeting(@RequestParam(name="name", required=false, defaultValue="à tous") String name, Model model) {
-		//repo.
+		//repository.
 		model.addAttribute("name", name);
 		return "greeting";
 	}
