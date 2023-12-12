@@ -1,5 +1,7 @@
 package com.projetmeteo.meteo;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,12 +11,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class GreetingController {
 	@Autowired
-	WeatherDataRepository repository;
+	WeatherDataRepository repo;
 
 	@GetMapping("/greeting")
 	public String greeting(@RequestParam(name="name", required=false, defaultValue="à tous") String name, Model model) {
-		//repository.
-		model.addAttribute("name", name);
+		WeatherData wD = new WeatherData();
+    wD.setDatetime(new Date());
+    wD.setTemp(12);
+    wD.setTempmax(12);
+    wD.setTempmin(12);
+    wD.setHumidity(12);
+    wD.setPrecipprob(12);
+    wD.setWindspeed(12);
+    wD.setSunrise(new Date());
+    wD.setSunset(new Date());
+    wD.setConditions("OK");
+    wD.setDescription("OK");
+
+    
+    repo.save(wD);
+		model.addAttribute("name", repo.count());
 		return "greeting";
 	}
 
