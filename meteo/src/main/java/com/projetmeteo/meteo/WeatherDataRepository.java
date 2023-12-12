@@ -6,7 +6,4 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface WeatherDataRepository extends CrudRepository<WeatherData, Long> {
 
-  List<WeatherData> findByLastName(String lastName);
-
-  WeatherData findById(long id);
 }
