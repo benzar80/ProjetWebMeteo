@@ -1,6 +1,7 @@
 package com.projetmeteo.meteo;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,20 @@ public class GreetingController {
 		wD.setConditions("OK");
 		wD.setDescription("OK");
 
-		
 		repo.save(wD);
+		
+        model.addAttribute("greeting", repo.findById(1L).get().getDatetime().toString());
 
-		model.addAttribute("name", repo.count());
-		return "greeting";
+        return "greeting";
+	}
+
+	@GetMapping("/weather")
+	public String greeting(Model model) {
+		Optional<WeatherData> wd = repo.findById(1L);
+		
+        model.addAttribute("greeting", wd.get().getId());
+
+        return "greeting";
 	}
 
 }

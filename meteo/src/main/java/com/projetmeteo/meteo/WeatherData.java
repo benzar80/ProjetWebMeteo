@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="Weather")
