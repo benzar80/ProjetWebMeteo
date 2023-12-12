@@ -1,29 +1,44 @@
 package com.projetmeteo.meteo;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.Date;
 
 @Entity
+@Table(name="Weather")
 public class WeatherData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="datetime")
     private Date datetime;
+    @Column(name="temp")
     private double temp;
+    @Column(name="tempmax")
     private double tempmax;
+    @Column(name="tempmin")
     private double tempmin;
+    @Column(name="humidity")
     private int humidity;
+    @Column(name="precipprob")
     private int precipprob;
+    @Column(name="windspeed")
     private double windspeed;
+    @Column(name="sunrise")
     private Date sunrise;
+    @Column(name="sunset")
     private Date sunset;
+    @Column(name="conditions")
     private String conditions;
+    @Column(name="description")
     private String description;
 
     // Constructeurs
@@ -48,6 +63,7 @@ public class WeatherData {
     }
 
     // Getters et Setters
+
 
     public Long getId() {
         return id;

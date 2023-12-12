@@ -7,4 +7,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface WeatherDataRepository extends JpaRepository<WeatherData, Long> {
+    List<WeatherData> findAll();
 }
