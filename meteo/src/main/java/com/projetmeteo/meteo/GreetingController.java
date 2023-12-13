@@ -3,7 +3,6 @@ package com.projetmeteo.meteo;
 import java.util.Date;
 import java.util.Optional;
 
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +40,7 @@ public class GreetingController {
 	public String greeting(Model model) {
 		Optional<WeatherData> wd = repo.findById(1L);
 		
-        model.addAttribute("greeting", wd.get().getId());
+        model.addAttribute("greeting", wd.get().getConditions());
 
         return "greeting";
 	}
