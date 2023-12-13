@@ -31,7 +31,7 @@ public class GreetingController {
 
 		repo.save(wD);
 		
-        model.addAttribute("greeting", repo.findById(1L).get().getDatetime().toString());
+        model.addAttribute("greeting", repo.findById(1L).get().toString());
 
         return "greeting";
 	}

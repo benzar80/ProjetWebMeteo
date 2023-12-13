@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -160,5 +161,22 @@ public class WeatherData {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    @Override
+    public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        return "id=" + id +
+                ", datetime=" + (datetime != null ? dateFormat.format(datetime) : null) +
+                ", temp=" + temp +
+                ", tempmax=" + tempmax +
+                ", tempmin=" + tempmin +
+                ", humidity=" + humidity +
+                ", precipprob=" + precipprob +
+                ", windspeed=" + windspeed +
+                ", sunrise=" + (sunrise != null ? dateFormat.format(sunrise) : null) +
+                ", sunset=" + (sunset != null ? dateFormat.format(sunset) : null) +
+                ", conditions='" + conditions + '\'' +
+                ", description='" + description + '\'';
     }
 }
