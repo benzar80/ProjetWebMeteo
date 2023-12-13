@@ -16,7 +16,7 @@ public class GreetingController {
 	@Autowired
 	WeatherDataRepository repo;
 
-	@GetMapping("/greeting")
+	/*@GetMapping("/greeting")
 	public String greeting(@RequestParam(name="name", required=false, defaultValue="à tous") String name, Model model) {
 			WeatherData wD = new WeatherData();
 		wD.setDatetime("test");
@@ -41,7 +41,7 @@ public class GreetingController {
 		model.addAttribute("greeting", repo.findById(2L).get().getDatetime().toString());
 
         return "greeting";
-	}
+	}*/
 
 	@Autowired
     private WeatherService weatherService;

@@ -1,6 +1,8 @@
 package com.projetmeteo.meteo;
 
 
+import java.text.SimpleDateFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -163,5 +165,23 @@ public class WeatherData {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    @Override
+    public String toString() {
+        
+        return "WeatherData{" +
+                "\n\tid=" + id +
+                ", \n\tdatetime=" + datetime +
+                ", \n\ttemp=" + temp +
+                ", \n\ttempmax=" + tempmax +
+                ", \n\ttempmin=" + tempmin +
+                ", \n\thumidity=" + humidity +
+                ", \n\tprecipprob=" + precipprob +
+                ", \n\twindspeed=" + windspeed +
+                ", \n\tsunrise=" + sunrise +
+                ", \n\tsunset=" + sunset +
+                ", \n\tconditions='" + conditions + '\'' +
+                ", \n\tdescription='" + description + '\'' +
+                "\n}";
     }
 }
