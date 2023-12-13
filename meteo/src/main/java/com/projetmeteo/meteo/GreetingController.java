@@ -57,10 +57,9 @@ public class GreetingController {
         weatherService.saveWeatherData(weatherData);
         return "redirect:/index.html";
     }
-
-	@GetMapping("/test")
-	public String submitWeatherData2(){
-		weatherService.saveDownload();
+	@PostMapping("/test")
+	public String submitWeatherData2(@RequestParam("city") String city){
+		weatherService.saveDownload(city);
 		return "redirect:/index.html";
 	}
 
