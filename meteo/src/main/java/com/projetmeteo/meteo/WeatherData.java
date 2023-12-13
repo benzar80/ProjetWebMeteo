@@ -8,9 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 @Entity
 @Table(name="Weather")
 public class WeatherData {
@@ -32,10 +29,10 @@ public class WeatherData {
     private double tempmin;
 
     @Column(name="humidity")
-    private int humidity;
+    private double humidity;
 
     @Column(name="precipprob")
-    private int precipprob;
+    private double precipprob;
 
     @Column(name="windspeed")
     private double windspeed;
@@ -52,13 +49,11 @@ public class WeatherData {
     @Column(name="description")
     private String description;
 
-    // Constructeurs
-
     public WeatherData() {
     }
 
     public WeatherData(String datetime, double temp, double tempmax, double tempmin,
-                       int humidity, int precipprob, double windspeed, String sunrise,
+    double humidity, double precipprob, double windspeed, String sunrise,
                        String sunset, String conditions, String description) {
         this.datetime = datetime;
         this.temp = temp;
@@ -72,8 +67,6 @@ public class WeatherData {
         this.conditions = conditions;
         this.description = description;
     }
-
-    // Getters et Setters
 
 
     public Long getId() {
@@ -116,19 +109,19 @@ public class WeatherData {
         this.tempmin = tempmin;
     }
 
-    public int getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(int humidity) {
+    public void setHumidity(double humidity) {
         this.humidity = humidity;
     }
 
-    public int getPrecipprob() {
+    public double getPrecipprob() {
         return precipprob;
     }
 
-    public void setPrecipprob(int precipprob) {
+    public void setPrecipprob(double precipprob) {
         this.precipprob = precipprob;
     }
 

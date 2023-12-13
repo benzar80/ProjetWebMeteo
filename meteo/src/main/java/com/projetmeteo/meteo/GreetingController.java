@@ -46,10 +46,22 @@ public class GreetingController {
 	@Autowired
     private WeatherService weatherService;
 
+    @GetMapping("/form")
+    public String showWeatherForm(Model model) {
+        model.addAttribute("weatherData", new WeatherData());
+        return "weather-form";
+    }
+
     @PostMapping("/submit_weather_data")
     public String submitWeatherData(WeatherData weatherData) {
         weatherService.saveWeatherData(weatherData);
         return "redirect:/index.html";
     }
+
+	@GetMapping("/test")
+	public String submitWeatherData2(){
+		weatherService.saveDownload();
+		return "redirect:/index.html";
+	}
 
 }
