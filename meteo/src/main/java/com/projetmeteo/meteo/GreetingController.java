@@ -1,5 +1,6 @@
 package com.projetmeteo.meteo;
 
+import java.io.Console;
 import java.util.Date;
 import java.util.Optional;
 
@@ -57,10 +58,11 @@ public class GreetingController {
         weatherService.saveWeatherData(weatherData);
         return "redirect:/index.html";
     }
-	@PostMapping("/test")
-	public String submitWeatherData2(@RequestParam("city") String city){
-		weatherService.saveDownload(city);
-		return "redirect:/index.html";
-	}
 
+	@PostMapping("/test")
+	public String submitWeatherData2(@RequestParam("city") String city, Model model){
+		String msg = weatherService.saveDownload(city);
+		model.addAttribute("message", msg);
+		return "/greeting";
+	}
 }

@@ -17,7 +17,7 @@ public class WeatherService {
         weatherRepository.save(weatherData);
     }
 
-    public void saveDownload(String city){
+    public String saveDownload(String city){
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             WeatherDataResponse weatherDataResponse = objectMapper.readValue(new URL("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "/next7days?unitGroup=metric&key=BW4J9URLRRGB6833JQ5GP9268&include=days&elements=datetime,temp,tempmax,tempmin,humidity,precipprob,windspeed,sunrise,sunset,conditions,description&lang=fr&contentType=json"), WeatherDataResponse.class);
@@ -37,11 +37,14 @@ public class WeatherService {
                 System.out.println("Description : " + day.getDescription());
                 // Ajoutez d'autres données nécessaires...
                 System.out.println("--------------------");
-      
-                weatherRepository.save(new WeatherData(day.getDatetime(), day.getTemp(), day.getTempMax(), day.getTempMin(), day.getHumidity(), day.getPrecipProb(), day.getWindSpeed(), day.getSunrise(), day.getSunset(), day.getConditions(), day.getDescription()));
+                WeatherData wd = new WeatherData(day.getDatetime(), day.getTemp(), day.getTempMax(), day.getTempMin(), day.getHumidity(), day.getPrecipProb(), day.getWindSpeed(), day.getSunrise(), day.getSunset(), day.getConditions(), day.getDescription());
+                weatherRepository.save(wd);
+                System.out.println(wd.toString());
+                return wd.toString();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }
