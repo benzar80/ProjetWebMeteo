@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head> 
     <title>Weather Data Form</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -12,30 +12,7 @@
         <input type="text" id="city" name="city" required><br>
         <input type="submit" value="Submit">
     </form>
-
-    <div id="dataFragment" th:fragment="dataFragment">
-        <!-- Contenu que vous souhaitez mettre à jour -->
-        <p>Les données ont été mises à jour!</p>
-    </div>
-
-    <p>
-
-    </p>
-
-    <script th:inline="javascript">
-        /* Optionnel : Utilisez JavaScript pour mettre à jour la page sans rechargement complet */
-        /* Exemple avec jQuery */
-        $(document).ready(function() {
-            $('form').submit(function(event) {
-                event.preventDefault();
-                var form = $(this);
-                var url = form.attr('action');
-                var data = form.serialize();
-                $.post(url, data, function(response) {
-                    $('#dataFragment').replaceWith($(response).find('#dataFragment'));
-                });
-            });
-        });
-    </script>
+    
+    <p th:text="|${message}|"></p>
 </body>
 </html>

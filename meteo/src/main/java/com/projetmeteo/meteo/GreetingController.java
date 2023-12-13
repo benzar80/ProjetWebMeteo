@@ -56,13 +56,13 @@ public class GreetingController {
     @PostMapping("/submit_weather_data")
     public String submitWeatherData(WeatherData weatherData) {
         weatherService.saveWeatherData(weatherData);
-        return "redirect:/index.html";
+        return "redirect:/index";
     }
 
 	@PostMapping("/test")
 	public String submitWeatherData2(@RequestParam("city") String city, Model model){
 		String msg = weatherService.saveDownload(city);
 		model.addAttribute("message", msg);
-		return "/greeting";
+		return "greeting";
 	}
 }
