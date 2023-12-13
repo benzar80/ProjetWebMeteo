@@ -1,0 +1,106 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+header {
+    background: linear-gradient(to right, #3498db, #2980b9);
+            color: #ffffff;
+            height: 100px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.logo {
+    max-width: 150px; /* Ajustez la largeur des logos selon vos besoins */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.left-logo {
+    left: 20px;
+}
+
+.right-logo {
+    right: 20px;
+}
+
+nav {
+    background-color: #fbb900;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+button {
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px; /* Coins arrondis */
+    background-color: #0b203e; /* Fond bleu */
+    font-weight: bold; /* Texte en gras */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Effet de 3D avec ombre */
+    transition: transform 0.3s ease-in-out; /* Transition pour l'effet de survol */
+    cursor: pointer;
+}
+
+button:hover {
+    transform: translateY(-3px); /* Effet de surélévation lors du survol */
+}
+
+section {
+    padding: 20px;
+    margin: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+/* Styles pour l'arrière-plan obscurci lorsque la fenêtre modale est ouverte */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Styles pour le bouton de fermeture */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
