@@ -1,10 +1,47 @@
 <!DOCTYPE HTML>
 <html>
 <head> 
-    <title>Getting Started: Serving Web Content</title> 
+    <title>Weather Data Form</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <p>Get your greeting <a href="/greeting">here</a></p>
+    <h1>Weather Data Form</h1>
+    
+    <form action="/submit_weather_data" method="post" th:object="${weatherData}">
+        <label for="datetime">Date and Time:</label>
+        <input type="text" id="datetime" name="datetime" th:field="*{datetime}" required><br>
+
+        <label for="temp">Temperature:</label>
+        <input type="number" step="0.01" id="temp" name="temp" th:field="*{temp}"r equired><br>
+
+        <label for="tempmax">Max Temperature:</label>
+        <input type="number" step="0.01" id="tempmax" name="tempmax" th:field="*{tempmax}" required><br>
+
+        <label for="tempmin">Min Temperature:</label>
+        <input type="number" step="0.01" id="tempmin" name="tempmin" th:field="*{tempmin}" required><br>
+
+        <label for="humidity">Humidity:</label>
+        <input type="number" id="humidity" name="humidity" th:field="*{humidity}" required><br>
+
+        <label for="precipprob">Precipitation Probability:</label>
+        <input type="number" id="precipprob" name="precipprob" th:field="*{precipprob}" required><br>
+
+        <label for="windspeed">Wind Speed:</label>
+        <input type="number" step="0.01" id="windspeed" name="windspeed" th:field="*{windspeed}" required><br>
+
+        <label for="sunrise">Sunrise:</label>
+        <input type="text" id="sunrise" name="sunrise" th:field="*{sunrise}" required><br>
+
+        <label for="sunset">Sunset:</label>
+        <input type="text" id="sunset" name="sunset" th:field="*{sunset}" required><br>
+
+        <label for="conditions">Weather Conditions:</label>
+        <input type="text" id="conditions" name="conditions" th:field="*{conditions}" required><br>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" th:field="*{description}" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>

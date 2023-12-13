@@ -8,8 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name="Weather")
@@ -20,25 +20,35 @@ public class WeatherData {
     private Long id;
 
     @Column(name="datetime")
-    private Date datetime;
+    private String datetime;
+
     @Column(name="temp")
     private double temp;
+
     @Column(name="tempmax")
     private double tempmax;
+
     @Column(name="tempmin")
     private double tempmin;
+
     @Column(name="humidity")
     private int humidity;
+
     @Column(name="precipprob")
     private int precipprob;
+
     @Column(name="windspeed")
     private double windspeed;
+
     @Column(name="sunrise")
-    private Date sunrise;
+    private String sunrise;
+
     @Column(name="sunset")
-    private Date sunset;
+    private String sunset;
+
     @Column(name="conditions")
     private String conditions;
+
     @Column(name="description")
     private String description;
 
@@ -47,9 +57,9 @@ public class WeatherData {
     public WeatherData() {
     }
 
-    public WeatherData(Date datetime, double temp, double tempmax, double tempmin,
-                       int humidity, int precipprob, double windspeed, Date sunrise,
-                       Date sunset, String conditions, String description) {
+    public WeatherData(String datetime, double temp, double tempmax, double tempmin,
+                       int humidity, int precipprob, double windspeed, String sunrise,
+                       String sunset, String conditions, String description) {
         this.datetime = datetime;
         this.temp = temp;
         this.tempmax = tempmax;
@@ -74,11 +84,11 @@ public class WeatherData {
         this.id = id;
     }
 
-    public Date getDatetime() {
+    public String getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(Date datetime) {
+    public void setDatetime(String datetime) {
         this.datetime = datetime;
     }
 
@@ -130,19 +140,19 @@ public class WeatherData {
         this.windspeed = windspeed;
     }
 
-    public Date getSunrise() {
+    public String getSunrise() {
         return sunrise;
     }
 
-    public void setSunrise(Date sunrise) {
+    public void setSunrise(String sunrise) {
         this.sunrise = sunrise;
     }
 
-    public Date getSunset() {
+    public String getSunset() {
         return sunset;
     }
 
-    public void setSunset(Date sunset) {
+    public void setSunset(String sunset) {
         this.sunset = sunset;
     }
 
