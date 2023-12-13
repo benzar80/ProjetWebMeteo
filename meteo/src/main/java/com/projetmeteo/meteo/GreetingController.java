@@ -63,6 +63,6 @@ public class GreetingController {
 	public String submitWeatherData2(@RequestParam("city") String city, Model model){
 		String msg = weatherService.saveDownload(city);
 		model.addAttribute("message", msg);
-		return "greeting";
+		return "index";
 	}
 }
