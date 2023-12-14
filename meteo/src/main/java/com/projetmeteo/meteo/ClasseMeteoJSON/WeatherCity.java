@@ -3,7 +3,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class WeatherDataResponse {
+public class WeatherCity {
     @JsonProperty("queryCost")
     private int queryCost;
 
@@ -25,7 +25,11 @@ public class WeatherDataResponse {
     @JsonProperty("tzoffset")
     private double tzoffset;
 
+    @JsonProperty("days")
     private List<WeatherDay> days;
+
+    @JsonProperty("hours")
+    private List<WeatherHour> hours;
 
     public int getQueryCost() {
         return queryCost;
@@ -89,6 +93,14 @@ public class WeatherDataResponse {
 
     public void setDays(List<WeatherDay> days) {
         this.days = days;
+    }
+
+    public List<WeatherHour> getHours() {
+        return hours;
+    }
+
+    public void setHours(List<WeatherHour> hours) {
+        this.hours = hours;
     }
 }
 

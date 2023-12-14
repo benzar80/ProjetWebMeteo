@@ -2,6 +2,10 @@ package com.projetmeteo.meteo.ClasseMeteo;
 
 import java.util.List;
 
+import com.projetmeteo.meteo.ClasseMeteoJSON.WeatherDay;
+import com.projetmeteo.meteo.ClasseMeteoJSON.WeatherHour;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,10 +22,10 @@ public class WeatherDataCity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<WeatherDataDay> weatherDay;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<WeatherDataHour> weatherHour;
 
     @Column(name="latitude")
@@ -42,21 +46,27 @@ public class WeatherDataCity {
     @Column(name="tzoffset")
     private double tzoffset;
 
-    @Column(name="days")
-    private int days;
-
     public WeatherDataCity() {
     }
 
-    public WeatherDataCity(double latitude, double longitude, String resolvedAddress, String address,
-                        String timezone, double tzoffset, int days) {
+    public WeatherDataCity(List<WeatherDataDay> weatherDay, List<WeatherDataHour> weatherHour, double latitude, double longitude, String resolvedAddress, String address,
+                        String timezone, double tzoffset) {
+        this.weatherDay = weatherDay;
+        this.weatherHour = weatherHour;
         this.latitude = latitude;
         this.longitude = longitude;
         this.resolvedAddress = resolvedAddress;
         this.address = address;
         this.timezone = timezone;
         this.tzoffset = tzoffset;
-        this.days = days;
+    }
+
+    public List<WeatherDataDay> getWeatherDay(){
+        return weatherDay;
+    }
+
+    public List<WeatherDataHour> getWeatherHour(){
+        return weatherHour;
     }
 
     public double getLatitude() {
@@ -83,11 +93,14 @@ public class WeatherDataCity {
         return tzoffset;
     }
 
-    public int getDays() {
-        return days;
+    public void setWeatherDay(List<WeatherDataDay> weatherDay){
+        this.weatherDay = weatherDay;
     }
 
-    // Setters
+    public void setWeatherHour(List<WeatherDataHour> weatherHour){
+        this.weatherHour = weatherHour;
+    }
+
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
@@ -110,10 +123,6 @@ public class WeatherDataCity {
 
     public void setTzoffset(double tzoffset) {
         this.tzoffset = tzoffset;
-    }
-
-    public void setDays(int days) {
-        this.days = days;
     }
 }
 
