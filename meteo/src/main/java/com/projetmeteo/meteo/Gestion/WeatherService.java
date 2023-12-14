@@ -5,7 +5,7 @@ import java.net.URL;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projetmeteo.meteo.ClasseMeteo.WeatherData;
-import com.projetmeteo.meteo.ClasseMeteo.WeatherDataResponse;
+import com.projetmeteo.meteo.ClasseMeteoJSON.WeatherDataResponse;
 import com.projetmeteo.meteo.ClasseMeteoJSON.WeatherDay;
 
 import org.springframework.beans.factory.annotation.Autowired;

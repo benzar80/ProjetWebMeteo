@@ -1,7 +1,6 @@
-package com.projetmeteo.meteo.ClasseMeteo;
+package com.projetmeteo.meteo.ClasseMeteoJSON;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.projetmeteo.meteo.ClasseMeteoJSON.WeatherDay;
 
 import java.time.LocalDateTime;
 import java.util.List;
