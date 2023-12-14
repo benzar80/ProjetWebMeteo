@@ -1,6 +1,6 @@
 package com.projetmeteo.meteo.Gestion;
 
-import com.projetmeteo.meteo.ClasseMeteo.WeatherData;
+import com.projetmeteo.meteo.ClasseMeteo.WeatherDataDay;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,20 +46,20 @@ public class GreetingController {
 
     @GetMapping("/form")
     public String showWeatherForm(Model model) {
-        model.addAttribute("weatherData", new WeatherData());
+        model.addAttribute("weatherData", new WeatherDataDay());
         return "weather-form";
     }
 
     @PostMapping("/submit_weather_data")
-    public String submitWeatherData(WeatherData weatherData) {
+    public String submitWeatherData(WeatherDataDay weatherData) {
         weatherService.saveWeatherData(weatherData);
         return "redirect:/index";
     }
 
 	@PostMapping("/test")
 	public String submitWeatherData2(@RequestParam("city") String city, Model model){
-		String msg = weatherService.saveDownload(city);
-		model.addAttribute("message", msg);
+		weatherService.saveDownload(city);
+		model.addAttribute("message", repo.findAll().toString());
 		return "index";
 	}
 }

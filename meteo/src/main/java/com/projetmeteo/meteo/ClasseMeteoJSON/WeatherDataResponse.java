@@ -1,22 +1,28 @@
 package com.projetmeteo.meteo.ClasseMeteoJSON;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class WeatherDataResponse {
     @JsonProperty("queryCost")
     private int queryCost;
 
+    @JsonProperty("latitude")
     private double latitude;
+
+    @JsonProperty("longitude")
     private double longitude;
 
     @JsonProperty("resolvedAddress")
     private String resolvedAddress;
 
+    @JsonProperty("address")
     private String address;
+
+    @JsonProperty("timezone")
     private String timezone;
+
+    @JsonProperty("tzoffset")
     private double tzoffset;
 
     private List<WeatherDay> days;

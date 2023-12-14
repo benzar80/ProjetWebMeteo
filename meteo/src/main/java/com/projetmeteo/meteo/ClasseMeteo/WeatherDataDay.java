@@ -1,8 +1,5 @@
 package com.projetmeteo.meteo.ClasseMeteo;
 
-
-import java.text.SimpleDateFormat;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,9 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Weather")
-public class WeatherData {
-
+@Table(name="WeatherDataDay")
+public class WeatherDataDay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -51,10 +47,10 @@ public class WeatherData {
     @Column(name="description")
     private String description;
 
-    public WeatherData() {
+    public WeatherDataDay() {
     }
 
-    public WeatherData(String datetime, double temp, double tempmax, double tempmin,
+    public WeatherDataDay(String datetime, double temp, double tempmax, double tempmin,
     double humidity, double precipprob, double windspeed, String sunrise,
                        String sunset, String conditions, String description) {
         this.datetime = datetime;
