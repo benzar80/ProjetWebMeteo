@@ -1,4 +1,4 @@
-package com.projetmeteo.meteo;
+package com.projetmeteo.meteo.ClasseMeteo;
 
 
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.projetmeteo.meteo.ClasseMeteJSON;
+package com.projetmeteo.meteo.ClasseMeteoJSON;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

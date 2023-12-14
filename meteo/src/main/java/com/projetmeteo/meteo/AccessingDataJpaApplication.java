@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.projetmeteo.meteo.Gestion.WeatherDataRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slf4j.Logger;
