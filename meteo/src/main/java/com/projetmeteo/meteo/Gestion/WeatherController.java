@@ -1,11 +1,10 @@
 package com.projetmeteo.meteo.Gestion;
 
-import com.projetmeteo.meteo.ClasseMeteo.WeatherDataDay;
+import com.projetmeteo.meteo.ClasseMeteo.WeatherDataCity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,9 +17,10 @@ public class WeatherController {
     private WeatherService weatherService;
 
 	@PostMapping("/test")
-	public String submitWeatherData(@RequestParam("city") String city, Model model){
-		weatherService.saveDownloadDay(city);
-		model.addAttribute("message", repo.findAll().toArray().toString());
-		return "index";
-	}
+    public String submitWeatherData(@RequestParam("city") String city, Model model){
+        weatherService.saveDownloadDay(city);
+        Iterable<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
+        model.addAttribute("weatherDataLists", weatherDataList);  // Correction ici
+        return "index";
+    }
 }

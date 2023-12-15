@@ -1,10 +1,12 @@
 package com.projetmeteo.meteo.ClasseMeteoJSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class WeatherCity {
-    @JsonProperty("queryCost")
+    @JsonIgnore
     private int queryCost;
 
     @JsonProperty("latitude")
@@ -28,10 +30,10 @@ public class WeatherCity {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("alerts")
+    @JsonIgnore
     private List<String> alerts;
 
-    @JsonProperty("currentConditions")
+    @JsonIgnore
     private WeatherDay currentConditions;
 
 
