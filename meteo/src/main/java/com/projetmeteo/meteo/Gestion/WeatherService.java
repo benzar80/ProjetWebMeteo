@@ -52,6 +52,7 @@ public class WeatherService {
                 lhour.add(new WeatherDataHour(hour.getDatetime(), hour.getTemp(), hour.getHumidity(), hour.getPrecipProb(), hour.getWindSpeed(), hour.getConditions()));
             }
             weatherRepository.save(wdc);
+            wdc.setWeatherHour(lhour);
         } catch (IOException e) {
             e.printStackTrace();
         }

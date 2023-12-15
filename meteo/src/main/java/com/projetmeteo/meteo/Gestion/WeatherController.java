@@ -17,16 +17,10 @@ public class WeatherController {
 	@Autowired
     private WeatherService weatherService;
 
-    @GetMapping("/form")
-    public String showWeatherForm(Model model) {
-        model.addAttribute("weatherData", new WeatherDataDay());
-        return "weather-form";
-    }
-
 	@PostMapping("/test")
-	public String submitWeatherData2(@RequestParam("city") String city, Model model){
-		weatherService.saveDownloadDay(city);
-		model.addAttribute("message", repo.findAll().toString());
+	public String submitWeatherData(@RequestParam("city") String city, Model model){
+		weatherService.saveDownloadHour(city);
+		model.addAttribute("message", repo.findAll().toArray().toString());
 		return "index";
 	}
 }
