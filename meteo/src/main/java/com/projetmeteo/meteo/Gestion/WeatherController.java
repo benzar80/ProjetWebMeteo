@@ -19,7 +19,7 @@ public class WeatherController {
 
 	@PostMapping("/test")
 	public String submitWeatherData(@RequestParam("city") String city, Model model){
-		weatherService.saveDownloadHour(city);
+		weatherService.saveDownloadDay(city);
 		model.addAttribute("message", repo.findAll().toArray().toString());
 		return "index";
 	}

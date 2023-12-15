@@ -25,11 +25,14 @@ public class WeatherCity {
     @JsonProperty("tzoffset")
     private double tzoffset;
 
+    @JsonProperty("description")
+    private String description;
+
+    @JsonProperty("alerts")
+    private String alerts;
+
     @JsonProperty("days")
     private List<WeatherDay> days;
-
-    @JsonProperty("hours")
-    private List<WeatherHour> hours;
 
     public int getQueryCost() {
         return queryCost;
@@ -95,12 +98,20 @@ public class WeatherCity {
         this.days = days;
     }
 
-    public List<WeatherHour> getHours() {
-        return hours;
+    public String getDescription() {
+        return description;
     }
 
-    public void setHours(List<WeatherHour> hours) {
-        this.hours = hours;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAlerts() {
+        return alerts;
+    }
+
+    public void setAlerts(String alerts) {
+        this.alerts = alerts;
     }
 }
 

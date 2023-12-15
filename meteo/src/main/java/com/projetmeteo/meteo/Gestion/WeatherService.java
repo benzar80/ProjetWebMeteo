@@ -1,5 +1,6 @@
 package com.projetmeteo.meteo.Gestion;
 
+import java.io.Console;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,14 +29,27 @@ public class WeatherService {
 
     public void saveDownloadDay(String city){
         try {
+            int i;
+            i = 1;
             ObjectMapper objectMapper = new ObjectMapper();
-            WeatherCity weatherDataResponse = objectMapper.readValue(new URL("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "/next7days?unitGroup=metric&key=BW4J9URLRRGB6833JQ5GP9268&include=days&elements=datetime,temp,tempmax,tempmin,humidity,precipprob,windspeed,sunrise,sunset,conditions,description&lang=fr&contentType=json"), WeatherCity.class);
-            WeatherDataCity wdc = new WeatherDataCity(null, null, weatherDataResponse.getLatitude(), weatherDataResponse.getLongitude(), weatherDataResponse.getResolvedAddress(), weatherDataResponse.getAddress(), weatherDataResponse.getTimezone(), weatherDataResponse.getTzoffset());
+            WeatherCity weatherDataResponse = objectMapper.readValue(new URL("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Amiens/next7days?unitGroup=metric&key=BW4J9URLRRGB6833JQ5GP9268&elements=datetime,temp,tempmax,tempmin,humidity,precipprob,windspeed,sunrise,sunset,conditions,description&lang=fr&contentType=json"), WeatherCity.class);
+            WeatherDataCity wdc = new WeatherDataCity(null, weatherDataResponse.getLatitude(), weatherDataResponse.getLongitude(), weatherDataResponse.getResolvedAddress(), weatherDataResponse.getAddress(), weatherDataResponse.getTimezone(), weatherDataResponse.getTzoffset());
             List<WeatherDataDay> lday = new ArrayList<WeatherDataDay>();
+            List<WeatherDataHour> lhour = new ArrayList<WeatherDataHour>();
+            System.out.println("\n\n\nTEST : " + wdc.getWeatherDay().get(1) + "");
             for (WeatherDay day : weatherDataResponse.getDays()) {
-               lday.add(new WeatherDataDay(day.getDatetime(), day.getTemp(), day.getTempMax(), day.getTempMin(), day.getHumidity(), day.getPrecipProb(), day.getWindSpeed(), day.getSunrise(), day.getSunset(), day.getConditions(), day.getDescription()));
+               lday.add(new WeatherDataDay(null, day.getDatetime(), day.getTemp(), day.getTempMax(), day.getTempMin(), day.getHumidity(), day.getPrecipProb(), day.getWindSpeed(), day.getSunrise(), day.getSunset(), day.getConditions(), day.getDescription()));
+               wdc.setWeatherDay(lday);
+                if(i == 1){
+                    System.out.println(day.getHours());
+                    for (WeatherHour hour : day.getHours()) {
+                        lhour.add(new WeatherDataHour(hour.getDatetime(), hour.getTemp(), hour.getHumidity(), hour.getPrecipProb(), hour.getWindSpeed(), hour.getConditions())); 
+                    }
+                    wdc.getWeatherDay().get(1).setWeatherHour(lhour);;
+                }   
+                i++;
             }
-            wdc.setWeatherDay(lday);
+            
             weatherRepository.save(wdc);
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,18 +57,22 @@ public class WeatherService {
     }
 
     public void saveDownloadHour(String city){
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            WeatherCity weatherDataResponse = objectMapper.readValue(new URL("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "/2023-12-11?unitGroup=metric&key=BW4J9URLRRGB6833JQ5GP9268&elements=datetime,temp,tempmax,tempmin,humidity,precipprob,windspeed,sunrise,sunset,conditions,description&lang=fr&contentType=json"), WeatherCity.class);
-            WeatherDataCity wdc = new WeatherDataCity(null, null, weatherDataResponse.getLatitude(), weatherDataResponse.getLongitude(), weatherDataResponse.getResolvedAddress(), weatherDataResponse.getAddress(), weatherDataResponse.getTimezone(), weatherDataResponse.getTzoffset());
-            List<WeatherDataHour> lhour = new ArrayList<WeatherDataHour>();
-            for (WeatherHour hour : weatherDataResponse.getHours()) {
-                lhour.add(new WeatherDataHour(hour.getDatetime(), hour.getTemp(), hour.getHumidity(), hour.getPrecipProb(), hour.getWindSpeed(), hour.getConditions()));
-            }
-            weatherRepository.save(wdc);
-            wdc.setWeatherHour(lhour);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     ObjectMapper objectMapper = new ObjectMapper();
+        //     WeatherCity weatherDataResponse = objectMapper.readValue(new URL("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "/2023-12-11?unitGroup=metric&key=BW4J9URLRRGB6833JQ5GP9268&elements=datetime,temp,tempmax,tempmin,humidity,precipprob,windspeed,sunrise,sunset,conditions,description&lang=fr&contentType=json"), WeatherCity.class);
+        //    // WeatherDataCity wdc = new WeatherDataCity(null, null, weatherDataResponse.getLatitude(), weatherDataResponse.getLongitude(), weatherDataResponse.getResolvedAddress(), weatherDataResponse.getAddress(), weatherDataResponse.getTimezone(), weatherDataResponse.getTzoffset());
+        //     List<WeatherDataHour> lhour = new ArrayList<WeatherDataHour>();
+        //     System.out.print(city);
+        //     System.out.println("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "/2023-12-11?unitGroup=metric&key=BW4J9URLRRGB6833JQ5GP9268&elements=datetime,temp,tempmax,tempmin,humidity,precipprob,windspeed,sunrise,sunset,conditions,description&lang=fr&contentType=json");
+        //     System.out.println("JSON : " + weatherDataResponse.getHours());
+            
+        //     for (WeatherHour hour : weatherDataResponse.getHours()) {
+        //         lhour.add(new WeatherDataHour(hour.getDatetime(), hour.getTemp(), hour.getHumidity(), hour.getPrecipProb(), hour.getWindSpeed(), hour.getConditions()));
+        //     }
+        //     weatherRepository.save(wdc);
+        //     wdc.setWeatherHour(lhour);
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
     }
 }

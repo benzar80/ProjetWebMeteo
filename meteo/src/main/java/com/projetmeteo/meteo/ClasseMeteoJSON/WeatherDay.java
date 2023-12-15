@@ -1,6 +1,9 @@
 package com.projetmeteo.meteo.ClasseMeteoJSON;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.projetmeteo.meteo.ClasseMeteo.WeatherDataHour;
 
 public class WeatherDay {
     @JsonProperty("datetime")
@@ -35,6 +38,9 @@ public class WeatherDay {
 
     @JsonProperty("description")
     private String description;
+
+    @JsonProperty("hours")
+    private List<WeatherHour> hours;
 
     public String getDatetime() {
         return datetime;
@@ -122,5 +128,13 @@ public class WeatherDay {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<WeatherHour> getHours() {
+        return hours;
+    }
+
+    public void setHours(List<WeatherHour> lhour) {
+        this.hours = lhour;
     }
 }

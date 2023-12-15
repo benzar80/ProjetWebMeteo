@@ -1,10 +1,14 @@
 package com.projetmeteo.meteo.ClasseMeteo;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -13,6 +17,9 @@ public class WeatherDataDay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<WeatherDataHour> weatherHour;
 
     @Column(name="datetime")
     private String datetime;
@@ -50,9 +57,10 @@ public class WeatherDataDay {
     public WeatherDataDay() {
     }
 
-    public WeatherDataDay(String datetime, double temp, double tempmax, double tempmin,
+    public WeatherDataDay(List<WeatherDataHour> weatherHour, String datetime, double temp, double tempmax, double tempmin,
     double humidity, double precipprob, double windspeed, String sunrise,
                        String sunset, String conditions, String description) {
+        this.weatherHour = weatherHour;
         this.datetime = datetime;
         this.temp = temp;
         this.tempmax = tempmax;
@@ -73,6 +81,14 @@ public class WeatherDataDay {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<WeatherDataHour> getWeatherHour(){
+        return weatherHour;
+    }
+
+    public void setWeatherHour(List<WeatherDataHour> weatherHour){
+        this.weatherHour = weatherHour;
     }
 
     public String getDatetime() {

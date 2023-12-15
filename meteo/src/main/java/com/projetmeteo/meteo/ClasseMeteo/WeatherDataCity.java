@@ -25,9 +25,6 @@ public class WeatherDataCity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<WeatherDataDay> weatherDay;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<WeatherDataHour> weatherHour;
-
     @Column(name="latitude")
     private double latitude;
 
@@ -49,10 +46,9 @@ public class WeatherDataCity {
     public WeatherDataCity() {
     }
 
-    public WeatherDataCity(List<WeatherDataDay> weatherDay, List<WeatherDataHour> weatherHour, double latitude, double longitude, String resolvedAddress, String address,
+    public WeatherDataCity(List<WeatherDataDay> weatherDay, double latitude, double longitude, String resolvedAddress, String address,
                         String timezone, double tzoffset) {
         this.weatherDay = weatherDay;
-        this.weatherHour = weatherHour;
         this.latitude = latitude;
         this.longitude = longitude;
         this.resolvedAddress = resolvedAddress;
@@ -63,10 +59,6 @@ public class WeatherDataCity {
 
     public List<WeatherDataDay> getWeatherDay(){
         return weatherDay;
-    }
-
-    public List<WeatherDataHour> getWeatherHour(){
-        return weatherHour;
     }
 
     public double getLatitude() {
@@ -95,10 +87,6 @@ public class WeatherDataCity {
 
     public void setWeatherDay(List<WeatherDataDay> weatherDay){
         this.weatherDay = weatherDay;
-    }
-
-    public void setWeatherHour(List<WeatherDataHour> weatherHour){
-        this.weatherHour = weatherHour;
     }
 
     public void setLatitude(double latitude) {
