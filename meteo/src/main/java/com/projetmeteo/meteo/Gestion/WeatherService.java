@@ -36,16 +36,17 @@ public class WeatherService {
             WeatherDataCity wdc = new WeatherDataCity(null, weatherDataResponse.getLatitude(), weatherDataResponse.getLongitude(), weatherDataResponse.getResolvedAddress(), weatherDataResponse.getAddress(), weatherDataResponse.getTimezone(), weatherDataResponse.getTzoffset());
             List<WeatherDataDay> lday = new ArrayList<WeatherDataDay>();
             List<WeatherDataHour> lhour = new ArrayList<WeatherDataHour>();
-            System.out.println("\n\n\nTEST : " + wdc.getWeatherDay().get(1) + "");
+            System.out.println("\n\n\nTEST : " + weatherDataResponse.getDays().get(0).getDatetime());
             for (WeatherDay day : weatherDataResponse.getDays()) {
                lday.add(new WeatherDataDay(null, day.getDatetime(), day.getTemp(), day.getTempMax(), day.getTempMin(), day.getHumidity(), day.getPrecipProb(), day.getWindSpeed(), day.getSunrise(), day.getSunset(), day.getConditions(), day.getDescription()));
                wdc.setWeatherDay(lday);
                 if(i == 1){
-                    System.out.println(day.getHours());
+                    //System.out.println(day.getHours());
                     for (WeatherHour hour : day.getHours()) {
                         lhour.add(new WeatherDataHour(hour.getDatetime(), hour.getTemp(), hour.getHumidity(), hour.getPrecipProb(), hour.getWindSpeed(), hour.getConditions())); 
                     }
-                    wdc.getWeatherDay().get(1).setWeatherHour(lhour);;
+                    wdc.getWeatherDay().get(0).setWeatherHour(lhour);
+                    weatherDataResponse.getDays().get(0);
                 }   
                 i++;
             }

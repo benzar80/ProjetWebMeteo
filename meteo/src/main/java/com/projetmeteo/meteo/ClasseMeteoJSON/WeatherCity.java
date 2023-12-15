@@ -29,7 +29,11 @@ public class WeatherCity {
     private String description;
 
     @JsonProperty("alerts")
-    private String alerts;
+    private List<String> alerts;
+
+    @JsonProperty("currentConditions")
+    private WeatherDay currentConditions;
+
 
     @JsonProperty("days")
     private List<WeatherDay> days;
@@ -106,12 +110,20 @@ public class WeatherCity {
         this.description = description;
     }
 
-    public String getAlerts() {
+    public List<String> getAlerts() {
         return alerts;
     }
 
-    public void setAlerts(String alerts) {
+    public void setAlerts(List<String> alerts) {
         this.alerts = alerts;
+    }
+
+    public WeatherDay getcurrentConditions() {
+        return currentConditions;
+    }
+
+    public void setcurrentConditions(WeatherDay currentConditions) {
+        this.currentConditions = currentConditions;
     }
 }
 
