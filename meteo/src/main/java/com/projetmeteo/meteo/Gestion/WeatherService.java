@@ -25,7 +25,6 @@ public class WeatherService {
         weatherRepository.save(WeatherDataCity);
     }
 
-
     public void saveDownloadDay(String city){
         try {
             int i;
