@@ -26,19 +26,12 @@ public class WeatherController {
     @PostConstruct
     public void init() {
         Model model = new ExtendedModelMap();
-        String initialCity;
-        initialCity = "Paris";
-        submitWeatherData(initialCity, model);
-        initialCity = "Lyon";  
-        submitWeatherData(initialCity, model);
-        initialCity = "Lille";  
-        submitWeatherData(initialCity, model);
-        initialCity = "Marseille";  
-        submitWeatherData(initialCity, model);
-        initialCity = "Rennes";  
-        submitWeatherData(initialCity, model);
-        initialCity = "Bordeaux";  
-        submitWeatherData(initialCity, model);
+        submitWeatherData("Paris", model);
+        submitWeatherData("Lyon", model);
+        submitWeatherData("Lille", model);
+        submitWeatherData("Marseille", model);
+        submitWeatherData("Rennes", model);
+        submitWeatherData("Bordeaux", model);
 
         LocalTime currentTime = LocalTime.now();
         System.out.println("Heure actuelle : " + currentTime);
@@ -48,33 +41,30 @@ public class WeatherController {
     public void updateWeatherData() {
         repo.deleteAll();
         Model model = new ExtendedModelMap();
-        String initialCity;
-        initialCity = "Paris";
-        submitWeatherData(initialCity, model);
-        initialCity = "Lyon";  
-        submitWeatherData(initialCity, model);
-        initialCity = "Lille";  
-        submitWeatherData(initialCity, model);
-        initialCity = "Marseille";  
-        submitWeatherData(initialCity, model);
-        initialCity = "Rennes";  
-        submitWeatherData(initialCity, model);
-        initialCity = "Bordeaux";  
-        submitWeatherData(initialCity, model);
+        submitWeatherData("Paris", model);
+        submitWeatherData("Lyon", model);
+        submitWeatherData("Lille", model);
+        submitWeatherData("Marseille", model);
+        submitWeatherData("Rennes", model);
+        submitWeatherData("Bordeaux", model);
     }
 
 	@PostMapping("/test")
     public String submitWeatherData(@RequestParam("city") String city, Model model){
         city = city.toLowerCase();
-        Iterable<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
-        if(Iterables.isEmpty(weatherDataList)){
-            weatherService.saveDownloadDay(city);
-            weatherDataList = repo.findAllByaddress(city);
-            model.addAttribute("weatherDataLists", weatherDataList); 
-        }
-        else{
-            weatherDataList = repo.findAllByaddress(city);
-            model.addAttribute("weatherDataLists", weatherDataList); 
+        try {
+            Iterable<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
+            if(Iterables.isEmpty(weatherDataList)){
+                weatherService.saveDownloadDay(city);
+                weatherDataList = repo.findAllByaddress(city);
+                model.addAttribute("weatherDataLists", weatherDataList); 
+            }
+            else{
+                weatherDataList = repo.findAllByaddress(city);
+                model.addAttribute("weatherDataLists", weatherDataList); 
+            }
+        } catch (Exception e) {
+            return "redirect:/error";
         }
         return "index";
     }
