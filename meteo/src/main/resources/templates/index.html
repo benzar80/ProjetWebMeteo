@@ -1,43 +1,144 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head> 
-    <title>Weather Data Form</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C'est la météo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="img\evelyne.ico">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css" />
+    <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+    <script src="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/awesomplete/awesomplete.css" />
 </head>
+
 <body>
-    <h1>Weather Data Form</h1>
-    
-    <form action="/test" method="post">
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city" required><br>
-        <input type="submit" value="Submit">
-    </form>
-    
-    <div th:each="weatherData : ${weatherDataLists}">
-        <!-- Afficher les détails de chaque entrée dans des balises <p> -->
-        <p>Adresse longue : <span th:text="${weatherData.resolvedAddress}"></span></p>
-        <p>Adresse courte : <span th:text="${weatherData.address}"></span></p>
-        <p>Latitude : <span th:text="${weatherData.latitude}"></span></p>
-        <p>Longitude : <span th:text="${weatherData.longitude}"></span></p>
-        <p>TimeZone : <span th:text="${weatherData.timezone}"></span></p>
-        <!-- Ajoutez d'autres balises <p> selon vos besoins -->
-    
-        <!-- Boucle pour chaque weatherDay -->
-        <div th:each="weatherDay : ${weatherData.weatherDay}">
-            <p>datetime : <span th:text="${weatherDay.datetime}"></span></p>
-            <p>température : <span th:text="${weatherDay.temp}"></span></p>
-            <p>température minimum : <span th:text="${weatherDay.tempmin}"></span></p>
-            <p>température maximum : <span th:text="${weatherDay.tempmax}"></span></p>
-            <p>humidité : <span th:text="${weatherDay.humidity}"></span></p>
-            <div th:each="weatherHour : ${weatherDay.weatherHour}">
-                <p>datetime : <span th:text="${weatherHour.datetime}"></span></p>
-                <p>température : <span th:text="${weatherHour.temp}"></span></p>
-                <p>humidité : <span th:text="${weatherHour.humidity}"></span></p>
-                <p>Probabilité de précipitations : <span th:text="${weatherHour.precipprob}"></span></p>
-                <p>Vent : <span th:text="${weatherHour.windspeed}"></span></p>
-                <p>conditions : <span th:text="${weatherHour.conditions}"></span></p>
-            </div>
+    <header>
+        <img src="img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
+        <h1>Évelyne Dhéliat</h1>
+        <img src="img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
+    </header>
+
+    <nav>
+        <button>Aujourd'hui</button>
+        <button>J+1</button>
+        <button>J+2</button>
+        <button>J+3</button>
+        <button>J+4</button>
+        <button>J+5</button>
+        <button>J+6</button>
+        <button>J+7</button>
+    </nav>
+
+    <section style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <div class="search-bar">
+            <label for="city">Ville:</label>
+            <input type="text" id="city" placeholder="Entrez une ville">
+            <button onclick="searchCity()">Rechercher</button>
+        </div>
+        <!-- Ajout de la carte Leaflet -->
+        <div id="map" style="height: 400px; margin-top: 20px; width: 100%;"></div>
+    </section>
+    <button onclick="openModal()">Connexion</button>
+    <div id="myModal" class="modal">
+        <div style="text-align: center;" id="modalContent">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>Connexion</h2>
+            <p>Veuillez saisir vos identifiants :</p>
+            <form>
+                <label for="username">Identifiant:</label>
+                <input type="text" id="username" name="username" required>
+                <br>
+                <label for="password"><br>Mot de passe:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="button" onclick="submitLoginForm()">Se connecter</button>
+            </form>
         </div>
     </div>
+    <div id="overlay" class="overlay" onclick="closeModal()"></div>
+
+
+    <footer style="position:relative;">
+        &copy; 2023 My Elegant Website. All rights reserved.
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://unpkg.com/awesomplete/awesomplete.js" async></script>
+
+    <script>
+        var map = L.map('map').setView([48.8566, 2.3522], 13);
+        var marker = null;
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var geocoder = L.Control.Geocoder.nominatim();
+        L.Control.geocoder({
+            geocoder: geocoder
+        });
+
+        function searchCity() {
+    var cityName = document.getElementById('city').value;
+
+    if (cityName.trim() !== '') {
+        // Utilisation du géocodage pour obtenir les coordonnées de la ville
+        geocoder.geocode(cityName, function (results) {
+            if (results && results.length > 0) {
+                var result = results[0];
+                var latlng = result.center;
+                var cityDetails = result.properties;
+
+                if (marker !== null) {
+                    map.removeLayer(marker);
+                }
+
+                // Affichage de la ville sur la carte
+                map.setView(latlng, 13);
+                marker = L.marker(latlng).addTo(map).bindPopup(cityName);
+
+            } else {
+                alert("Ville non trouvée");
+            }
+        });
+    } else {
+        alert("Veuillez entrer le nom d'une ville");
+    }
+}
+
+
+        function openModal() {
+            document.getElementById('myModal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+        function submitLoginForm() {
+            // Récupérer les valeurs des champs d'identification
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            console.log('Identifiant:', username);
+            console.log('Mot de passe:', password);
+            // Vérifier les identifiants (simulons un cas où identifiant=test et mot de passe=test)
+        if (username === 'test' && password === 'test') {
+            // Afficher un message de succès
+            window.location.href = 'admin.html';
+        } else {
+            // Afficher un message d'erreur
+            alert("Identifiant ou mot de passe erroné");
+        }
+
+        // Fermer la fenêtre modale
+        closeModal();
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+
 </body>
+
 </html>
