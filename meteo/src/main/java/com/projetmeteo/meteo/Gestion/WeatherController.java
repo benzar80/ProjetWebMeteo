@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.annotation.PostConstruct;
 
@@ -50,7 +52,8 @@ public class WeatherController {
     }
 
 	@PostMapping("/test")
-    public String submitWeatherData(@RequestParam("city") String city, Model model){
+    @ResponseBody
+    public String submitWeatherData(@RequestBody String city, Model model){
         city = city.toLowerCase();
         try {
             Iterable<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);

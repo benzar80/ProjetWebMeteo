@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Weather Data Form</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <h1>Weather Data Form</h1>
+
+    <label for="city">Ville :</label>
+    <input type="text" id="city" placeholder="Entrez une ville">
+    <button onclick="envoyerDonnees()">Envoyer Données</button>
+
+    <div id="weatherDataContainer" th:each="weatherData : ${weatherDataLists}">
+        <!-- Afficher les détails de chaque entrée dans des balises <p> -->
+        <p>Adresse longue : <span id="resolvedAddress"></span></p>
+        <p>Adresse courte : <span id="address"></span></p>
+        <p>Latitude : <span id="latitude"></span></p>
+        <p>Longitude : <span id="longitude"></span></p>
+        <p>TimeZone : <span id="timezone"></span></p>
+        <!-- Ajoutez d'autres balises <p> selon vos besoins -->
+    </div>
+
+    <script th:inline="javascript">
+        function envoyerDonnees() {
+            var cityName = document.getElementById('city').value;
+
+            $.ajax({
+                type: "POST",
+                url: "/test",
+                data: JSON.stringify(cityName),
+                success: function (response) {
+                    // Mettez à jour les champs dans le DOM avec les données reçues
+                    var weatherData = JSON.parse(response);
+                    $('#resolvedAddress').text(weatherData.resolvedAddress);
+                    $('#address').text(weatherData.address);
+                    $('#latitude').text(weatherData.latitude);
+                    $('#longitude').text(weatherData.longitude);
+                    $('#timezone').text(weatherData.timezone);
+                },
+                error: function (error) {
+                    console.error(error);
+                    // Gérer les erreurs si nécessaire
+                }
+            });
+        }
+    </script>
+</body>
+</html>

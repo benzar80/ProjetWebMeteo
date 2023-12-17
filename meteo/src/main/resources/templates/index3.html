@@ -18,7 +18,7 @@
     <header>
         <img src="img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
         <h1>Évelyne Dhéliat</h1>
-        <img src="meteo/src/main/resources/templates/img/logo_meteo.jpg" alt="Right Logo" class="logo right-logo" />
+        <img src="img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
     </header>
 
     <nav>
@@ -39,7 +39,7 @@
             <button onclick="searchCity()">Rechercher</button>
         </div>
         <!-- Ajout de la carte Leaflet -->
-        <div id="map" style="height: 400px; margin-top: 20px; width: 100%;"></div>
+        <div id="map" style="height: 400px; margin-top: 20px; width: 60%;"></div>
     </section>
     <button onclick="openModal()">Connexion</button>
     <div id="myModal" class="modal">
@@ -82,19 +82,15 @@
         });
 
         function searchCity() {
-    var cityName = document.getElementById('city').value;
+        var cityName = document.getElementById('city').value;
 
-    if (cityName.trim() !== '') {
-        // Utilisation du géocodage pour obtenir les coordonnées de la ville
-        geocoder.geocode(cityName, function (results) {
+        if (cityName.trim() !== '') {
+            // Utilisation du géocodage pour obtenir les coordonnées de la ville
+            geocoder.geocode(cityName, function (results) {
             if (results && results.length > 0) {
                 var result = results[0];
                 var latlng = result.center;
                 var cityDetails = result.properties;
-
-                if (marker !== null) {
-                    map.removeLayer(marker);
-                }
 
                 // Affichage de la ville sur la carte
                 map.setView(latlng, 13);
