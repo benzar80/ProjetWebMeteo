@@ -12,39 +12,35 @@
     <input type="text" id="city" placeholder="Entrez une ville">
     <button onclick="envoyerDonnees()">Envoyer Données</button>
 
-    <div id="weatherDataContainer" th:each="weatherData : ${weatherDataLists}">
-        <!-- Afficher les détails de chaque entrée dans des balises <p> -->
-        <p>Adresse longue : <span id="resolvedAddress"></span></p>
-        <p>Adresse courte : <span id="address"></span></p>
-        <p>Latitude : <span id="latitude"></span></p>
-        <p>Longitude : <span id="longitude"></span></p>
-        <p>TimeZone : <span id="timezone"></span></p>
-        <!-- Ajoutez d'autres balises <p> selon vos besoins -->
-    </div>
+    <div id="weatherDataContainer" th:replace="~{fragments/weatherDataFragment :: weatherDataContainer}"></div>
+
 
     <script th:inline="javascript">
-        function envoyerDonnees() {
-            var cityName = document.getElementById('city').value;
+       function envoyerDonnees() {
+    var cityName = document.getElementById('city').value;
 
-            $.ajax({
-                type: "POST",
-                url: "/test",
-                data: JSON.stringify(cityName),
-                success: function (response) {
-                    // Mettez à jour les champs dans le DOM avec les données reçues
-                    var weatherData = JSON.parse(response);
-                    $('#resolvedAddress').text(weatherData.resolvedAddress);
-                    $('#address').text(weatherData.address);
-                    $('#latitude').text(weatherData.latitude);
-                    $('#longitude').text(weatherData.longitude);
-                    $('#timezone').text(weatherData.timezone);
-                },
-                error: function (error) {
-                    console.error(error);
-                    // Gérer les erreurs si nécessaire
-                }
-            });
+    $.ajax({
+        type: "POST",
+        url: "/test",
+        data: { city: cityName },
+        success: function (response) {
+            console.log("Response from server:", response);
+
+            // Vérifiez si la div est trouvée
+            var weatherContainer = $('#weatherDataContainer');
+            if (weatherContainer.length > 0) {
+                // Supprimez le contenu existant et ajoutez le nouveau contenu
+                weatherContainer.empty().html(response);
+            } else {
+                console.error("Weather container not found.");
+            }
+        },
+        error: function (error) {
+            console.error(error);
         }
+    });
+}
+
     </script>
 </body>
 </html>

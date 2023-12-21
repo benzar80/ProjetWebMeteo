@@ -1,0 +1,14 @@
+<!-- src/main/resources/templates/fragments/weatherDataFragment.html -->
+<div id="weatherDataContainer" th:if="${not #lists.isEmpty(weatherDataLists)}" th:each="weatherData : ${weatherDataLists}">
+    <!-- Afficher les détails de chaque entrée dans des balises <p> -->
+    <p>Adresse longue : <span th:text="${weatherData.resolvedAddress}"></span></p>
+    <p>Adresse courte : <span th:text="${weatherData.address}"></span></p>
+    <p>Latitude : <span th:text="${weatherData.latitude}"></span></p>
+    <p>Longitude : <span th:text="${weatherData.longitude}"></span></p>
+    <p>TimeZone : <span th:text="${weatherData.timezone}"></span></p>
+    <!-- Ajoutez d'autres balises <p> selon vos besoins -->
+</div>
+
+<div th:if="${#lists.isEmpty(weatherDataLists)}">
+    <p>Aucune donnée météorologique disponible pour cette ville.</p>
+</div>

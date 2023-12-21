@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,9 +35,6 @@ public class WeatherController {
         submitWeatherData("Marseille", model);
         submitWeatherData("Rennes", model);
         submitWeatherData("Bordeaux", model);
-
-        LocalTime currentTime = LocalTime.now();
-        System.out.println("Heure actuelle : " + currentTime);
     }
 
     @Scheduled(cron = "0 0 5 * * *", zone = "Europe/Paris")
@@ -52,25 +50,23 @@ public class WeatherController {
     }
 
 	@PostMapping("/test")
-    @ResponseBody
-    public String submitWeatherData(@RequestBody String city, Model model){
-        city = city.toLowerCase();
-        try {
-            Iterable<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
-            if(Iterables.isEmpty(weatherDataList)){
-                weatherService.saveDownloadDay(city);
-                weatherDataList = repo.findAllByaddress(city);
-                model.addAttribute("weatherDataLists", weatherDataList); 
-            }
-            else{
-                weatherDataList = repo.findAllByaddress(city);
-                model.addAttribute("weatherDataLists", weatherDataList); 
-            }
-        } catch (Exception e) {
-            return "redirect:/error";
+public String submitWeatherData(@RequestParam String city, Model model) {
+    city = city.toLowerCase();
+    try {
+        Iterable<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
+        if (Iterables.isEmpty(weatherDataList)) {
+            weatherService.saveDownloadDay(city);
+            weatherDataList = repo.findAllByaddress(city);
+            System.out.print("Traitement OK \n\n\n");
+        } else {
+            weatherDataList = repo.findAllByaddress(city);
         }
-        return "index";
+        model.addAttribute("weatherDataLists", weatherDataList);
+        return "fragments/weatherDataFragment :: weatherDataContainer";
+    } catch (Exception e) {
+        return "redirect:/error";
     }
+}
 
     @PostMapping("/error")
     public String manageError(String city, Model model) {
