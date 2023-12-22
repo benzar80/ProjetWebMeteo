@@ -1,5 +1,4 @@
-<!-- src/main/resources/templates/fragments/weatherDataFragment.html -->
-<div id="weatherDataContainer" th:if="${not #lists.isEmpty(weatherDataLists)}" th:each="weatherData : ${weatherDataLists}">
+<div th:each="weatherData : ${weatherDataLists}">
     <!-- Afficher les détails de chaque entrée dans des balises <p> -->
     <p>Adresse longue : <span th:text="${weatherData.resolvedAddress}"></span></p>
     <p>Adresse courte : <span th:text="${weatherData.address}"></span></p>

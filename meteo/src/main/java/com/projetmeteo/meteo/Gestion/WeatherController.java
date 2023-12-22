@@ -56,17 +56,15 @@ public String submitWeatherData(@RequestParam String city, Model model) {
         Iterable<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
         if (Iterables.isEmpty(weatherDataList)) {
             weatherService.saveDownloadDay(city);
-            weatherDataList = repo.findAllByaddress(city);
-            System.out.print("Traitement OK \n\n\n");
-        } else {
-            weatherDataList = repo.findAllByaddress(city);
-        }
+        }  
+        weatherDataList = repo.findAllByaddress(city);
         model.addAttribute("weatherDataLists", weatherDataList);
-        return "fragments/weatherDataFragment :: weatherDataContainer";
+        return "fragments/weatherDataFragment";
     } catch (Exception e) {
         return "redirect:/error";
     }
 }
+
 
     @PostMapping("/error")
     public String manageError(String city, Model model) {
