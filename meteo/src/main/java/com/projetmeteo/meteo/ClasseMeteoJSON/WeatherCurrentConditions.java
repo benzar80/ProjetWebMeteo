@@ -1,18 +1,10 @@
 package com.projetmeteo.meteo.ClasseMeteoJSON;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class WeatherDay {
+public class WeatherCurrentConditions {
     @JsonProperty("datetime")
     private String datetime;
-
-    @JsonProperty("tempmax")
-    private double tempMax;
-
-    @JsonProperty("tempmin")
-    private double tempMin;
 
     @JsonProperty("temp")
     private double temp;
@@ -35,12 +27,6 @@ public class WeatherDay {
     @JsonProperty("conditions")
     private String conditions;
 
-    @JsonProperty("description")
-    private String description;
-
-    @JsonProperty("hours")
-    private List<WeatherHour> hours;
-
     @JsonProperty("icon")
     private String icon;
 
@@ -50,22 +36,6 @@ public class WeatherDay {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
-    }
-
-    public double getTempMax() {
-        return tempMax;
-    }
-
-    public void setTempMax(double tempMax) {
-        this.tempMax = tempMax;
-    }
-
-    public double getTempMin() {
-        return tempMin;
-    }
-
-    public void setTempMin(double tempMin) {
-        this.tempMin = tempMin;
     }
 
     public double getTemp() {
@@ -124,22 +94,6 @@ public class WeatherDay {
         this.conditions = conditions;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<WeatherHour> getHours() {
-        return hours;
-    }
-
-    public void setHours(List<WeatherHour> lhour) {
-        this.hours = lhour;
-    }
-
     public String getIcon() {
         return icon;
     }
@@ -148,3 +102,4 @@ public class WeatherDay {
         this.icon = icon;
     }
 }
+

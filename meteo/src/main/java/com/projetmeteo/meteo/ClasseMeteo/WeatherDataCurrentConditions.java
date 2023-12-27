@@ -1,37 +1,24 @@
 package com.projetmeteo.meteo.ClasseMeteo;
 
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="WeatherDataDay")
-public class WeatherDataDay {
+@Table(name="WeatherDataCurrentConditions")
+public class WeatherDataCurrentConditions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<WeatherDataHour> weatherHour;
 
     @Column(name="datetime")
     private String datetime;
 
     @Column(name="temp")
     private double temp;
-
-    @Column(name="tempmax")
-    private double tempmax;
-
-    @Column(name="tempmin")
-    private double tempmin;
 
     @Column(name="humidity")
     private double humidity;
@@ -51,30 +38,23 @@ public class WeatherDataDay {
     @Column(name="conditions")
     private String conditions;
 
-    @Column(name="description")
-    private String description;
-
     @Column(name="icon")
     private String icon;
 
-    public WeatherDataDay() {
+    public WeatherDataCurrentConditions() {
     }
 
-    public WeatherDataDay(List<WeatherDataHour> weatherHour, String datetime, double temp, double tempmax, double tempmin,
+    public WeatherDataCurrentConditions(String datetime, double temp,
     double humidity, double precipprob, double windspeed, String sunrise,
-                       String sunset, String conditions, String description, String icon) {
-        this.weatherHour = weatherHour;
+                       String sunset, String conditions, String icon) {
         this.datetime = datetime;
         this.temp = temp;
-        this.tempmax = tempmax;
-        this.tempmin = tempmin;
         this.humidity = humidity;
         this.precipprob = precipprob;
         this.windspeed = windspeed;
         this.sunrise = sunrise;
         this.sunset = sunset;
         this.conditions = conditions;
-        this.description = description;
         this.icon = icon;
     }
 
@@ -85,14 +65,6 @@ public class WeatherDataDay {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public List<WeatherDataHour> getWeatherHour(){
-        return weatherHour;
-    }
-
-    public void setWeatherHour(List<WeatherDataHour> weatherHour){
-        this.weatherHour = weatherHour;
     }
 
     public String getDatetime() {
@@ -109,22 +81,6 @@ public class WeatherDataDay {
 
     public void setTemp(double temp) {
         this.temp = temp;
-    }
-
-    public double getTempmax() {
-        return tempmax;
-    }
-
-    public void setTempmax(double tempmax) {
-        this.tempmax = tempmax;
-    }
-
-    public double getTempmin() {
-        return tempmin;
-    }
-
-    public void setTempmin(double tempmin) {
-        this.tempmin = tempmin;
     }
 
     public double getHumidity() {
@@ -175,14 +131,6 @@ public class WeatherDataDay {
         this.conditions = conditions;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getIcon() {
         return icon;
     }
@@ -191,6 +139,7 @@ public class WeatherDataDay {
         this.icon = icon;
     }
 
+
     @Override
     public String toString() {
         
@@ -198,15 +147,11 @@ public class WeatherDataDay {
                 "\n\tid=" + id +
                 ", \n\tdatetime=" + datetime +
                 ", \n\ttemp=" + temp +
-                ", \n\ttempmax=" + tempmax +
-                ", \n\ttempmin=" + tempmin +
                 ", \n\thumidity=" + humidity +
                 ", \n\tprecipprob=" + precipprob +
                 ", \n\twindspeed=" + windspeed +
                 ", \n\tsunrise=" + sunrise +
                 ", \n\tsunset=" + sunset +
-                ", \n\tconditions='" + conditions + '\'' +
-                ", \n\tdescription='" + description + '\'' +
                 "\n}";
     }
 }

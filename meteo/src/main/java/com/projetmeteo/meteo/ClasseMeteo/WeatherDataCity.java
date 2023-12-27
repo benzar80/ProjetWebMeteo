@@ -2,8 +2,7 @@ package com.projetmeteo.meteo.ClasseMeteo;
 
 import java.util.List;
 
-import com.projetmeteo.meteo.ClasseMeteoJSON.WeatherDay;
-import com.projetmeteo.meteo.ClasseMeteoJSON.WeatherHour;
+import com.projetmeteo.meteo.ClasseMeteoJSON.WeatherCurrentConditions;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -43,11 +43,14 @@ public class WeatherDataCity {
     @Column(name="tzoffset")
     private double tzoffset;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private WeatherDataCurrentConditions weatherDataCurrentConditions;
+
     public WeatherDataCity() {
     }
 
     public WeatherDataCity(List<WeatherDataDay> weatherDay, double latitude, double longitude, String resolvedAddress, String address,
-                        String timezone, double tzoffset) {
+                        String timezone, double tzoffset, WeatherDataCurrentConditions weatherDataCurrentConditions) {
         this.weatherDay = weatherDay;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -55,8 +58,9 @@ public class WeatherDataCity {
         this.address = address;
         this.timezone = timezone;
         this.tzoffset = tzoffset;
+        this.weatherDataCurrentConditions = weatherDataCurrentConditions;
     }
-
+    
     public List<WeatherDataDay> getWeatherDay(){
         return weatherDay;
     }
@@ -85,6 +89,10 @@ public class WeatherDataCity {
         return tzoffset;
     }
 
+    public WeatherDataCurrentConditions weatherDataCurrentConditions() {
+        return weatherDataCurrentConditions;
+    }
+
     public void setWeatherDay(List<WeatherDataDay> weatherDay){
         this.weatherDay = weatherDay;
     }
@@ -111,6 +119,10 @@ public class WeatherDataCity {
 
     public void setTzoffset(double tzoffset) {
         this.tzoffset = tzoffset;
+    }
+
+    public void setWeatherDataCurrentConditions (WeatherDataCurrentConditions weatherDataCurrentConditions) {
+        this.weatherDataCurrentConditions = weatherDataCurrentConditions;
     }
 }
 

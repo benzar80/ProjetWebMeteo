@@ -40,6 +40,14 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script th:inline="javascript">
+        var defaultLatitude = 48.8566;
+        var defaultLongitude = 2.3522;
+
+        var map = L.map('mapContainer').setView([defaultLatitude, defaultLongitude], 10);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
 
         function receptDataAPI() {
             var cityName = document.getElementById('city').value;

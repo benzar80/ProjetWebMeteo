@@ -21,6 +21,9 @@ public class WeatherHour {
     @JsonProperty("conditions")
     private String conditions;
 
+    @JsonProperty("icon")
+    private String icon;
+
     public String getDatetime() {
         return datetime;
     }
@@ -67,5 +70,13 @@ public class WeatherHour {
 
     public void setConditions(String conditions) {
         this.conditions = conditions;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

@@ -37,16 +37,20 @@ public class WeatherDataHour {
     @Column(name="conditions")
     private String conditions;
 
+    @Column(name="icon")
+    private String icon;
+
     public WeatherDataHour() {
     }
 
-    public WeatherDataHour(String datetime, double temp, double humidity, double precipprob, double windspeed, String conditions) {
+    public WeatherDataHour(String datetime, double temp, double humidity, double precipprob, double windspeed, String conditions, String icon) {
         this.datetime = datetime;
         this.temp = temp;
         this.humidity = humidity;
         this.precipprob = precipprob;
         this.windspeed = windspeed;
         this.conditions = conditions;
+        this.icon = icon;
     }
 
     public Long getId() {
@@ -103,6 +107,14 @@ public class WeatherDataHour {
 
     public void setConditions(String conditions) {
         this.conditions = conditions;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     
