@@ -1,3 +1,23 @@
+<script th:inline="javascript">
+    var defaultLatitude = 48.8566;
+    var defaultLongitude = 2.3522;
+
+    var map = L.map('mapContainer').setView([defaultLatitude, defaultLongitude], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    function addMarker(longitude, latitude, address) {
+        if (latitude !== null && longitude !== null) {
+            L.marker([latitude, longitude], 10).addTo(map)
+                .bindPopup("Emplacement de la ville de ", address).openPopup();
+        } else {
+            console.error('Latitude or longitude is undefined.');
+        }
+    }
+</script>
+
 <div th:each="weatherData : ${weatherDataLists}">
     <!-- Afficher les détails de chaque entrée dans des balises <p> -->
     <p>Adresse longue : <span th:text="${weatherData.resolvedAddress}"></span></p>
@@ -6,7 +26,60 @@
     <p>Longitude : <span th:text="${weatherData.longitude}"></span></p>
     <p>TimeZone : <span th:text="${weatherData.timezone}"></span></p>
     <!-- Ajoutez d'autres balises <p> selon vos besoins -->
+
+    <!-- Boucle pour chaque weatherDay -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Température</th>
+                <th>Température Min</th>
+                <th>Température Max</th>
+                <th>Humidité</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="weatherDay : ${weatherData.weatherDay}">
+                <td th:text="${weatherDay.datetime}"></td>
+                <td th:text="${weatherDay.temp}"></td>
+                <td th:text="${weatherDay.tempmin}"></td>
+                <td th:text="${weatherDay.tempmax}"></td>
+                <td th:text="${weatherDay.humidity}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Boucle pour les heures de la première journée uniquement -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date et heure</th>
+                <th>Température</th>
+                <th>Humidité</th>
+                <th>Probabilité de précipitations</th>
+                <th>Vitesse du vent</th>
+                <th>Conditions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="weatherHour : ${weatherData.weatherDay[0].weatherHour}">
+                <td th:text="${weatherHour.datetime}"></td>
+                <td th:text="${weatherHour.temp}"></td>
+                <td th:text="${weatherHour.humidity}"></td>
+                <td th:text="${weatherHour.precipprob}"></td>
+                <td th:text="${weatherHour.windspeed}"></td>
+                <td th:text="${weatherHour.conditions}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <script th:inline="javascript">
+        addMarker(/*[[${weatherData.longitude}]]*/ null, /*[[${weatherData.latitude}]]*/ null, /*[[${weatherData.address}]]*/ null);
+    </script>
 </div>
+
+
 
 <div th:if="${#lists.isEmpty(weatherDataLists)}">
     <p>Aucune donnée météorologique disponible pour cette ville.</p>

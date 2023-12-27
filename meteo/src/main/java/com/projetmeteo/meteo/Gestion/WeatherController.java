@@ -50,20 +50,31 @@ public class WeatherController {
     }
 
 	@PostMapping("/test")
-public String submitWeatherData(@RequestParam String city, Model model) {
-    city = city.toLowerCase();
-    try {
-        Iterable<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
-        if (Iterables.isEmpty(weatherDataList)) {
-            weatherService.saveDownloadDay(city);
-        }  
-        weatherDataList = repo.findAllByaddress(city);
-        model.addAttribute("weatherDataLists", weatherDataList);
-        return "fragments/weatherDataFragment";
-    } catch (Exception e) {
-        return "redirect:/error";
+    public String submitWeatherData(@RequestParam String city, Model model) {
+        city = city.toLowerCase();
+        try {
+            Iterable<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
+            if (Iterables.isEmpty(weatherDataList)) {
+                weatherService.saveDownloadDay(city);
+            }  
+            weatherDataList = repo.findAllByaddress(city);
+            model.addAttribute("weatherDataLists", weatherDataList);
+            return "fragments/weatherDataFragment";
+        } catch (Exception e) {
+            return "redirect::/error";
+        }
     }
-}
+
+    // @PostMapping("/index")
+    // public String initData(Model model) {
+    //     try {
+    //         Iterable<WeatherDataCity> weatherDataList = repo.findAll();
+    //         model.addAttribute("weatherDataLists", weatherDataList);
+    //         return "fragments/weatherDataFragment";
+    //     } catch (Exception e) {
+    //         return "redirect::/error";
+    //     }
+    // }
 
 
     @PostMapping("/error")

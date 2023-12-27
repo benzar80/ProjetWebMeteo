@@ -48,3 +48,89 @@ INSERT INTO WEATHER_DATA ( HUMIDITY, PRECIPPROB, TEMP, TEMPMAX, TEMPMIN, WINDSPE
             </div>
         </div>
     </div>
+
+    <!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Weather Data Form</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <header>
+        <img src="img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
+        <h1>Évelyne Dhéliat</h1>
+        <img src="img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
+    </header>
+
+    <nav>
+        <button>Aujourd'hui</button>
+        <button>J+1</button>
+        <button>J+2</button>
+        <button>J+3</button>
+        <button>J+4</button>
+        <button>J+5</button>
+        <button>J+6</button>
+        <button>J+7</button>
+    </nav>
+
+    <section style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <label for="city">Ville :</label>
+        <input type="text" id="city" placeholder="Entrez une ville">
+        <button onclick="receptDataAPI()">Envoyer Données</button>
+        <div id="map" style="height: 400px; margin-top: 20px; width: 60%;"></div>
+        <div id="weatherDataContainer"></div>
+    </section>
+
+    <footer style="position:relative;">
+        &copy; 2023 Team Greedy. All rights reserved.
+    </footer>
+    
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script th:inline="javascript">
+        $(document).ready(function () {
+        // Initialisez la carte centrée sur Paris par défaut
+        var defaultMap = L.map('map').setView([48.8566, 2.3522], 12);
+
+        // Utilisez un fournisseur de tuiles différent (Stamen Watercolor)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(defaultMap);
+
+        // Ajoutez un marqueur pour la position par défaut (Paris)
+        L.marker([48.8566, 2.3522], 10).addTo(defaultMap)
+            .bindPopup('Paris, France').openPopup();
+         });
+
+        function receptDataAPI() {
+            var cityName = document.getElementById('city').value;
+
+            $.ajax({
+                type: "POST",
+                url: "/test",
+                data: { city: cityName },
+                success: function (response) {
+                    console.log("Response from server:", response);
+
+                    // Vérifiez si la div est trouvée
+                    var weatherContainer = $('#weatherDataContainer');
+                    if (weatherContainer.length > 0) {
+                        // Supprimez le contenu existant et ajoutez le nouveau contenu
+                        weatherContainer.empty().html(response);
+                    } else {
+                        console.error("Weather container not found.");
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        
+    </script>
+</body>
+
+</html>
