@@ -134,3 +134,89 @@ INSERT INTO WEATHER_DATA ( HUMIDITY, PRECIPPROB, TEMP, TEMPMAX, TEMPMIN, WINDSPE
 </body>
 
 </html>
+
+//
+
+
+<!-- Afficher les détails de chaque entrée dans des balises <p> -->
+    <p>Adresse longue : <span th:text="${weatherData.resolvedAddress}"></span></p>
+    <!-- <p>Adresse courte : <span th:text="${weatherData.address}"></span></p>
+    <p>Latitude : <span th:text="${weatherData.latitude}"></span></p>
+    <p>Longitude : <span th:text="${weatherData.longitude}"></span></p>
+    <p>TimeZone : <span th:text="${weatherData.timezone}"></span></p> -->
+   
+    <h2>Conditions actuelle :</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Température</th>
+                <th>Humidité</th>
+                <th>Probabilités de précipitations</th>
+                <th>Vitesse du vent</th>
+                <th>Conditions</th>
+                <th>Levé du soleil</th>
+                <th>Couché du soleil</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="${weatherData.weatherDataCurrentConditions.datetime}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.temp}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.humidity}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.precipprob}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.windspeed}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.conditions}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.sunrise}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.sunset}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Ajoutez d'autres balises <p> selon vos besoins -->
+
+    <!-- Boucle pour chaque weatherDay -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Température</th>
+                <th>Température Min</th>
+                <th>Température Max</th>
+                <th>Humidité</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="weatherDay : ${weatherData.weatherDay}">
+                <td th:text="${weatherDay.datetime}"></td>
+                <td th:text="${weatherDay.temp}"></td>
+                <td th:text="${weatherDay.tempmin}"></td>
+                <td th:text="${weatherDay.tempmax}"></td>
+                <td th:text="${weatherDay.humidity}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Boucle pour les heures de la première journée uniquement -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date et heure</th>
+                <th>Température</th>
+                <th>Humidité</th>
+                <th>Probabilité de précipitations</th>
+                <th>Vitesse du vent</th>
+                <th>Conditions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="weatherHour : ${weatherData.weatherDay[0].weatherHour}">
+                <td th:text="${weatherHour.datetime}"></td>
+                <td th:text="${weatherHour.temp}"></td>
+                <td th:text="${weatherHour.humidity}"></td>
+                <td th:text="${weatherHour.precipprob}"></td>
+                <td th:text="${weatherHour.windspeed}"></td>
+                <td th:text="${weatherHour.conditions}"></td>
+            </tr>
+        </tbody>
+    </table>

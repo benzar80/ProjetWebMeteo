@@ -136,6 +136,12 @@ th, td {
     text-align: left;
 }
 
+.cellule-image {
+    /* Ajoutez ici les styles spécifiques pour les cellules contenant des images */
+    /* Par exemple, vous pouvez définir une couleur de fond différente */
+    background-color: lightgray;
+}
+
 thead {
     background-color: #343a40;
     color: #ffffff;
