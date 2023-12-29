@@ -180,3 +180,8 @@ button {
 button:hover {
     transform: translateY(-3px);
 }
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: black; /* Couleur de fond des flèches */
+    color: white; /* Couleur du texte des flèches */
+}

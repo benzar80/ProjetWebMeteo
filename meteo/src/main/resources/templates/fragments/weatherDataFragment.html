@@ -1,19 +1,18 @@
 <script th:inline="javascript">
     function addMarker(longitude, latitude, address, temp, conditions, icon) {
-        if (latitude !== null && longitude !== null) {
+    if (latitude !== null && longitude !== null) {
 
-            L.marker([latitude, longitude], 10).addTo(map)
-                .bindPopup("<div style='display: flex; align-items: center;'><img src='img/" + icon + ".jpg' style='max-width: 100px; max-height: 100px; margin-right: 10px;'><div><strong>Voici la météo de " + address + "</strong><br>Température actuelle : " + temp + "°C<br>Conditions : " + conditions + "</div></div>").openPopup();
-        } else {
-            console.error('Latitude or longitude is undefined.');
-        }
+        L.marker([latitude, longitude], 10).addTo(map)
+            .bindPopup("<div style='display: flex; align-items: center;'><img src='img/" + icon + ".jpg' style='max-width: 100px; max-height: 100px; margin-right: 10px;'><div><strong>Voici la météo de " + address + "</strong><br>Température actuelle : " + temp + "°C<br>Conditions : " + conditions + "</div></div>").openPopup();
+    } else {
+        console.error('Latitude or longitude is undefined.');
     }
-
+}
 </script>
 
 <div th:each="weatherData : ${weatherDataLists}">
     <p>Adresse longue : <span th:text="${weatherData.resolvedAddress}"></span></p>
-
+   
     <h2>Conditions actuelles :</h2>
     <table border="1">
         <tbody>
@@ -51,79 +50,90 @@
             </tr>
         </tbody>
     </table>
+<table border="1">
+    <tbody>
+        <!-- Première ligne pour les entêtes -->
+        <tr style="text-align: center;">
+            <th></th>
+            <!-- Boucle pour chaque weatherDay -->
+            <td th:each="weatherDay : ${weatherData.weatherDay}"><img th:src="@{'img/' + ${weatherDay.icon} + '.png'}" alt="Icon" style="max-width: 100%; max-height: 100px;"></td>
+        </tr>
 
-    <table border="1">
-        <tbody>
-            <tr style="text-align: center;">
-                <th></th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}"><img
-                        th:src="@{'img/' + ${weatherDay.icon} + '.png'}" alt="Icon"
-                        style="max-width: 100%; max-height: 100px;"></td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.datetime}"></td>
-            </tr>
-            <tr>
-                <th>Température</th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.temp}"></td>
-            </tr>
-            <tr>
-                <th>Température Min</th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.tempmin}"></td>
-            </tr>
-            <tr>
-                <th>Température Max</th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.tempmax}"></td>
-            </tr>
-            <tr>
-                <th>Humidité</th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.humidity}"></td>
-            </tr>
-        </tbody>
-    </table>
+        <!-- Ligne pour les données "Date" -->
+        <tr>
+            <th>Date</th>
 
-    <div id="weatherCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li th:each="weatherHour, iterStat : ${weatherData.weatherDay[0].weatherHour}" 
-                th:data-target="#weatherCarousel" th:data-slide-to="${iterStat.index}" 
-                th:classappend="${iterStat.index == 0} ? 'active' : ''"></li>
-        </ol>
+            <!-- Boucle pour chaque weatherDay -->
+            <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.datetime}"></td>
+        </tr>
 
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-            <div th:each="weatherHour, iterStat : ${weatherData.weatherDay[0].weatherHour}" 
-                th:classappend="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
-                <img th:src="@{'img/' + ${weatherHour.icon} + '.png'}" alt="Icon" style="max-width: 100%; max-height: 100px;">
-                <div class="carousel-caption">
-                    <h3 th:text="${weatherHour.datetime}"></h3>
-                    <p th:text="${weatherHour.temp}"></p>
-                    <!-- Ajoutez d'autres éléments du weatherHour que vous souhaitez afficher -->
+        <!-- Ligne pour les données "Température" -->
+        <tr>
+            <th>Température</th>
+
+            <!-- Boucle pour chaque weatherDay -->
+            <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.temp}"></td>
+        </tr>
+
+        <!-- Ligne pour les données "Température Min" -->
+        <tr>
+            <th>Température Min</th>
+
+            <!-- Boucle pour chaque weatherDay -->
+            <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.tempmin}"></td>
+        </tr>
+
+        <!-- Ligne pour les données "Température Max" -->
+        <tr>
+            <th>Température Max</th>
+
+            <!-- Boucle pour chaque weatherDay -->
+            <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.tempmax}"></td>
+        </tr>
+
+        <!-- Ligne pour les données "Humidité" -->
+        <tr>
+            <th>Humidité</th>
+
+            <!-- Boucle pour chaque weatherDay -->
+            <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.humidity}"></td>
+        </tr>
+    </tbody>
+</table>
+<!-- 
+<div id="mapContainer"></div> -->
+
+<div id="carouselExample" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <!-- Boucle pour chaque groupe de 3 heures -->
+        <div th:each="group, groupStat : ${groupedWeatherHours}" class="carousel-item" th:classappend="${groupStat.index == activeSlideIndex} ? 'active'">
+            <div class="row">
+                <!-- Boucle pour chaque heure dans le groupe -->
+                <div th:each="hour : ${group}" class="col-md-4">
+                    <div class="card-body">
+                            <h5 class="card-title">Heure : [[${hour.datetime}]]</h5>
+                            <img th:src="@{'img/' + ${hour.icon} + '.png'}" alt="Icon" style="max-width: 100%; max-height: 100px;">
+                            <p class="card-text">Température : [[${hour.temp}]]</p>
+                            <p class="card-text">Humidité : [[${hour.humidity}]]</p>
+                            <p class="card-text">Probabilité de précipitations : [[${hour.precipprob}]]</p>
+                            <p class="card-text">Vitesse du vent : [[${hour.windspeed}]]</p>
+                            <p class="card-text">Conditions : [[${hour.conditions}]]</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- Controls -->
-        <a class="carousel-control-prev" href="#weatherCarousel" role="button" data-slide="prev">
+        <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#weatherCarousel" role="button" data-slide="next">
+        <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
     </div>
 
-
-    <script th:inline="javascript">
-        console.log(/*[[${weatherData.weatherDataCurrentConditions.icon}]]*/ null);
-        addMarker(/*[[${weatherData.longitude}]]*/ null, /*[[${weatherData.latitude}]]*/ null, /*[[${weatherData.address}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.temp}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.conditions}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.icon}]]*/ null);
-    </script>
-</div>
-
-
-
 <div th:if="${#lists.isEmpty(weatherDataLists)}">
     <p>Aucune donnée météorologique disponible pour cette ville.</p>
 </div>
+
