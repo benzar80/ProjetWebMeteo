@@ -10,5 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface WeatherDataRepository extends JpaRepository<WeatherDataCity, Long> {
     List<WeatherDataCity> findAllByaddress(String address);
+    List<WeatherDataCity> findAllByResolvedAddress(String resolvedAddress);
     List<WeatherDataCity> findAll();
 }

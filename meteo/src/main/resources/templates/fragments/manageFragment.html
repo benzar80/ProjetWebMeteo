@@ -1,0 +1,61 @@
+<script th:inline="javascript">
+    function addMarker(longitude, latitude, address, temp, conditions, icon) {
+        if (latitude !== null && longitude !== null) {
+            L.marker([latitude, longitude]).addTo(map)
+                .bindPopup("<div style='display: flex; align-items: center;'><img src='img/" + icon + ".png' style='max-width: 100px; max-height: 100px; margin-right: 10px;'><div><strong>Voici la météo de " + address + "</strong><br>Température actuelle : " + temp + " °C<br>Conditions : " + conditions + "</div></div>");
+        } else {
+            console.error('Latitude or longitude is undefined.');
+        }
+    }
+
+    function centerFr(){
+            map.setView([46.6031, 1.8883], 5);
+    }
+
+    function handleWeatherItemClick(address) {
+        console.log("Resadresse = ", address);
+        $.ajax({
+                type: "POST",
+                url: "/takeByAddress",
+                data: { resolvedAddress: address },
+                success: function (response) {
+                    console.log("Response from server:", response);
+                    
+                    // Vérifiez si la div est trouvée
+                    var weatherContainer = $('#weatherDataContainer');
+                    if (weatherContainer.length > 0) {
+                        // Supprimez le contenu existant et ajoutez le nouveau contenu
+                        weatherContainer.empty().html(response);
+                        
+                    } else {
+                        console.error("Weather container not found.");
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+    }
+</script>
+
+<div class="weather-container" style="max-height: 400px; overflow-y: auto;">
+    <div th:each="weatherData : ${weatherDataLists}" class="weather-item" th:onclick="handleWeatherItemClick([[${weatherData.resolvedAddress}]])">
+        <p style="text-align: center; text-decoration: dashed;">
+            <span th:text="${weatherData.resolvedAddress}"></span>
+        </p>
+        <script th:inline="javascript">
+            addMarker(
+                /*[[${weatherData.longitude}]]*/ null,
+                /*[[${weatherData.latitude}]]*/ null,
+                /*[[${weatherData.address}]]*/ null,
+                /*[[${weatherData.weatherDataCurrentConditions.temp}]]*/ null,
+                /*[[${weatherData.weatherDataCurrentConditions.conditions}]]*/ null,
+                /*[[${weatherData.weatherDataCurrentConditions.icon}]]*/ null
+            );
+        </script>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    centerFr();
+</script>

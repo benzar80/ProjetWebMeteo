@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     
 </head>
-<body>
+<body onload="updateManageFragment()">
     <header>
         <img src="img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
         <h1>Évelyne Dhéliat</h1>
@@ -30,7 +30,19 @@
             <input type="text" id="city" placeholder="Entrez une ville">
             <button onclick="receptDataAPI()" id="sendButton">Rechercher la météo</button>
         </div>
-        <div id="mapContainer"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Première colonne (mapContainer) -->
+                <div class="col-md-8">
+                    <div id="mapContainer"></div>
+                </div>
+        
+                <!-- Deuxième colonne (ManageDays) -->
+                <div class="col-md-4">
+                    <div id="ManageDays"></div>
+                </div>
+            </div>
+        </div>
         <div id="weatherDataContainer" ></div>
     </section>
 
@@ -54,6 +66,29 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
+        function updateManageFragment() {
+            $.ajax({
+                    type: "POST",
+                    url: "/manageDays",
+                    success: function (response) {
+                        console.log("Response from server:", response);
+                        
+                        // Vérifiez si la div est trouvée
+                        var ManageDays = $('#ManageDays');
+                        if (ManageDays.length > 0) {
+                            // Supprimez le contenu existant et ajoutez le nouveau contenu
+                            ManageDays.empty().html(response);
+                            
+                        } else {
+                            console.error("Weather container not found.");
+                        }
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            }
+
         function receptDataAPI() {
             var cityName = document.getElementById('city').value;
 
@@ -62,12 +97,11 @@
                 url: "/test",
                 data: { city: cityName },
                 success: function (response) {
-                    console.log("Response from server:", response);
+                    //console.log("Response from server:", response);
                     
                     // Vérifiez si la div est trouvée
                     var weatherContainer = $('#weatherDataContainer');
                     if (weatherContainer.length > 0) {
-                        $('#mapContainer').addClass('form-submitted');
                         // Supprimez le contenu existant et ajoutez le nouveau contenu
                         weatherContainer.empty().html(response);
                         

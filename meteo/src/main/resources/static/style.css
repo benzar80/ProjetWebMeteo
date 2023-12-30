@@ -155,7 +155,11 @@ footer {
 #mapContainer {
     height: 400px;
     margin-top: 20px;
-    width: 60%;
+}
+
+#manageFragment {
+    margin-top: 20px;
+    align-items: center;
 }
 
 /* Styles pour les balises <p> */
@@ -284,4 +288,27 @@ btnTopCity:hover {
 
 .row {
     margin-bottom: 20px;
+}
+
+.weather-container {
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.weather-item {
+    cursor: pointer;
+    margin-bottom: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.3s;
+}
+
+.weather-item:hover {
+    background-color: #f5f5f5;
 }
