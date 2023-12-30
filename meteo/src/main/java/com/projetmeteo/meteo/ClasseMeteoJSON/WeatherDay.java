@@ -1,12 +1,18 @@
 package com.projetmeteo.meteo.ClasseMeteoJSON;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
+import java.time.LocalDate;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class WeatherDay {
+    
     @JsonProperty("datetime")
-    private String datetime;
+    private LocalDate datetime;
 
     @JsonProperty("tempmax")
     private double tempMax;
@@ -44,11 +50,13 @@ public class WeatherDay {
     @JsonProperty("icon")
     private String icon;
 
-    public String getDatetime() {
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    public LocalDate getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(String datetime) {
+    public void setDatetime(LocalDate datetime) {
         this.datetime = datetime;
     }
 

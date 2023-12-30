@@ -7,7 +7,7 @@ body {
 }
 
 header {
-    background: linear-gradient(to right, #3498db, #2980b9);
+    background: linear-gradient(to right, #7e8285, #2980b9);
     color: #ffffff;
     padding: 20px;
     text-align: center;
@@ -21,6 +21,54 @@ header {
     top: 50%;
     transform: translateY(-50%);
 }
+
+h2 {
+    font-size: 24px; /* Taille de police */
+    color: #333; /* Couleur du texte */
+    margin-bottom: 10px; /* Marge en bas */
+    text-align: center;
+    letter-spacing: 2px;
+    text-decoration: overline solid #2265c2;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+    /* Ajoutez d'autres styles selon vos besoins */
+}
+
+/* Style pour le conteneur principal */
+#searchSection {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Style pour l'étiquette "Ville" */
+label {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+/* Style pour la zone de saisie de la ville */
+#city {
+    padding: 8px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+/* Style pour le bouton "Envoyer Données" */
+#sendButton {
+    background-color: #2265c2;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Style au survol du bouton */
+#sendButton:hover {
+    background-color: #fbb900;
+}
+
 
 .left-logo {
     left: 20px;
@@ -45,7 +93,7 @@ button {
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
-    background-color: #0b203e;
+    background-color: #2265c2;
     font-weight: bold;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
@@ -125,15 +173,18 @@ table {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
 }
 
 table, th, td {
     border: 1px solid #e9ecef;
+    text-align: center;
 }
 
 th, td {
     padding: 12px;
     text-align: left;
+    text-align: center;
 }
 
 .cellule-image {
@@ -145,18 +196,14 @@ th, td {
 thead {
     background-color: #343a40;
     color: #ffffff;
+    text-align: center;
 }
 
 tbody tr:nth-child(even) {
     background-color: #f8f9fa;
-}
-
-/* Styles spécifiques pour les balises <p> dans la section */
-section p {
-    font-weight: bold;
-    color: #3498db;
     text-align: center;
 }
+
 
 /* Styles spécifiques pour les balises <p> dans le pied de page */
 footer p {
@@ -181,7 +228,60 @@ button:hover {
     transform: translateY(-3px);
 }
 
-.carousel-control-prev-icon, .carousel-control-next-icon {
-    background-color: black; /* Couleur de fond des flèches */
-    color: white; /* Couleur du texte des flèches */
+/* Styles pour les flèches du carrousel */
+.carousel-control-prev,
+.carousel-control-next {
+    color: #fff; /* Couleur des flèches */
+    font-size: 2rem; /* Taille de la police */
+    background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond des flèches */
+    border-radius: 50%; /* Bordure arrondie */
+    width: 40px; /* Largeur des flèches */
+    height: 40px; /* Hauteur des flèches */
+    line-height: 40px; /* Hauteur de ligne égale à la hauteur des flèches */
+    text-align: center; /* Alignement horizontal au centre */
+    align-items: center; /* Alignement vertical au centre */
+    display: flex; /* Utilisation de flexbox */
+    position: absolute; /* Position absolue */
+    top: 50%; /* Alignement vertical au centre */
+    transform: translateY(-50%); /* Ajustement pour centrer verticaleme*/
+}
+
+/* Styles pour les flèches du carrousel au survol */
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* Changement de couleur au survol */
+}
+
+
+.card {
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.card-image {
+    width: 100%;
+    max-height: 100px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.data-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-text {
+    margin-bottom: 5px;
+}
+
+.row {
+    margin-bottom: 20px;
 }

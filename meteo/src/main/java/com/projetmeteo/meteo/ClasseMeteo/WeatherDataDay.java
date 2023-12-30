@@ -1,5 +1,6 @@
 package com.projetmeteo.meteo.ClasseMeteo;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -22,7 +23,7 @@ public class WeatherDataDay {
     private List<WeatherDataHour> weatherHour;
 
     @Column(name="datetime")
-    private String datetime;
+    private LocalDate datetime;
 
     @Column(name="temp")
     private double temp;
@@ -60,7 +61,7 @@ public class WeatherDataDay {
     public WeatherDataDay() {
     }
 
-    public WeatherDataDay(List<WeatherDataHour> weatherHour, String datetime, double temp, double tempmax, double tempmin,
+    public WeatherDataDay(List<WeatherDataHour> weatherHour, LocalDate datetime, double temp, double tempmax, double tempmin,
     double humidity, double precipprob, double windspeed, String sunrise,
                        String sunset, String conditions, String description, String icon) {
         this.weatherHour = weatherHour;
@@ -95,11 +96,11 @@ public class WeatherDataDay {
         this.weatherHour = weatherHour;
     }
 
-    public String getDatetime() {
+    public LocalDate getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(String datetime) {
+    public void setDatetime(LocalDate datetime) {
         this.datetime = datetime;
     }
 

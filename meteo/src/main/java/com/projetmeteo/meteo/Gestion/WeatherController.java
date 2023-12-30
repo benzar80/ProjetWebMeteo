@@ -34,8 +34,8 @@ public class WeatherController {
 
     @PostConstruct
     public void init() {
-        // Model model = new ExtendedModelMap();
-        // submitWeatherData("Paris", model);
+         Model model = new ExtendedModelMap();
+         submitWeatherData("Paris", model);
         // submitWeatherData("Lyon", model);
         // submitWeatherData("Lille", model);
         // submitWeatherData("Marseille", model);
@@ -73,7 +73,7 @@ public class WeatherController {
 
     // Diviser les heures en groupes de 3
     List<List<WeatherDataHour>> groupedWeatherHours = Lists.partition(weatherHours, 3);
-            System.out.println(groupedWeatherHours);
+           // System.out.println(groupedWeatherHours);
     // Ajouter la liste groupée au modèle
     model.addAttribute("groupedWeatherHours", groupedWeatherHours);
 

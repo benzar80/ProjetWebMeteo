@@ -16,20 +16,20 @@
     </header>
 
     <nav>
-        <button>Aujourd'hui</button>
-        <button>J+1</button>
-        <button>J+2</button>
-        <button>J+3</button>
-        <button>J+4</button>
-        <button>J+5</button>
-        <button>J+6</button>
-        <button>J+7</button>
+        <button>Paris</button>
+        <button>Lyon</button>
+        <button>Lille</button>
+        <button>Marseille</button>
+        <button>Rennes</button>
+        <button>Bordeaux</button>
     </nav>
 
     <section style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <label for="city">Ville :</label>
-        <input type="text" id="city" placeholder="Entrez une ville">
-        <button onclick="receptDataAPI()">Envoyer Données</button>
+        <h2>Bienvenue sur notre nouveau site météorologique</h2>
+        <div id="searchSection">
+            <input type="text" id="city" placeholder="Entrez une ville">
+            <button onclick="receptDataAPI()" id="sendButton">Rechercher la météo</button>
+        </div>
         <div id="mapContainer"></div>
         <div id="weatherDataContainer" ></div>
     </section>
@@ -67,8 +67,10 @@
                     // Vérifiez si la div est trouvée
                     var weatherContainer = $('#weatherDataContainer');
                     if (weatherContainer.length > 0) {
+                        $('#mapContainer').addClass('form-submitted');
                         // Supprimez le contenu existant et ajoutez le nouveau contenu
                         weatherContainer.empty().html(response);
+                        
                     } else {
                         console.error("Weather container not found.");
                     }
