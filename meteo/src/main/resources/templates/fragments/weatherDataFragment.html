@@ -3,7 +3,7 @@
         if (latitude !== null && longitude !== null) {
             map.setView([latitude, longitude], 10);
             L.marker([latitude, longitude], 10).addTo(map)
-                .bindPopup("<div style='display: flex; align-items: center;'><img src='img/" + icon + ".png' style='max-width: 100px; max-height: 100px; margin-right: 10px;'><div><strong>Voici la météo de " + address + "</strong><br>Température actuelle : " + temp + "°C<br>Conditions : " + conditions + "</div></div>").openPopup();
+                .bindPopup("<div style='display: flex; align-items: center;'><img src='img/" + icon + ".png' style='max-width: 100px; max-height: 100px; margin-right: 10px;'><div><strong>Voici la météo de " + address + "</strong><br>Température actuelle : " + temp + " °C<br>Conditions : " + conditions + "</div></div>").openPopup();
         } else {
             console.error('Latitude or longitude is undefined.');
         }

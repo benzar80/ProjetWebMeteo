@@ -212,7 +212,7 @@ footer p {
 }
 
 /* Styles spécifiques pour les boutons */
-button {
+btnTopCity {
     color: #ffffff;
     border: none;
     padding: 10px 20px;
@@ -224,7 +224,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+btnTopCity:hover {
     transform: translateY(-3px);
 }
 
