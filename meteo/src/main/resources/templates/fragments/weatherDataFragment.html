@@ -1,17 +1,5 @@
-<script th:inline="javascript">
-    function addMarker(longitude, latitude, address, temp, conditions, icon) {
-        if (latitude !== null && longitude !== null) {
-            map.setView([latitude, longitude], 10);
-            L.marker([latitude, longitude], 10).addTo(map)
-                .bindPopup("<div style='display: flex; align-items: center;'><img src='img/" + icon + ".png' style='max-width: 100px; max-height: 100px; margin-right: 10px;'><div><strong>Voici la météo de " + address + "</strong><br>Température actuelle : " + temp + " °C<br>Conditions : " + conditions + "</div></div>").openPopup();
-        } else {
-            console.error('Latitude or longitude is undefined.');
-        }
-    }
-</script>
 
 <div th:each="weatherData : ${weatherDataLists}">
-    
     <p style="text-align: center; text-decoration: dashed;"><span th:text="${weatherData.resolvedAddress}"></span></p>
 
     <div th:fragment="weatherConditions">
@@ -140,9 +128,9 @@
     </div>
 
     <script th:inline="javascript">
+        updateManageFragment();
         addMarker(/*[[${weatherData.longitude}]]*/ null, /*[[${weatherData.latitude}]]*/ null, /*[[${weatherData.address}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.temp}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.conditions}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.icon}]]*/ null);
-        updateManageFragment()
-    </script>
+   </script>
 
 </div>
 

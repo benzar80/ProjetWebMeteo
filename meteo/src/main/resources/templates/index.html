@@ -16,25 +16,37 @@
     </header>
 
     <nav>
-        <button id="btnTopCity">Paris</button>
-        <button id="btnTopCity">Lyon</button>
-        <button id="btnTopCity">Lille</button>
-        <button id="btnTopCity">Marseille</button>
-        <button id="btnTopCity">Rennes</button>
-        <button id="btnTopCity">Bordeaux</button>
+        <button id="btnTopCity" onclick="receptDataAPI('Paris')">Paris</button>
+        <button id="btnTopCity" onclick="receptDataAPI('Lyon')">Lyon</button>
+        <button id="btnTopCity" onclick="receptDataAPI('Lille')">Lille</button>
+        <button id="btnTopCity" onclick="receptDataAPI('Marseille')">Marseille</button>
+        <button id="btnTopCity" onclick="receptDataAPI('Rennes')">Rennes</button>
+        <button id="btnTopCity" onclick="receptDataAPI('Bordeaux')">Bordeaux</button>
     </nav>
 
     <section style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
         <h2>Bienvenue sur notre nouveau site météorologique</h2>
         <div id="searchSection">
             <input type="text" id="city" placeholder="Entrez une ville">
-            <button onclick="receptDataAPI()" id="sendButton">Rechercher la météo</button>
+            <button onclick="receptDataAPI(document.getElementById('city').value)" id="sendButton">Rechercher la météo</button>
         </div>
         <div class="container-fluid">
             <div class="row">
                 <!-- Première colonne (mapContainer) -->
                 <div class="col-md-8">
-                    <div id="mapContainer"></div>
+                    <div id="mapContainer">
+                        <script>
+                            if (existingMarker) {
+                                existingMarker.marker.on('click', function() {
+                                    // Code à exécuter lorsqu'un marqueur existant est cliqué
+                                    alert('Informations du marqueur existant:\n' + existingMarker.id);
+                                    // Vous pouvez ajouter ici le code pour personnaliser le comportement du clic.
+                                });
+                                existingMarker.marker.openPopup();
+                                map.setView([latitude, longitude], 10);
+                            }
+                        </script>
+                    </div>
                 </div>
         
                 <!-- Deuxième colonne (ManageDays) -->
@@ -57,6 +69,9 @@
 
 
     <script th:inline="javascript">
+
+        var markers = [];
+        var markersInitiase = false;
         var defaultLatitude = 48.8566;
         var defaultLongitude = 2.3522;
 
@@ -66,19 +81,15 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
+        var markersInitiase = false;
         function updateManageFragment() {
             $.ajax({
                     type: "POST",
                     url: "/manageDays",
                     success: function (response) {
-                        console.log("Response from server:", response);
-                        
-                        // Vérifiez si la div est trouvée
                         var ManageDays = $('#ManageDays');
                         if (ManageDays.length > 0) {
-                            // Supprimez le contenu existant et ajoutez le nouveau contenu
                             ManageDays.empty().html(response);
-                            
                         } else {
                             console.error("Weather container not found.");
                         }
@@ -89,22 +100,19 @@
                 });
             }
 
-        function receptDataAPI() {
-            var cityName = document.getElementById('city').value;
+            
+
+        function receptDataAPI(city) {
+            //var cityName = document.getElementById('city').value;
 
             $.ajax({
                 type: "POST",
                 url: "/test",
-                data: { city: cityName },
+                data: { city: city },
                 success: function (response) {
-                    //console.log("Response from server:", response);
-                    
-                    // Vérifiez si la div est trouvée
                     var weatherContainer = $('#weatherDataContainer');
                     if (weatherContainer.length > 0) {
-                        // Supprimez le contenu existant et ajoutez le nouveau contenu
                         weatherContainer.empty().html(response);
-                        
                     } else {
                         console.error("Weather container not found.");
                     }
@@ -115,7 +123,32 @@
             });
         }
 
-        
+        function addMarker(longitude, latitude, address, temp, conditions, icon) {
+    if (latitude !== null && longitude !== null) {
+        var markerId = latitude + '_' + longitude;
+
+        var existingMarker = markers.find(function (marker) {
+            return marker.id === markerId;
+        });
+
+        if (existingMarker) {
+            existingMarker.marker.openPopup();
+            map.setView([latitude, longitude], 10);
+        } else {
+            markers.push({
+                id: markerId,
+                marker: L.marker([latitude, longitude], { addressMark: address }).addTo(map)
+                    .bindPopup("<div style='display: flex; align-items: center;'><img src='img/" + icon + ".png' style='max-width: 100px; max-height: 100px; margin-right: 10px;'><div><strong>Voici la météo de " + address + "</strong><br>Température actuelle : " + temp + " °C<br>Conditions : " + conditions + "</div></div>").openPopup()
+                    .on('click', function () {
+                        receptDataAPI(this.options.addressMark);
+                    })
+            });
+            map.setView([latitude, longitude], 10);
+        }
+    } else {
+        console.error('Latitude or longitude is undefined.');
+    }
+}
     </script>
 </body>
 
