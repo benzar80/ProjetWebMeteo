@@ -34,19 +34,7 @@
             <div class="row">
                 <!-- Première colonne (mapContainer) -->
                 <div class="col-md-8">
-                    <div id="mapContainer">
-                        <script>
-                            if (existingMarker) {
-                                existingMarker.marker.on('click', function() {
-                                    // Code à exécuter lorsqu'un marqueur existant est cliqué
-                                    alert('Informations du marqueur existant:\n' + existingMarker.id);
-                                    // Vous pouvez ajouter ici le code pour personnaliser le comportement du clic.
-                                });
-                                existingMarker.marker.openPopup();
-                                map.setView([latitude, longitude], 10);
-                            }
-                        </script>
-                    </div>
+                    <div id="mapContainer"> </div>
                 </div>
         
                 <!-- Deuxième colonne (ManageDays) -->
@@ -98,13 +86,13 @@
                         console.error(error);
                     }
                 });
+
+                
             }
 
             
 
         function receptDataAPI(city) {
-            //var cityName = document.getElementById('city').value;
-
             $.ajax({
                 type: "POST",
                 url: "/test",
@@ -121,34 +109,84 @@
                     console.error(error);
                 }
             });
+            var weatherDataContainer = document.getElementById('weatherDataContainer');
+                if (weatherDataContainer) {
+                    weatherDataContainer.style.display = 'block';
+                }
         }
 
         function addMarker(longitude, latitude, address, temp, conditions, icon) {
-    if (latitude !== null && longitude !== null) {
-        var markerId = latitude + '_' + longitude;
+            if (latitude !== null && longitude !== null) {
+                var markerId = latitude + '_' + longitude;
 
-        var existingMarker = markers.find(function (marker) {
-            return marker.id === markerId;
-        });
+                var existingMarker = markers.find(function (marker) {
+                    return marker.id === markerId;
+                });
 
-        if (existingMarker) {
-            existingMarker.marker.openPopup();
-            map.setView([latitude, longitude], 10);
-        } else {
-            markers.push({
-                id: markerId,
-                marker: L.marker([latitude, longitude], { addressMark: address }).addTo(map)
-                    .bindPopup("<div style='display: flex; align-items: center;'><img src='img/" + icon + ".png' style='max-width: 100px; max-height: 100px; margin-right: 10px;'><div><strong>Voici la météo de " + address + "</strong><br>Température actuelle : " + temp + " °C<br>Conditions : " + conditions + "</div></div>").openPopup()
-                    .on('click', function () {
-                        receptDataAPI(this.options.addressMark);
-                    })
-            });
-            map.setView([latitude, longitude], 10);
+                if (existingMarker) {
+                    existingMarker.marker.openPopup();
+                    map.setView([latitude, longitude], 10);
+                    console.log(markers);
+                } else {
+                    var newMarker = L.marker([latitude, longitude], { addressMark: address }).addTo(map)
+                        .bindPopup("<div style='display: flex; align-items: center;'><img src='img/" + icon + ".png' style='max-width: 100px; max-height: 100px; margin-right: 10px;'><div><strong>Voici la météo de " + address + "</strong><br>Température actuelle : " + temp + " °C<br>Conditions : " + conditions + "</div></div>").openPopup()
+                        .on('click', function () {
+                            receptDataAPI(this.options.addressMark);
+                        });
+                        console.log(markers);
+                    markers.push({
+                        id: markerId,
+                        marker: newMarker
+                    });
+
+                    map.setView([latitude, longitude], 10);
+                }
+            } else {
+                console.error('Latitude or longitude is undefined.');
+            }
         }
+
+        function suppMarker(latitude, longitude) {
+    var markerId = latitude + '_' + longitude;
+    var existingMarkerIndex = markers.findIndex(function (marker) {
+        return marker.id === markerId;
+    });
+
+    if (existingMarkerIndex !== -1) {
+        var removedMarker = markers.splice(existingMarkerIndex, 1)[0]; // Retire le marqueur du tableau
+        removedMarker.marker.removeFrom(map);
+        console.log(markers);
+
+        map.setView([46.6031, 1.8883], 5);
     } else {
-        console.error('Latitude or longitude is undefined.');
+        console.error('Le marqueur n\'existe pas.');
     }
 }
+
+
+        function suppManageData(city) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "/suppDataCity",
+                    data: { city: city },
+                    success: function (response) {
+                        var ManageDays = $('#ManageDays');
+                        if (ManageDays.length > 0) {
+                            ManageDays.empty().html(response);
+                        } else {
+                            console.error("Weather container not found.");
+                        }
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+
+                var weatherDataContainer = document.getElementById('weatherDataContainer');
+                if (weatherDataContainer) {
+                    weatherDataContainer.style.display = 'none';
+                }
+            }
     </script>
 </body>
 

@@ -1,13 +1,13 @@
 <div class="weather-container" style="max-height: 400px; overflow-y: auto;">
-    <div th:each="weatherData, iterStat : ${weatherDataLists}" class="weather-item" th:onclick="receptDataAPI([[${weatherData.address}]])">
-        <p style="text-align: center; text-decoration: dashed;">
-            <span th:text="${weatherData.resolvedAddress}"></span>
+    <div th:each="weatherData, iterStat : ${weatherDataLists}" class="p-2 border-bottom">
+        <div class="d-flex justify-content-between align-items-center">
+            <button th:text="${weatherData.resolvedAddress}" class="btn btn-outline-primary btn-block weather-item" th:onclick="receptDataAPI([[${weatherData.address}]])"></button>
 
             <!-- Afficher le bouton Supprimer lorsque l'indice dépasse 5 -->
-            <span th:if="${iterStat.index > 5}">
-                <button style="background-color: red;" onclick="SuppManageData([[${iterStat.index}]])">Supprimer</button>
+            <span th:if="${iterStat.index > 5}" class="ml-2">
+                <button class="btn btn-outline-danger btn-block" th:onclick="suppManageData([[${weatherData.address}]]); suppMarker([[${weatherData.latitude}]], [[${weatherData.longitude}]]);">Supprimer</button>
             </span>
-        </p>
+        </div>
         <script th:inline="javascript">
             // Ajouter les marqueurs uniquement lors du chargement initial
             if (!markersInitiase) {
@@ -26,4 +26,3 @@
     </div>
     <script th:inline="javascript">markersInitiase = true;</script>
 </div>
- 

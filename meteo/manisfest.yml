@@ -1,0 +1,7 @@
+applications:
+  - name: meteo
+    memory: 512M
+    instances: 1
+    path: target/meteo-0.0.1-SNAPSHOT.jar>
+    env:
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'

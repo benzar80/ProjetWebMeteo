@@ -10,15 +10,18 @@ import com.projetmeteo.meteo.ClasseMeteo.WeatherDataDay;
 import com.projetmeteo.meteo.ClasseMeteo.WeatherDataHour;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.annotation.PostConstruct;
 
+@EnableScheduling
 @Controller
 public class WeatherController {
 	@Autowired
@@ -38,16 +41,15 @@ public class WeatherController {
         submitWeatherData("Bordeaux", model);
     }
 
-    @Scheduled(cron = "0 0 5 * * *", zone = "Europe/Paris")
+    @Scheduled(fixedDelay = 1800000)
     public void updateWeatherData() {
+        List<WeatherDataCity> wdL = repo.findAll();
         repo.deleteAll();
         Model model = new ExtendedModelMap();
-        submitWeatherData("Paris", model);
-        submitWeatherData("Lyon", model);
-        submitWeatherData("Lille", model);
-        submitWeatherData("Marseille", model);
-        submitWeatherData("Rennes", model);
-        submitWeatherData("Bordeaux", model);
+        for (WeatherDataCity weatherDataCity : wdL) {
+            submitWeatherData(weatherDataCity.getAddress(), model);
+        }
+        System.out.println("MAJ");
     }
 
     @PostMapping("/test")
@@ -55,10 +57,12 @@ public class WeatherController {
         city = city.toLowerCase();
         try {
             List<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
+            System.out.println(weatherDataList);
             if (Iterables.isEmpty(weatherDataList)) {
                 weatherService.saveDownloadDay(city);
             }  
             weatherDataList = repo.findAllByaddress(city);
+            
             model.addAttribute("weatherDataLists", weatherDataList);
             // Récupérer la première journée de météo
             WeatherDataDay firstWeatherDay = weatherDataList.get(0).getWeatherDay().get(0);
@@ -90,8 +94,23 @@ public class WeatherController {
     public String manageDays(Model model) {
         try {
             List<WeatherDataCity> weatherDataList = repo.findAll();
+            //System.out.println(weatherDataList);
             model.addAttribute("weatherDataLists", weatherDataList);
-            model.addAttribute("city", null);
+            return "fragments/manageFragment";
+        } catch (Exception e) {
+            return "redirect:/error";
+        }
+    }
+
+    @DeleteMapping("/suppDataCity")
+    public String suppDataCity(String city, Model model) {
+        try {
+            List<WeatherDataCity> weatherDataListSupp = repo.findAllByaddress(city);
+            // Supprimer les données de la ville spécifiée
+            repo.deleteAll(weatherDataListSupp);
+            List<WeatherDataCity> updatedWeatherDataList = repo.findAll();
+            model.addAttribute("weatherDataLists", updatedWeatherDataList);
+    
             return "fragments/manageFragment";
         } catch (Exception e) {
             return "redirect:/error";
