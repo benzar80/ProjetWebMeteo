@@ -32,8 +32,8 @@ public class WeatherController {
 
     @PostConstruct
     public void init() {
-         Model model = new ExtendedModelMap();
-         submitWeatherData("Paris", model);
+        Model model = new ExtendedModelMap();
+        submitWeatherData("Paris", model);
         submitWeatherData("Lyon", model);
         submitWeatherData("Lille", model);
         submitWeatherData("Marseille", model);
@@ -45,6 +45,7 @@ public class WeatherController {
     public void updateWeatherData() {
         List<WeatherDataCity> wdL = repo.findAll();
         repo.deleteAll();
+        System.out.println("MAJ à " + currentTime);
         Model model = new ExtendedModelMap();
         for (WeatherDataCity weatherDataCity : wdL) {
             submitWeatherData(weatherDataCity.getAddress(), model);
