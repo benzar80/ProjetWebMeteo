@@ -217,3 +217,28 @@ INSERT INTO WEATHER_DATA ( HUMIDITY, PRECIPPROB, TEMP, TEMPMAX, TEMPMIN, WINDSPE
             </tr>
         </tbody>
     </table>
+
+    # application.properties
+
+#url de la datasource, ici on écrit la bdd dans un fichier dans le répertoire de l’utilisateur de la machine
+spring.datasource.url=jdbc:h2:file:~/demo
+#driver nécessaire pour que spring se connecte à la base h2
+spring.datasource.driverClassName=org.h2.Driver
+# login
+spring.datasource.username=sa
+# mot de passe
+spring.datasource.password=password
+# dialect de la bdd
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+# active la console de la bdd h2
+spring.h2.console.enabled=true
+# setting du path pour accéder à la console
+spring.h2.console.path=/h2
+# indique de mettre à jour la bdd au lieu de la récréer
+spring.jpa.hibernate.ddl-auto=create
+
+# application.properties
+server.port=${PORT:8080}
+
+weather.api.key=BW4J9URLRRGB6833JQ5GP9268
+
