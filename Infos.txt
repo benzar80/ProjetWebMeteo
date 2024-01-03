@@ -1,0 +1,219 @@
+Clé API : 'BW4J9URLRRGB6833JQ5GP9268'
+
+cd meteo
+./mvnw spring-boot:run
+
+Première requête pour 7 jours :
+https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Saint-Omer/next7days?unitGroup=metric&key=BW4J9URLRRGB6833JQ5GP9268&include=days&elements=datetime,temp,tempmax,tempmin,humidity,precipprob,windspeed,sunrise,sunset,conditions,description&lang=fr&contentType=json
+
+Seconde requête pour un jour :
+https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Ervis/next7days?unitGroup=metric&key=BW4J9URLRRGB6833JQ5GP9268&elements=datetime,temp,tempmax,tempmin,humidity,precipprob,windspeed,sunrise,sunset,conditions,description&lang=fr&contentType=json
+
+https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Ervis/2023-12-11?unitGroup=metric&key=BW4J9URLRRGB6833JQ5GP9268&elements=datetime,temp,tempmax,tempmin,humidity,precipprob,windspeed,sunrise,sunset,conditions,description&lang=fr&contentType=json
+
+INSERT INTO WEATHER_DATA ( HUMIDITY, PRECIPPROB, TEMP, TEMPMAX, TEMPMIN, WINDSPEED, DATETIME, SUNRISE, SUNSET, CONDITIONS, DESCRIPTION ) VALUES (20,12,12,12,12,12,'20230423 11:42:35.173', '20230423 11:42:35.173', '20230423 11:42:35.173', 'Bonjour', 'Bonjour')
+
+<form action="/test" method="post">
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required><br>
+        <input type="submit" value="Submit">
+    </form>
+    
+    <div th:each="weatherData : ${weatherDataLists}">
+        <!-- Afficher les détails de chaque entrée dans des balises <p> -->
+        <p>Adresse longue : <span th:text="${weatherData.resolvedAddress}"></span></p>
+        <p>Adresse courte : <span th:text="${weatherData.address}"></span></p>
+        <p>Latitude : <span th:text="${weatherData.latitude}"></span></p>
+        <p>Longitude : <span th:text="${weatherData.longitude}"></span></p>
+        <p>TimeZone : <span th:text="${weatherData.timezone}"></span></p>
+        <!-- Ajoutez d'autres balises <p> selon vos besoins -->
+    
+        <!-- Boucle pour chaque weatherDay -->
+        <div th:each="weatherDay : ${weatherData.weatherDay}">
+            <p>datetime : <span th:text="${weatherDay.datetime}"></span></p>
+            <p>température : <span th:text="${weatherDay.temp}"></span></p>
+            <p>température minimum : <span th:text="${weatherDay.tempmin}"></span></p>
+            <p>température maximum : <span th:text="${weatherDay.tempmax}"></span></p>
+            <p>humidité : <span th:text="${weatherDay.humidity}"></span></p>
+            <div th:each="weatherHour : ${weatherDay.weatherHour}">
+                <p>datetime : <span th:text="${weatherHour.datetime}"></span></p>
+                <p>température : <span th:text="${weatherHour.temp}"></span></p>
+                <p>humidité : <span th:text="${weatherHour.humidity}"></span></p>
+                <p>Probabilité de précipitations : <span th:text="${weatherHour.precipprob}"></span></p>
+                <p>Vent : <span th:text="${weatherHour.windspeed}"></span></p>
+                <p>conditions : <span th:text="${weatherHour.conditions}"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Weather Data Form</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <header>
+        <img src="img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
+        <h1>Évelyne Dhéliat</h1>
+        <img src="img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
+    </header>
+
+    <nav>
+        <button>Aujourd'hui</button>
+        <button>J+1</button>
+        <button>J+2</button>
+        <button>J+3</button>
+        <button>J+4</button>
+        <button>J+5</button>
+        <button>J+6</button>
+        <button>J+7</button>
+    </nav>
+
+    <section style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <label for="city">Ville :</label>
+        <input type="text" id="city" placeholder="Entrez une ville">
+        <button onclick="receptDataAPI()">Envoyer Données</button>
+        <div id="map" style="height: 400px; margin-top: 20px; width: 60%;"></div>
+        <div id="weatherDataContainer"></div>
+    </section>
+
+    <footer style="position:relative;">
+        &copy; 2023 Team Greedy. All rights reserved.
+    </footer>
+    
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script th:inline="javascript">
+        $(document).ready(function () {
+        // Initialisez la carte centrée sur Paris par défaut
+        var defaultMap = L.map('map').setView([48.8566, 2.3522], 12);
+
+        // Utilisez un fournisseur de tuiles différent (Stamen Watercolor)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(defaultMap);
+
+        // Ajoutez un marqueur pour la position par défaut (Paris)
+        L.marker([48.8566, 2.3522], 10).addTo(defaultMap)
+            .bindPopup('Paris, France').openPopup();
+         });
+
+        function receptDataAPI() {
+            var cityName = document.getElementById('city').value;
+
+            $.ajax({
+                type: "POST",
+                url: "/test",
+                data: { city: cityName },
+                success: function (response) {
+                    console.log("Response from server:", response);
+
+                    // Vérifiez si la div est trouvée
+                    var weatherContainer = $('#weatherDataContainer');
+                    if (weatherContainer.length > 0) {
+                        // Supprimez le contenu existant et ajoutez le nouveau contenu
+                        weatherContainer.empty().html(response);
+                    } else {
+                        console.error("Weather container not found.");
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        
+    </script>
+</body>
+
+</html>
+
+//
+
+
+<!-- Afficher les détails de chaque entrée dans des balises <p> -->
+    <p>Adresse longue : <span th:text="${weatherData.resolvedAddress}"></span></p>
+    <!-- <p>Adresse courte : <span th:text="${weatherData.address}"></span></p>
+    <p>Latitude : <span th:text="${weatherData.latitude}"></span></p>
+    <p>Longitude : <span th:text="${weatherData.longitude}"></span></p>
+    <p>TimeZone : <span th:text="${weatherData.timezone}"></span></p> -->
+   
+    <h2>Conditions actuelle :</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Température</th>
+                <th>Humidité</th>
+                <th>Probabilités de précipitations</th>
+                <th>Vitesse du vent</th>
+                <th>Conditions</th>
+                <th>Levé du soleil</th>
+                <th>Couché du soleil</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="${weatherData.weatherDataCurrentConditions.datetime}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.temp}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.humidity}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.precipprob}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.windspeed}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.conditions}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.sunrise}"></td>
+                <td th:text="${weatherData.weatherDataCurrentConditions.sunset}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Ajoutez d'autres balises <p> selon vos besoins -->
+
+    <!-- Boucle pour chaque weatherDay -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Température</th>
+                <th>Température Min</th>
+                <th>Température Max</th>
+                <th>Humidité</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="weatherDay : ${weatherData.weatherDay}">
+                <td th:text="${weatherDay.datetime}"></td>
+                <td th:text="${weatherDay.temp}"></td>
+                <td th:text="${weatherDay.tempmin}"></td>
+                <td th:text="${weatherDay.tempmax}"></td>
+                <td th:text="${weatherDay.humidity}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Boucle pour les heures de la première journée uniquement -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date et heure</th>
+                <th>Température</th>
+                <th>Humidité</th>
+                <th>Probabilité de précipitations</th>
+                <th>Vitesse du vent</th>
+                <th>Conditions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="weatherHour : ${weatherData.weatherDay[0].weatherHour}">
+                <td th:text="${weatherHour.datetime}"></td>
+                <td th:text="${weatherHour.temp}"></td>
+                <td th:text="${weatherHour.humidity}"></td>
+                <td th:text="${weatherHour.precipprob}"></td>
+                <td th:text="${weatherHour.windspeed}"></td>
+                <td th:text="${weatherHour.conditions}"></td>
+            </tr>
+        </tbody>
+    </table>

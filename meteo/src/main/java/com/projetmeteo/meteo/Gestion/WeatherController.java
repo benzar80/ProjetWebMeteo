@@ -49,7 +49,7 @@ public class WeatherController {
         for (WeatherDataCity weatherDataCity : wdL) {
             submitWeatherData(weatherDataCity.getAddress(), model);
         }
-        System.out.println("MAJ");
+        
     }
 
     @PostMapping("/test")
@@ -57,7 +57,7 @@ public class WeatherController {
         city = city.toLowerCase();
         try {
             List<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
-            System.out.println(weatherDataList);
+            
             if (Iterables.isEmpty(weatherDataList)) {
                 weatherService.saveDownloadDay(city);
             }  

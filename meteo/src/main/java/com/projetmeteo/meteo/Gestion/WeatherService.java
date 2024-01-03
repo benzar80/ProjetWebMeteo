@@ -1,6 +1,8 @@
 package com.projetmeteo.meteo.Gestion;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +17,17 @@ import com.projetmeteo.meteo.ClasseMeteoJSON.WeatherDay;
 import com.projetmeteo.meteo.ClasseMeteoJSON.WeatherHour;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WeatherService {
     @Autowired
     private WeatherDataRepository weatherRepository;
-
+    
+    @Value("${weather.api.key}")
+    private String apiKey;
+    
     public void saveWeatherData(WeatherDataCity WeatherDataCity) {
         weatherRepository.save(WeatherDataCity);
     }
@@ -31,7 +37,7 @@ public class WeatherService {
             int i;
             i = 1;
             ObjectMapper objectMapper = new ObjectMapper();
-            WeatherCity weatherDataResponse = objectMapper.readValue(new URL("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "/next7days?unitGroup=metric&key=BW4J9URLRRGB6833JQ5GP9268&elements=datetime,temp,tempmax,tempmin,humidity,precipprob,windspeed,sunrise,sunset,conditions,description,icon&lang=fr&contentType=json"), WeatherCity.class);
+            WeatherCity weatherDataResponse = objectMapper.readValue(new URL("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "/next7days?unitGroup=metric&key=" + apiKey + "&elements=datetime,temp,tempmax,tempmin,humidity,precipprob,windspeed,sunrise,sunset,conditions,description,icon&lang=fr&contentType=json"), WeatherCity.class);
             WeatherDataCurrentConditions wdCurrentCondition = new WeatherDataCurrentConditions(weatherDataResponse.getCurrentConditions().getDatetime(), weatherDataResponse.getCurrentConditions().getTemp(), weatherDataResponse.getCurrentConditions().getHumidity(), weatherDataResponse.getCurrentConditions().getPrecipProb(), weatherDataResponse.getCurrentConditions().getWindSpeed(), weatherDataResponse.getCurrentConditions().getSunrise(), weatherDataResponse.getCurrentConditions().getSunset(), weatherDataResponse.getCurrentConditions().getConditions(), weatherDataResponse.getCurrentConditions().getIcon());
             WeatherDataCity wdc = new WeatherDataCity(null, weatherDataResponse.getLatitude(), weatherDataResponse.getLongitude(), weatherDataResponse.getResolvedAddress(), weatherDataResponse.getAddress(), weatherDataResponse.getTimezone(), weatherDataResponse.getTzoffset(), wdCurrentCondition);
             List<WeatherDataDay> lday = new ArrayList<WeatherDataDay>();
