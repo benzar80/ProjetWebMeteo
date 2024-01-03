@@ -45,6 +45,7 @@ public class WeatherController {
     public void updateWeatherData() {
         List<WeatherDataCity> wdL = repo.findAll();
         repo.deleteAll();
+        LocalTime currentTime = LocalTime.now();
         System.out.println("MAJ à " + currentTime);
         Model model = new ExtendedModelMap();
         for (WeatherDataCity weatherDataCity : wdL) {
