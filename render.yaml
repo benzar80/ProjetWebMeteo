@@ -1,6 +1,7 @@
 # render.yaml
 services:
-- name: meteo
+  type: web
+  name: meteo
   plan: free
   buildCommand: ./mvnw clean install
   startCommand: java -jar target/meteo-0.0.1-SNAPSHOT.jar
