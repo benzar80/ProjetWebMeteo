@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Weather Data Form</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="..\style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="icon" type="image/x-icon" href="..\img\evelyne.ico">
+</head>
+<body>
+    <header>
+        <img src="..\img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
+        <h1>Vous essayer d'entrer dans une zone sécurisée</h1>
+        <img src="..\img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
+    </header>
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <form th:action="@{/admin/login}" method="post">
+            <div><label for="username">User Name <input type="text" name="username" id="username" /></label></div>
+            <div><label for="password">Password <input type="password" name="password" id="password" /></label></div>
+            <div><input type="submit" value="Sign In" id="loginButton" style="align-items: center;"/></div>
+        </form>
+    </body>
+</html>

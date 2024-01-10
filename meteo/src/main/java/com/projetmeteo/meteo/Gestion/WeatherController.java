@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,6 +30,24 @@ public class WeatherController {
 
 	@Autowired
     private WeatherService weatherService;
+
+    @GetMapping("/logout")
+    public String handleLogout() {
+        // Logique de gestion de la déconnexion
+        return "/index";
+    }
+
+    @PostMapping("/login_success")
+    public String loginSuccessHandler() {
+      //perform audit action
+      return "/admin/indexAdmin";
+    }
+  
+    @PostMapping("/login_failure")
+    public String loginFailureHandler() {
+      //perform audit action
+      return "/admin/login";
+    }
 
     @PostConstruct
     public void init() {
@@ -52,6 +71,10 @@ public class WeatherController {
             submitWeatherData(weatherDataCity.getAddress(), model);
         }
         
+    }
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "admin/login";
     }
 
     @PostMapping("/test")
@@ -88,7 +111,7 @@ public class WeatherController {
     
             return "fragments/weatherDataFragment";
         } catch (Exception e) {
-            return "redirect::/error";
+            return "redirect:/error";
         }
     }
 

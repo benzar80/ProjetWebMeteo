@@ -4,15 +4,15 @@
     <title>Weather Data Form</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="..\style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="icon" type="image/x-icon" href="img\evelyne.ico">
+    <link rel="icon" type="image/x-icon" href="..\img\evelyne.ico">
 </head>
 <body onload="updateManageFragment()">
     <header>
-        <img src="img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
-        <h1>Évelyne Dhéliat</h1>
-        <img src="img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
+        <img src="..\img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
+        <h1>BIENEVENU DANS L'ADMIN</h1>
+        <img src="..\img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
     </header>
 
     <nav>
@@ -45,8 +45,9 @@
 
     <footer style="position:relative;">
         &copy; 2023 Team Greedy. All rights reserved.
-        <p></p>
-        <a th:href="@{/admin}">Admin Login</a>
+        <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+           <a th:href="@{/logout}">Deconnexion</a>
+        </div>
     </footer>
     
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

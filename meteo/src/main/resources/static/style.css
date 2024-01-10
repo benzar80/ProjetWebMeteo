@@ -64,6 +64,18 @@ label {
     border-radius: 5px;
 }
 
+#loginButton {
+    background-color: #2265c2;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block;  /* Changez display en block pour occuper toute la largeur disponible */
+    margin: 0 auto;  /* Centrez horizontalement en utilisant margin auto */
+}
+
 /* Style au survol du bouton */
 #sendButton:hover {
     background-color: #fbb900;
@@ -311,4 +323,20 @@ btnTopCity:hover {
 
 .weather-item:hover {
     background-color: #f5f5f5;
+}
+
+form {
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
 }
