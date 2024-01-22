@@ -34,9 +34,6 @@
     <table border="1">
         <h2>Conditions sur 7 jours</h2>
         <tbody>
-            <!-- Première ligne pour les entêtes -->
-            
-            <!-- Ligne pour les données "Date" -->
             <tr>
                 <th>Date</th>
 
@@ -50,55 +47,35 @@
 
             <tr style="text-align: center;">
                 <th></th>
-                <!-- Boucle pour chaque weatherDay -->
                 <td th:each="weatherDay : ${weatherData.weatherDay}"><img
                         th:src="@{'img/' + ${weatherDay.icon} + '.png'}" alt="Icon"
                         style="max-width: 100%; max-height: 100px;"></td>
             </tr>
-
-            <!-- Ligne pour les données "Température" -->
             <tr>
                 <th>Température</th>
-
-                <!-- Boucle pour chaque weatherDay -->
                 <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.temp} + ' °C'"></td>
             </tr>
-
-            <!-- Ligne pour les données "Température Min" -->
             <tr>
                 <th>Température Min</th>
-
-                <!-- Boucle pour chaque weatherDay -->
                 <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.tempmin} + ' °C'"></td>
             </tr>
-
-            <!-- Ligne pour les données "Température Max" -->
             <tr>
                 <th>Température Max</th>
-
-                <!-- Boucle pour chaque weatherDay -->
                 <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.tempmax} + ' °C'"></td>
             </tr>
-
-            <!-- Ligne pour les données "Humidité" -->
             <tr>
                 <th>Humidité</th>
-
-                <!-- Boucle pour chaque weatherDay -->
                 <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.humidity} + ' %'"></td>
             </tr>
         </tbody>
     </table>
-    <!-- 
-<div id="mapContainer"></div> -->
+
     <h2>Conditions sur les prochaines 24 heures</h2>
     <div id="carouselExample" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <!-- Boucle pour chaque groupe de 3 heures -->
             <div th:each="group, groupStat : ${groupedWeatherHours}" class="carousel-item"
                 th:classappend="${groupStat.index == activeSlideIndex} ? 'active'">
                 <div class="row">
-                    <!-- Boucle pour chaque heure dans le groupe -->
                     <div th:each="hour : ${group}" class="col-md-4">
                         <div class="card">
                             <div class="card-body">

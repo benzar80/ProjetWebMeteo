@@ -31,6 +31,11 @@ public class WeatherController {
 	@Autowired
     private WeatherService weatherService;
 
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "admin/login";
+    }
+
     @GetMapping("/logout")
     public String handleLogout() {
         // Logique de gestion de la déconnexion
@@ -72,12 +77,9 @@ public class WeatherController {
         }
         
     }
-    @GetMapping("/admin")
-    public String adminPage() {
-        return "admin/login";
-    }
+    
 
-    @PostMapping("/test")
+    @PostMapping("/SearchCity")
     public String submitWeatherData(@RequestParam String city, Model model) {
         city = city.toLowerCase();
         try {

@@ -3,13 +3,11 @@
         <div class="d-flex justify-content-between align-items-center">
             <button th:text="${weatherData.resolvedAddress}" class="btn btn-outline-primary btn-block weather-item" th:onclick="receptDataAPI([[${weatherData.address}]])"></button>
 
-            <!-- Afficher le bouton Supprimer lorsque l'indice dépasse 5 -->
             <span th:if="${iterStat.index > 5}" class="ml-2">
                 <button class="btn btn-outline-danger btn-block" th:onclick="suppManageData([[${weatherData.address}]]); suppMarker([[${weatherData.latitude}]], [[${weatherData.longitude}]]);">Supprimer</button>
             </span>
         </div>
         <script th:inline="javascript">
-            // Ajouter les marqueurs uniquement lors du chargement initial
             if (!markersInitiase) {
                 addMarker(
                     /*[[${weatherData.longitude}]]*/ null,

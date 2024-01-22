@@ -95,7 +95,7 @@
         function receptDataAPI(city) {
             $.ajax({
                 type: "POST",
-                url: "/test",
+                url: "/SearchCity",
                 data: { city: city },
                 success: function (response) {
                     var weatherContainer = $('#weatherDataContainer');
