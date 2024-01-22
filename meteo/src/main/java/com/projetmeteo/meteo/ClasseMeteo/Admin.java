@@ -16,7 +16,6 @@ public class Admin {
 
     private String username;
     private String password;
-    private String noah;
 
     public Admin(String username, String password){
         this.username = username;
