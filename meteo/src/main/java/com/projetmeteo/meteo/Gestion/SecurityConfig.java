@@ -24,6 +24,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+            System.out.println("OK");
                 http
                     .csrf(AbstractHttpConfigurer::disable)
                     .securityMatchers( (matchers) -> matchers
@@ -32,7 +33,7 @@ public class SecurityConfig {
                     .anyRequest().authenticated())
                 .formLogin(formLogin ->
                         formLogin
-                                .loginPage("/admin/login") // Page de connexion pour l'administration
+                                .loginPage("/login") // Page de connexion pour l'administration
                                 .successForwardUrl("/login_success")
                                 .failureForwardUrl("/login_failure")
                                 .permitAll()

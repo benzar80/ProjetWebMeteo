@@ -74,7 +74,7 @@ public class WeatherController {
     }
     @GetMapping("/admin")
     public String adminPage() {
-        return "admin/login";
+        return "redirect:/login";
     }
 
     @PostMapping("/test")
