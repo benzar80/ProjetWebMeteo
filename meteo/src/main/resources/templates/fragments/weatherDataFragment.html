@@ -64,8 +64,20 @@
                 <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.tempmax} + ' °C'"></td>
             </tr>
             <tr>
-                <th>Humidité</th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.humidity} + ' %'"></td>
+                <th>Précipitation</th>
+                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.precipprob} + ' %'"></td>
+            </tr>
+            <tr>
+                <th>Vitesse du vent</th>
+                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.windspeed} + ' km/h'"></td>
+            </tr>
+            <tr>
+                <th>Levé du soleil</th>
+                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.sunrise}"></td>
+            </tr>
+            <tr>
+                <th>Couché du soleil</th>
+                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.sunset}"></td>
             </tr>
         </tbody>
     </table>
