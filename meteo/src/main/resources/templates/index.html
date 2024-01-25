@@ -16,20 +16,10 @@
             <img src="img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
         </a>
     </header>
-
-    <nav>
-        <button id="btnTopCity" onclick="receptDataAPI('Paris')">Paris</button>
-        <button id="btnTopCity" onclick="receptDataAPI('Lyon')">Lyon</button>
-        <button id="btnTopCity" onclick="receptDataAPI('Lille')">Lille</button>
-        <button id="btnTopCity" onclick="receptDataAPI('Marseille')">Marseille</button>
-        <button id="btnTopCity" onclick="receptDataAPI('Rennes')">Rennes</button>
-        <button id="btnTopCity" onclick="receptDataAPI('Bordeaux')">Bordeaux</button>
-    </nav>
-
     <section style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
         <h2>Bienvenue sur notre nouveau site météorologique</h2>
         <div id="searchSection">
-            <input type="text" id="city" placeholder="Entrez une ville">
+            <input type="text" id="city" placeholder="Entrez une ville" onkeydown="searchOnEnter(event)">
             <button onclick="receptDataAPI(document.getElementById('city').value)" id="sendButton">Rechercher la météo</button>
         </div>
         <div class="container-fluid">
@@ -115,7 +105,12 @@
                     weatherDataContainer.style.display = 'block';
                 }
         }
-
+        function searchOnEnter(event) {
+        if (event.key === "Enter") {
+            var cityInput = document.getElementById('city');
+            receptDataAPI(cityInput.value);
+            }
+        }
         function addMarker(longitude, latitude, address, temp, conditions, icon) {
             if (latitude !== null && longitude !== null) {
                 var markerId = latitude + '_' + longitude;

@@ -90,16 +90,6 @@ label {
     right: 20px;
 }
 
-nav {
-    background-color: #fbb900;
-    color: #ffffff;
-    padding: 10px;
-    text-align: center;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
 button {
     color: #ffffff;
     border: none;
