@@ -4,30 +4,34 @@
 
     <div th:fragment="weatherConditions">
         <h2>Conditions actuelles</h2>
-        <table border="1">
-            <tbody>
-                <tr>
-                    <th>Fraicheur</th>
-                    <th>Température</th>
-                    <th>Humidité</th>
-                    <th>Précipitations</th>
-                    <th>Vitesse du vent</th>
-                    <th>Conditions</th>
-                    <th>Levé du soleil</th>
-                    <th>Couché du soleil</th>
-                </tr>
-                <tr>
-                    <td th:text="${weatherData.weatherDataCurrentConditions.datetime}"></td>
-                    <td th:text="${weatherData.weatherDataCurrentConditions.temp} + ' °C'"></td>
-                    <td th:text="${weatherData.weatherDataCurrentConditions.humidity} + ' %'"></td>
-                    <td th:text="${weatherData.weatherDataCurrentConditions.precipprob} + ' %'"></td>
-                    <td th:text="${weatherData.weatherDataCurrentConditions.windspeed} + ' km/h'"></td>
-                    <td th:text="${weatherData.weatherDataCurrentConditions.conditions}"></td>
-                    <td th:text="${weatherData.weatherDataCurrentConditions.sunrise}"></td>
-                    <td th:text="${weatherData.weatherDataCurrentConditions.sunset}"></td>
-                </tr>
-            </tbody>
-        </table>
+
+            <table border="1">
+                <tbody>
+                    <tr>
+                        <th>Fraicheur</th>
+                        <th>Température</th>
+                        <th>Humidité</th>
+                        <th>Précipitations</th>
+                        <th>Vitesse du vent</th>
+                        <th>Conditions</th>
+                        <th>Levé du soleil</th>
+                        <th>Couché du soleil</th>
+                    </tr>
+                    <tr>
+                        <input type="hidden" name="id" th:value="${weatherData.weatherDataCurrentConditions.id}" />
+                        <td th:text="${weatherData.weatherDataCurrentConditions.datetime}"></td>
+                        <td><input type="text" name="tempCurrrent" th:value="${weatherData.weatherDataCurrentConditions.temp}" /></td>
+                        <td><input type="text" name="humidityCurrrent" th:value="${weatherData.weatherDataCurrentConditions.humidity}" /></td>
+                        <td><input type="text" name="precipprobCurrrent" th:value="${weatherData.weatherDataCurrentConditions.precipprob}" /></td>
+                        <td><input type="text" name="windspeedCurrrent" th:value="${weatherData.weatherDataCurrentConditions.windspeed}" /></td>
+                        <td><input type="text" name="conditionsCurrrent" th:value="${weatherData.weatherDataCurrentConditions.conditions}" /></td>
+                        <td><input type="text" name="sunriseCurrrent" th:value="${weatherData.weatherDataCurrentConditions.sunrise}" /></td>
+                        <td><input type="text" name="sunsetCurrrent" th:value="${weatherData.weatherDataCurrentConditions.sunset}" /></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button onclick="SendCurrentConditions()" type="submit">Modifier</button>
     </div>
     
     <table border="1">
@@ -124,6 +128,6 @@
 </div>
 
 
-<div th:if="${#lists.isEmpty(weatherDataLists)}">
-    <p>Aucune donnée météorologique disponible pour cette ville.</p>
-</div>
+    <div th:if="${#lists.isEmpty(weatherDataLists)}">
+        <p>Aucune donnée météorologique disponible pour cette ville.</p>
+    </div>

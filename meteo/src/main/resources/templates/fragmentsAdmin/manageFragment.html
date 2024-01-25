@@ -1,0 +1,26 @@
+<div class="weather-container" style="max-height: 400px; overflow-y: auto;">
+    <div th:each="weatherData, iterStat : ${weatherDataLists}" class="p-2 border-bottom">
+        <div class="d-flex justify-content-between align-items-center">
+            <button th:text="${weatherData.resolvedAddress}" class="btn btn-outline-primary btn-block weather-item" th:onclick="receptDataAPI([[${weatherData.address}]])"></button>
+
+            <span th:if="${iterStat.index > 5}" class="ml-2">
+                <button class="btn btn-outline-danger btn-block" th:onclick="suppManageData([[${weatherData.address}]]); suppMarker([[${weatherData.latitude}]], [[${weatherData.longitude}]]);">Supprimer</button>
+            </span>
+        </div>
+        <script th:inline="javascript">
+            if (!markersInitiase) {
+                addMarker(
+                    /*[[${weatherData.longitude}]]*/ null,
+                    /*[[${weatherData.latitude}]]*/ null,
+                    /*[[${weatherData.address}]]*/ null,
+                    /*[[${weatherData.weatherDataCurrentConditions.temp}]]*/ null,
+                    /*[[${weatherData.weatherDataCurrentConditions.conditions}]]*/ null,
+                    /*[[${weatherData.weatherDataCurrentConditions.icon}]]*/ null
+                );
+                map.setView([46.6031, 1.8883], 5);
+                map.closePopup();
+            }
+        </script>
+    </div>
+    <script th:inline="javascript">markersInitiase = true;</script>
+</div>

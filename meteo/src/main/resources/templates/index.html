@@ -48,7 +48,7 @@
     <footer style="position:relative;">
         &copy; 2023 Team Greedy. All rights reserved.
         <p></p>
-        <a th:href="@{/admin}">Admin Login</a>
+        <a th:href="@{/login}">Admin Login</a>
     </footer>
     
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -70,7 +70,6 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        var markersInitiase = false;
         function updateManageFragment() {
             $.ajax({
                     type: "POST",

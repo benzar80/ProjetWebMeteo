@@ -31,27 +31,37 @@ public class WeatherController {
 	@Autowired
     private WeatherService weatherService;
 
-    @GetMapping("/admin")
+    @GetMapping("/login")
     public String adminPage() {
-        return "admin/login";
+        return "admin/indexAdmin";
+    }
+
+    @GetMapping("/indexAdmin")
+    public String adminindexPage() {
+        return "indexAdmin";
+    }
+
+    @PostMapping("/login")
+    public String adminPageP() {
+        return "admin/indexAdmin";
     }
 
     @GetMapping("/logout")
     public String handleLogout() {
         // Logique de gestion de la déconnexion
-        return "/index";
+        return "index";
     }
 
     @PostMapping("/login_success")
     public String loginSuccessHandler() {
       //perform audit action
-      return "/admin/indexAdmin";
+      return "admin/indexAdmin";
     }
   
     @PostMapping("/login_failure")
     public String loginFailureHandler() {
       //perform audit action
-      return "/admin/login";
+      return "login";
     }
 
     @PostConstruct
@@ -117,6 +127,44 @@ public class WeatherController {
         }
     }
 
+    @PostMapping("/SearchCityAdmin")
+    public String submitWeatherDataAdmin(@RequestParam String city, Model model) {
+        city = city.toLowerCase();
+        try {
+            List<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
+            
+            if (Iterables.isEmpty(weatherDataList)) {
+                weatherService.saveDownloadDay(city);
+            }  
+            weatherDataList = repo.findAllByaddress(city);
+            
+            model.addAttribute("weatherDataLists", weatherDataList);
+            // Récupérer la première journée de météo
+            WeatherDataDay firstWeatherDay = weatherDataList.get(0).getWeatherDay().get(0);
+
+            // Récupérer les heures de la première journée
+            List<WeatherDataHour> weatherHours = firstWeatherDay.getWeatherHour();
+
+            // Diviser les heures en groupes de 3
+            List<List<WeatherDataHour>> groupedWeatherHours = Lists.partition(weatherHours, 3);
+                // System.out.println(groupedWeatherHours);
+            // Ajouter la liste groupée au modèle
+            model.addAttribute("groupedWeatherHours", groupedWeatherHours);
+
+                // Obtenez l'heure actuelle
+            LocalTime currentTime = LocalTime.now();
+
+            // Calculez l'index de la slide correspondant à l'heure actuelle (par exemple, division par 3)
+            int activeSlideIndex = currentTime.getHour() / 3;
+
+            model.addAttribute("activeSlideIndex", activeSlideIndex);
+    
+            return "fragmentsAdmin/weatherDataFragment";
+        } catch (Exception e) {
+            return "redirect:/error";
+        }
+    }
+
     @PostMapping("/manageDays")
     public String manageDays(Model model) {
         try {
@@ -128,6 +176,19 @@ public class WeatherController {
             return "redirect:/error";
         }
     }
+
+    @PostMapping("/manageDaysAdmin")
+    public String manageDaysAdmin(Model model) {
+        try {
+            List<WeatherDataCity> weatherDataList = repo.findAll();
+            //System.out.println(weatherDataList);
+            model.addAttribute("weatherDataLists", weatherDataList);
+            return "fragmentsAdmin/manageFragment";
+        } catch (Exception e) {
+            return "redirect:/error";
+        }
+    }
+
 
     @DeleteMapping("/suppDataCity")
     public String suppDataCity(String city, Model model) {
@@ -143,6 +204,8 @@ public class WeatherController {
             return "redirect:/error";
         }
     }
+
+        
 
     @PostMapping("/error")
     public String manageError(String city, Model model) {
