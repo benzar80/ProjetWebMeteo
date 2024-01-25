@@ -30,6 +30,10 @@ public class WeatherService {
         weatherRepository.save(WeatherDataCity);
     }
 
+    /**
+     * Sauvegarde la téléchargement du jour
+     * @param city
+     */
     public void saveDownloadDay(String city){
         try {
             int i;

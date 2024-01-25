@@ -15,10 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.PostConstruct;
 
@@ -31,27 +28,12 @@ public class WeatherController {
 	@Autowired
     private WeatherService weatherService;
 
-    @GetMapping("/admin")
+    @GetMapping("/toto")
     public String adminPage() {
-        return "admin/login";
-    }
-
-    @GetMapping("/logout")
-    public String handleLogout() {
-        // Logique de gestion de la déconnexion
-        return "/index";
-    }
-
-    @PostMapping("/login_success")
-    public String loginSuccessHandler() {
-      //perform audit action
-      return "/admin/indexAdmin";
-    }
-  
-    @PostMapping("/login_failure")
-    public String loginFailureHandler() {
-      //perform audit action
-      return "/admin/login";
+        return "toto";// retourne toto
+        /*
+        toto
+         */
     }
 
     @PostConstruct

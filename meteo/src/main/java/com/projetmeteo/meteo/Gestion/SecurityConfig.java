@@ -26,26 +26,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                     .csrf(AbstractHttpConfigurer::disable)
-                    .securityMatchers( (matchers) -> matchers
-                    .requestMatchers("/admin/**"))
+                        .securityMatchers( (matchers) -> matchers
+                                .requestMatchers("/**"))
                     .authorizeHttpRequests((authorize) -> authorize
+                            .requestMatchers("/").permitAll()
                     .anyRequest().authenticated())
-                .formLogin(formLogin ->
-                        formLogin
-                                .loginPage("/admin/login") // Page de connexion pour l'administration
-                                .successForwardUrl("/login_success")
-                                .failureForwardUrl("/login_failure")
-                                .permitAll()
-                )
-                .logout(logout -> 
-                                logout
-                                    .logoutUrl("/logout") // URL pour déclencher la déconnexion
-                                    .logoutSuccessUrl("/index") // URL vers laquelle rediriger après la déconnexion réussie
-                                    .invalidateHttpSession(true)
-                                    .deleteCookies("JSESSIONID")
-                        
-                )
-                .httpBasic(Customizer.withDefaults());
+                .formLogin((Customizer.withDefaults()));
 
         return http.build();
     }
