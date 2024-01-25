@@ -76,11 +76,9 @@ label {
     margin: 0 auto;  /* Centrez horizontalement en utilisant margin auto */
 }
 
-/* Style au survol du bouton */
 #sendButton:hover {
     background-color: #fbb900;
 }
-
 
 .left-logo {
     left: 20px;
@@ -103,7 +101,7 @@ button {
 }
 
 button:hover {
-    transform: translateY(-3px);
+    background-color: #fbb900;
 }
 
 section {
@@ -164,14 +162,12 @@ footer {
     align-items: center;
 }
 
-/* Styles pour les balises <p> */
 p {
     margin: 10px 0;
     font-size: 16px;
     line-height: 1.5;
 }
 
-/* Styles pour les tableaux */
 table {
     width: 100%;
     margin-bottom: 20px;
@@ -234,7 +230,6 @@ btnTopCity:hover {
     transform: translateY(-3px);
 }
 
-/* Styles pour les flèches du carrousel */
 .carousel-control-prev,
 .carousel-control-next {
     color: #fff; /* Couleur des flèches */
@@ -330,3 +325,4 @@ label {
     font-weight: bold;
     text-align: center;
 }
+

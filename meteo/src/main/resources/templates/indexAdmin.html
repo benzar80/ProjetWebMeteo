@@ -45,9 +45,9 @@
 
     <footer style="position:relative;">
         &copy; 2023 Team Greedy. All rights reserved.
-        <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+        <!-- <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
            <a th:href="@{/logout}">Deconnexion</a>
-        </div>
+        </div> -->
     </footer>
     
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -73,7 +73,7 @@
         function updateManageFragment() {
             $.ajax({
                     type: "POST",
-                    url: "/manageDays",
+                    url: "/manageDaysAdmin",
                     success: function (response) {
                         var ManageDays = $('#ManageDays');
                         if (ManageDays.length > 0) {
@@ -95,7 +95,7 @@
         function receptDataAPI(city) {
             $.ajax({
                 type: "POST",
-                url: "/SearchCity",
+                url: "/SearchCityAdmin",
                 data: { city: city },
                 success: function (response) {
                     var weatherContainer = $('#weatherDataContainer');
@@ -187,6 +187,34 @@
                     weatherDataContainer.style.display = 'none';
                 }
             }
+
+            function SendCurrentConditions() {
+            var formData = {
+                id: $('input[name="id"]').val(),
+                temp: $('input[name="tempCurrrent"]').val(),
+                humidity: $('input[name="humidityCurrrent"]').val(),
+                precipprob: $('input[name="precipprobCurrrent"]').val(),
+                windspeed: $('input[name="windspeedCurrrent"]').val(),
+                conditions: $('input[name="conditionsCurrrent"]').val(),
+                sunrise: $('input[name="sunriseCurrrent"]').val(),
+                sunset: $('input[name="sunsetCurrrent"]').val()
+            };
+
+            // Envoyer les données au serveur
+            $.ajax({
+                type: "POST",
+                url: "/sendWeatherData", // Assurez-vous d'ajuster l'URL en fonction de votre configuration
+                data: formData,
+                success: function (response) {
+                    // Traiter la réponse du serveur si nécessaire
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
     </script>
 </body>
 
