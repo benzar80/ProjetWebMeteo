@@ -184,9 +184,17 @@ table, th, td {
 }
 
 th, td {
-    padding: 12px;
+    padding: 10px;
     text-align: left;
     text-align: center;
+    max-width: 150px; /* Ajustez cette valeur selon vos besoins */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+input{
+    max-width: 75px;
 }
 
 .cellule-image {

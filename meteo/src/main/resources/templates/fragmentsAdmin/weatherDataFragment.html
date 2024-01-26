@@ -56,23 +56,48 @@
             </tr>
             <tr>
                 <th>Température</th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.temp} + ' °C'"></td>
+                    <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
+                        th:data-weather-id="${weatherData.id}"
+                        th:data-weatherday-id="${weatherDayStat.index}"
+                        th:data-column-name="temp">
+                    <span th:text="${weatherDay.temp} + ' °C'"></span>
+                </td>
             </tr>
             <tr>
                 <th>Température Min</th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.tempmin} + ' °C'"></td>
+                <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
+                    th:data-weather-id="${weatherData.id}"
+                    th:data-weatherday-id="${weatherDayStat.index}"
+                    data-column-name="tempmin">
+                    <span th:text="${weatherDay.tempmin} + ' °C'"></span>
+                </td>
             </tr>
             <tr>
                 <th>Température Max</th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.tempmax} + ' °C'"></td>
+                <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
+                    th:data-weather-id="${weatherData.id}"
+                    th:data-weatherday-id="${weatherDayStat.index}"
+                    data-column-name="tempmax">
+                    <span th:text="${weatherDay.tempmax} + ' °C'"></span>
+                </td>   
             </tr>
             <tr>
                 <th>Précipitation</th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.precipprob} + ' %'"></td>
+                <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
+                    th:data-weather-id="${weatherData.id}"
+                    th:data-weatherday-id="${weatherDayStat.index}"
+                    data-column-name="precipprob">
+                    <span th:text="${weatherDay.precipprob} + ' %'"></span>
+                </td>
             </tr>
             <tr>
                 <th>Vitesse du vent</th>
-                <td th:each="weatherDay : ${weatherData.weatherDay}" th:text="${weatherDay.windspeed} + ' km/h'"></td>
+                <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
+                th:data-weather-id="${weatherData.id}"
+                th:data-weatherday-id="${weatherDayStat.index}"
+                data-column-name="windspeed">
+                <span th:text="${weatherDay.windspeed} + ' km/h'"></span>
+            </td>
             </tr>
             <tr>
                 <th>Levé du soleil</th>
@@ -123,7 +148,49 @@
         console.log('appelle à la fonction');
         updateManageFragment();
         addMarker(/*[[${weatherData.longitude}]]*/ null, /*[[${weatherData.latitude}]]*/ null, /*[[${weatherData.address}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.temp}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.conditions}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.icon}]]*/ null);
-   </script>
+        
+        $(document).ready(function () {
+        $('.editable-cell').on('click', function () {
+            enableEdit($(this));
+        });
+
+        $('.editable-cell').on('blur', function () {
+            var weatherId = $(this).data('weather-id');
+            var weatherDayId = $(this).data('weatherday-id');
+            var columnName = $(this).data('column-name');
+            disableEdit($(this), weatherId, weatherDayId, columnName);
+        });
+
+        function enableEdit(cell) {
+            cell.attr('contenteditable', true);
+            cell.focus();
+        }
+
+        function disableEdit(cell, weatherId, weatherDayId, columnName) {
+            cell.attr('contenteditable', false);
+            var newValue = cell.text().trim();
+            console.log('weather ID : ', weatherId)
+
+            $.ajax({
+                type: 'POST',
+                url: '/updateWeatherData2',
+                data: {
+                    id : weatherId,
+                    idDay: weatherDayId,
+                    column: columnName,
+                    value: newValue.split(' ')[0]
+                },
+                success: function (response) {
+                    console.log(response);
+                    // Gérer la réponse du serveur si nécessaire
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+    });
+  </script>
 
 </div>
 

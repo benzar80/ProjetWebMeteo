@@ -60,6 +60,10 @@ public class WeatherDataCity {
         this.tzoffset = tzoffset;
         this.weatherDataCurrentConditions = weatherDataCurrentConditions;
     }
+
+    public Long getId(){
+        return id;
+    }
     
     public List<WeatherDataDay> getWeatherDay(){
         return weatherDay;

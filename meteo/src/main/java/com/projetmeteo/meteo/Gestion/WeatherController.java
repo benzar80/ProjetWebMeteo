@@ -137,6 +137,7 @@ public class WeatherController {
                 weatherService.saveDownloadDay(city);
             }  
             weatherDataList = repo.findAllByaddress(city);
+            weatherDataList.get(0).getId();
             
             model.addAttribute("weatherDataLists", weatherDataList);
             // Récupérer la première journée de météo
