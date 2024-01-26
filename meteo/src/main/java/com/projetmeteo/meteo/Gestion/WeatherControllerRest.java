@@ -18,6 +18,8 @@ public class WeatherControllerRest {
     @Autowired
 	    WeatherDataRepository repo;
 
+        
+
     @PostMapping("/sendWeatherData")
         public void sendWeatherData(
             @RequestParam Long id,

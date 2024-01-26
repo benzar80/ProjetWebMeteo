@@ -30,6 +30,11 @@ public class WeatherController {
 
 	@Autowired
     private WeatherService weatherService;
+
+    @GetMapping("/index")
+    public String index() {
+        return "index"; // Nom du fichier Thymeleaf pour la page de connexion
+    }
     
     // Page de connexion
     @GetMapping("/login")
@@ -40,7 +45,12 @@ public class WeatherController {
     // Redirection après une connexion réussie
     @GetMapping("/login_success")
     public String loginSuccess() {
-        return "admin/indexAdmin"; // Remplacer par la page de destination appropriée
+        return "redirect:/admin/indexAdmin"; // Remplacer par la page de destination appropriée
+    }
+
+    @GetMapping("/admin/indexAdmin")
+    public String loginSucces() {
+        return "/admin/indexAdmin"; // Remplacer par la page de destination appropriée
     }
 
     // Redirection après une connexion échouée
@@ -48,6 +58,11 @@ public class WeatherController {
     public String loginFailure(Model model) {
         model.addAttribute("loginError", true);
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "/index";
     }
 
     @PostConstruct
