@@ -21,25 +21,31 @@ public class WeatherControllerRest {
     @PostMapping("/sendWeatherData")
         public void sendWeatherData(
             @RequestParam Long id,
-            @RequestParam Double temp,
-            @RequestParam Double humidity,
-            @RequestParam Double precipprob,
-            @RequestParam Double windspeed,
-            @RequestParam String conditions,
-            @RequestParam String sunrise,
-            @RequestParam String sunset,
+            @RequestParam String column,
+            @RequestParam Double value,
             Model model) {
             try {
                 
                 WeatherDataCity weatherData = repo.findById(id).get();
                 WeatherDataCurrentConditions weatherDataCurrent = weatherData.weatherDataCurrentConditions();
-                weatherDataCurrent.setTemp(temp);
-                weatherDataCurrent.setHumidity(humidity);
-                weatherDataCurrent.setPrecipprob(precipprob);
-                weatherDataCurrent.setWindspeed(windspeed);
-                weatherDataCurrent.setConditions(conditions);
-                weatherDataCurrent.setSunrise(sunrise);
-                weatherDataCurrent.setSunset(sunset);
+
+                switch (column) {
+                    case "temp":
+                        weatherDataCurrent.setTemp(value);
+                        break;
+                    case "humidity":
+                        weatherDataCurrent.setHumidity(value);
+                        break;
+                    case "precipprob":
+                        weatherDataCurrent.setPrecipprob(value);
+                        break;
+                    case "windspeed":
+                        weatherDataCurrent.setWindspeed(value);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid column name: " + column);
+                }
+
                 repo.save(weatherData);
                 System.out.println("Données mise à jour avec succès !");
                 

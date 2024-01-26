@@ -30,38 +30,24 @@ public class WeatherController {
 
 	@Autowired
     private WeatherService weatherService;
-
+    
+    // Page de connexion
     @GetMapping("/login")
-    public String adminPage() {
-        return "admin/indexAdmin";
+    public String login() {
+        return "login"; // Nom du fichier Thymeleaf pour la page de connexion
     }
 
-    @GetMapping("/indexAdmin")
-    public String adminindexPage() {
-        return "indexAdmin";
+    // Redirection après une connexion réussie
+    @GetMapping("/login_success")
+    public String loginSuccess() {
+        return "admin/indexAdmin"; // Remplacer par la page de destination appropriée
     }
 
-    @PostMapping("/login")
-    public String adminPageP() {
-        return "admin/indexAdmin";
-    }
-
-    @GetMapping("/logout")
-    public String handleLogout() {
-        // Logique de gestion de la déconnexion
-        return "index";
-    }
-
-    @PostMapping("/login_success")
-    public String loginSuccessHandler() {
-      //perform audit action
-      return "admin/indexAdmin";
-    }
-  
-    @PostMapping("/login_failure")
-    public String loginFailureHandler() {
-      //perform audit action
-      return "login";
+    // Redirection après une connexion échouée
+    @GetMapping("/login_failure")
+    public String loginFailure(Model model) {
+        model.addAttribute("loginError", true);
+        return "login";
     }
 
     @PostConstruct
@@ -160,7 +146,7 @@ public class WeatherController {
 
             model.addAttribute("activeSlideIndex", activeSlideIndex);
     
-            return "fragmentsAdmin/weatherDataFragment";
+            return "admin/fragmentsAdmin/weatherDataFragment";
         } catch (Exception e) {
             return "redirect:/error";
         }
@@ -184,7 +170,7 @@ public class WeatherController {
             List<WeatherDataCity> weatherDataList = repo.findAll();
             //System.out.println(weatherDataList);
             model.addAttribute("weatherDataLists", weatherDataList);
-            return "fragmentsAdmin/manageFragment";
+            return "admin/fragmentsAdmin/manageFragment";
         } catch (Exception e) {
             return "redirect:/error";
         }

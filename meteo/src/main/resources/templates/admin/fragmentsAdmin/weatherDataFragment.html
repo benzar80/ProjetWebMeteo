@@ -20,18 +20,16 @@
                     <tr>
                         <input type="hidden" name="id" th:value="${weatherData.weatherDataCurrentConditions.id}" />
                         <td th:text="${weatherData.weatherDataCurrentConditions.datetime}"></td>
-                        <td><input type="text" name="tempCurrrent" th:value="${weatherData.weatherDataCurrentConditions.temp}" /></td>
-                        <td><input type="text" name="humidityCurrrent" th:value="${weatherData.weatherDataCurrentConditions.humidity}" /></td>
-                        <td><input type="text" name="precipprobCurrrent" th:value="${weatherData.weatherDataCurrentConditions.precipprob}" /></td>
-                        <td><input type="text" name="windspeedCurrrent" th:value="${weatherData.weatherDataCurrentConditions.windspeed}" /></td>
-                        <td><input type="text" name="conditionsCurrrent" th:value="${weatherData.weatherDataCurrentConditions.conditions}" /></td>
-                        <td><input type="text" name="sunriseCurrrent" th:value="${weatherData.weatherDataCurrentConditions.sunrise}" /></td>
-                        <td><input type="text" name="sunsetCurrrent" th:value="${weatherData.weatherDataCurrentConditions.sunset}" /></td>
-                    </tr>
+                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="temp" th:text="${weatherData.weatherDataCurrentConditions.temp} + ' °C'"></td>
+                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="humidity" th:text="${weatherData.weatherDataCurrentConditions.humidity} + ' %'"></td>
+                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="precipprob" th:text="${weatherData.weatherDataCurrentConditions.precipprob} + ' %'"></td>
+                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="windspeed" th:text="${weatherData.weatherDataCurrentConditions.windspeed} + ' km/h'"></td>
+                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="conditions" th:text="${weatherData.weatherDataCurrentConditions.conditions}"></td>
+                        <td th:text="${weatherData.weatherDataCurrentConditions.sunrise}"></td>
+                        <td th:text="${weatherData.weatherDataCurrentConditions.sunset}"></td>
+                    </tr>                    
                 </tbody>
             </table>
-
-            <button onclick="SendCurrentConditions()" type="submit">Modifier</button>
     </div>
     
     <table border="1">
@@ -145,7 +143,6 @@
     </div>
 
     <script th:inline="javascript">
-        console.log('appelle à la fonction');
         updateManageFragment();
         addMarker(/*[[${weatherData.longitude}]]*/ null, /*[[${weatherData.latitude}]]*/ null, /*[[${weatherData.address}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.temp}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.conditions}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.icon}]]*/ null);
         
@@ -155,10 +152,22 @@
         });
 
         $('.editable-cell').on('blur', function () {
-            var weatherId = $(this).data('weather-id');
-            var weatherDayId = $(this).data('weatherday-id');
-            var columnName = $(this).data('column-name');
-            disableEdit($(this), weatherId, weatherDayId, columnName);
+            if($(this).data('weather-id') != undefined && $(this).data('weatherday-id') != undefined && $(this).data('column-name') != undefined){
+                var weatherId = $(this).data('weather-id');
+                var weatherDayId = $(this).data('weatherday-id');
+                var columnName = $(this).data('column-name');
+                console.log('testOK');
+                disableEdit($(this), weatherId, weatherDayId, columnName);
+            }
+            else if($(this).data('weather-id') != undefined && $(this).data('weatherday-id') == undefined && $(this).data('column-name') != undefined){
+                var weatherId = $(this).data('weather-id');
+                var columnName = $(this).data('column-name');
+                console.log('testOK')
+                disableEditCurrentConditions($(this), weatherId, columnName);
+            }
+            else{
+                console.log('testNOK')
+            }
         });
 
         function enableEdit(cell) {
@@ -166,10 +175,30 @@
             cell.focus();
         }
 
+        function disableEditCurrentConditions(cell, weatherId, columnName){
+            cell.attr('contenteditable', false);
+            var newValue = cell.text().trim().split(' ')[0];
+
+            $.ajax({
+                type: 'POST',
+                url: '/sendWeatherData',
+                data: {
+                    id : weatherId,
+                    column: columnName,
+                    value: newValue
+                },
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
         function disableEdit(cell, weatherId, weatherDayId, columnName) {
             cell.attr('contenteditable', false);
-            var newValue = cell.text().trim();
-            console.log('weather ID : ', weatherId)
+            var newValue = cell.text().trim().split(' ')[0];
 
             $.ajax({
                 type: 'POST',
@@ -178,11 +207,10 @@
                     id : weatherId,
                     idDay: weatherDayId,
                     column: columnName,
-                    value: newValue.split(' ')[0]
+                    value: newValue
                 },
                 success: function (response) {
                     console.log(response);
-                    // Gérer la réponse du serveur si nécessaire
                 },
                 error: function (error) {
                     console.error(error);

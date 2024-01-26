@@ -35,9 +35,9 @@
 
     <footer style="position:relative;">
         &copy; 2023 Team Greedy. All rights reserved.
-        <!-- <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+        <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
            <a th:href="@{/logout}">Deconnexion</a>
-        </div> -->
+        </div>
     </footer>
     
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -121,14 +121,14 @@
                 if (existingMarker) {
                     existingMarker.marker.openPopup();
                     map.setView([latitude, longitude], 10);
-                    console.log(markers);
+                   
                 } else {
                     var newMarker = L.marker([latitude, longitude], { addressMark: address }).addTo(map)
                         .bindPopup("<div style='display: flex; align-items: center;'><img src='img/" + icon + ".png' style='max-width: 100px; max-height: 100px; margin-right: 10px;'><div><strong>Voici la météo de " + address + "</strong><br>Température actuelle : " + temp + " °C<br>Conditions : " + conditions + "</div></div>").openPopup()
                         .on('click', function () {
                             receptDataAPI(this.options.addressMark);
                         });
-                        console.log(markers);
+                       
                     markers.push({
                         id: markerId,
                         marker: newMarker
@@ -150,11 +150,9 @@
     if (existingMarkerIndex !== -1) {
         var removedMarker = markers.splice(existingMarkerIndex, 1)[0]; // Retire le marqueur du tableau
         removedMarker.marker.removeFrom(map);
-        console.log(markers);
+       
 
         map.setView([46.6031, 1.8883], 5);
-    } else {
-        console.error('Le marqueur n\'existe pas.');
     }
 }
 

@@ -15,7 +15,9 @@
         <img src="..\img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
     </header>
         <div th:if="${param.error}">
-            Invalid username and password.
+            <script>
+                console.log('erreur');
+            </script>
         </div>
         <div th:if="${param.logout}">
             You have been logged out.
