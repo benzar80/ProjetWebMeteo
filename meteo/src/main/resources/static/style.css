@@ -193,9 +193,7 @@ th, td {
     text-overflow: ellipsis;
 }
 
-input{
-    max-width: 75px;
-}
+
 
 .cellule-image {
     /* Ajoutez ici les styles spécifiques pour les cellules contenant des images */
