@@ -11,8 +11,9 @@
     <link rel="icon" type="image/x-icon" href="img\evelyne.ico">
 </head>
 
-<body onload="updateManageFragment()">
+<body onload="updateManageFragment()"> <!-- Script à exécuter au chargement de la page -->
     <header>
+        <!-- En-tête de la page avec liens et logos -->
         <a href="/index">
             <img src="..\img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
         </a>
@@ -22,8 +23,9 @@
         </a>
     </header>
     <section style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <!-- Section principale pour la recherche météo et l'affichage de la carte -->
         <h2>Bienvenue sur notre nouveau site météorologique</h2>
-        <div id="searchSection">
+        <div id="searchSection"> <!-- Section de recherche -->
             <input type="text" id="city" placeholder="Entrez une ville" onkeydown="searchOnEnter(event)">
             <button onclick="receptDataAPI(document.getElementById('city').value)" id="sendButton">Rechercher la
                 météo</button>
@@ -31,20 +33,20 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-8">
-                    <div id="mapContainer"> </div>
+                    <div id="mapContainer"> </div> <!-- Conteneur pour la carte et les données météo -->
                 </div>
                 <div class="col-md-4">
-                    <div id="ManageDays"></div>
+                    <div id="ManageDays"></div> <!-- Conteneur pour gérer les jours météo -->
                 </div>
             </div>
         </div>
-        <div id="weatherDataContainer"></div>
+        <div id="weatherDataContainer"></div> <!-- Conteneur pour les données météo récupérées -->
     </section>
 
     <footer style="position:relative;">
         &copy; 2023 Team Greedy. All rights reserved.
         <p></p>
-        <a th:href="@{/login}">Admin Login</a>
+        <a th:href="@{/login}">Admin Login</a> <!-- Lien pour la connexion administrateur -->
     </footer>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
