@@ -116,8 +116,11 @@
     </div>
 
     <script th:inline="javascript">
+        // Console.log pour appeler la fonction
         console.log('appelle à la fonction');
+        // Met à jour le fragment de gestion
         updateManageFragment();
+        // Ajoute un marqueur
         addMarker(/*[[${weatherData.longitude}]]*/ null, /*[[${weatherData.latitude}]]*/ null, /*[[${weatherData.address}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.temp}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.conditions}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.icon}]]*/ null);
    </script>
 

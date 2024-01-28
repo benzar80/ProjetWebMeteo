@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+//Cette classe permet d'utiliser spring Security, la sécurité est plus renforcé sur notre site
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -51,17 +53,20 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+        // Crée un utilisateur avec le rôle ADMIN
         UserDetails user = User.builder()
-            .username("admin")
-            .password(passwordEncoder.encode("admin"))
-            .roles("ADMIN")
-            .build();
-
+            .username("admin") // Définit le nom d'utilisateur comme "admin"
+            .password(passwordEncoder.encode("admin")) // Encode le mot de passe "admin"
+            .roles("ADMIN") // Attribue le rôle ADMIN à l'utilisateur
+            .build(); // Construit l'objet UserDetails
+    
+        // Retourne un gestionnaire de détails d'utilisateur en mémoire avec l'utilisateur défini
         return new InMemoryUserDetailsManager(user);
     }
-
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
+        // Retourne une instance de BCryptPasswordEncoder
         return new BCryptPasswordEncoder();
-    }
+    }    
 }

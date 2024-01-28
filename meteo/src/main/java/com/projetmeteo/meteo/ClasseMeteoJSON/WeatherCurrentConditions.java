@@ -2,6 +2,8 @@ package com.projetmeteo.meteo.ClasseMeteoJSON;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+//Cette classe intermédiaire permet de récupérer les données JSON des conditions courantes et de les transformer en classe JAVA
+
 public class WeatherCurrentConditions {
     @JsonProperty("datetime")
     private String datetime;

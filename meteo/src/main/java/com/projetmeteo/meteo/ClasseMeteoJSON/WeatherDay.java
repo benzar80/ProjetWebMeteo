@@ -9,6 +9,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import java.time.LocalDate;
 import java.util.List;
 
+//Cette classe intermédiaire permet de récupérer les données JSON des jours et de les transformer en classe JAVA
+
 public class WeatherDay {
     
     @JsonProperty("datetime")

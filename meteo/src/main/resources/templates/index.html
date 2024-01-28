@@ -1,13 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head> 
-    <title>La météo d'Évelyne Dhéliat</title> 
+
+<head>
+    <title>La météo d'Évelyne Dhéliat</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="icon" type="image/x-icon" href="img\evelyne.ico">
 </head>
+
 <body onload="updateManageFragment()">
     <header>
         <a href="/index">
@@ -22,7 +25,8 @@
         <h2>Bienvenue sur notre nouveau site météorologique</h2>
         <div id="searchSection">
             <input type="text" id="city" placeholder="Entrez une ville" onkeydown="searchOnEnter(event)">
-            <button onclick="receptDataAPI(document.getElementById('city').value)" id="sendButton">Rechercher la météo</button>
+            <button onclick="receptDataAPI(document.getElementById('city').value)" id="sendButton">Rechercher la
+                météo</button>
         </div>
         <div class="container-fluid">
             <div class="row">
@@ -34,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div id="weatherDataContainer" ></div>
+        <div id="weatherDataContainer"></div>
     </section>
 
     <footer style="position:relative;">
@@ -42,48 +46,56 @@
         <p></p>
         <a th:href="@{/login}">Admin Login</a>
     </footer>
-    
+
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
 
     <script th:inline="javascript">
+        // Variables pour gérer les marqueurs et l'initialisation de la carte 
 
         var markers = [];
         var markersInitiase = false;
         var defaultLatitude = 48.8566;
         var defaultLongitude = 2.3522;
 
+        // Initialiser la carte Leaflet 
         var map = L.map('mapContainer').setView([defaultLatitude, defaultLongitude], 10);
 
+        // Ajouter les tuiles OpenStreetMap à la carte
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
+        // Fonction pour mettre à jour le fragment de gestion des jours 
         function updateManageFragment() {
             $.ajax({
-                    type: "POST",
-                    url: "/manageDays",
-                    success: function (response) {
-                        var ManageDays = $('#ManageDays');
-                        if (ManageDays.length > 0) {
-                            ManageDays.empty().html(response);
-                        } else {
-                            console.error("Weather container not found.");
-                        }
-                    },
-                    error: function (error) {
-                        console.error(error);
+                type: "POST",
+                url: "/manageDays",
+                success: function (response) {
+                    var ManageDays = $('#ManageDays');
+                    if (ManageDays.length > 0) {
+                        ManageDays.empty().html(response);
+                    } else {
+                        console.error("Weather container not found.");
                     }
-                });
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
 
-                
-            }
 
-            
+        }
 
+
+        // Fonction pour récupérer les données météo en fonction de la ville saisie
         function receptDataAPI(city) {
             $.ajax({
                 type: "POST",
@@ -102,16 +114,18 @@
                 }
             });
             var weatherDataContainer = document.getElementById('weatherDataContainer');
-                if (weatherDataContainer) {
-                    weatherDataContainer.style.display = 'block';
-                }
-        }
-        function searchOnEnter(event) {
-        if (event.key === "Enter") {
-            var cityInput = document.getElementById('city');
-            receptDataAPI(cityInput.value);
+            if (weatherDataContainer) {
+                weatherDataContainer.style.display = 'block';
             }
         }
+        // Fonction pour gérer la pression de la touche Entrée pour la recherche de ville 
+        function searchOnEnter(event) {
+            if (event.key === "Enter") {
+                var cityInput = document.getElementById('city');
+                receptDataAPI(cityInput.value);
+            }
+        }
+        // Fonction pour ajouter des marqueurs sur la carte en fonction de la latitude et de la longitude 
         function addMarker(longitude, latitude, address, temp, conditions, icon) {
             if (latitude !== null && longitude !== null) {
                 var markerId = latitude + '_' + longitude;
@@ -123,14 +137,12 @@
                 if (existingMarker) {
                     existingMarker.marker.openPopup();
                     map.setView([latitude, longitude], 10);
-                    //console.log(markers);
                 } else {
                     var newMarker = L.marker([latitude, longitude], { addressMark: address }).addTo(map)
                         .bindPopup("<div style='display: flex; align-items: center;'><img src='img/" + icon + ".png' style='max-width: 100px; max-height: 100px; margin-right: 10px;'><div><strong>Voici la météo de " + address + "</strong><br>Température actuelle : " + temp + " °C<br>Conditions : " + conditions + "</div></div>").openPopup()
                         .on('click', function () {
                             receptDataAPI(this.options.addressMark);
                         });
-                        //console.log(markers);
                     markers.push({
                         id: markerId,
                         marker: newMarker
@@ -143,46 +155,44 @@
             }
         }
 
+        // Fonction pour supprimer un marqueur de la carte en fonction de la latitude et de la longitude 
         function suppMarker(latitude, longitude) {
-    var markerId = latitude + '_' + longitude;
-    var existingMarkerIndex = markers.findIndex(function (marker) {
-        return marker.id === markerId;
-    });
+            var markerId = latitude + '_' + longitude;
+            var existingMarkerIndex = markers.findIndex(function (marker) {
+                return marker.id === markerId;
+            });
 
-    if (existingMarkerIndex !== -1) {
-        var removedMarker = markers.splice(existingMarkerIndex, 1)[0]; 
-        removedMarker.marker.removeFrom(map);
-        //console.log(markers);
-
-        map.setView([46.6031, 1.8883], 5);
-    } 
-}
-
-
-        function suppManageData(city) {
-                $.ajax({
-                    type: "DELETE",
-                    url: "/suppDataCity",
-                    data: { city: city },
-                    success: function (response) {
-                        var ManageDays = $('#ManageDays');
-                        if (ManageDays.length > 0) {
-                            ManageDays.empty().html(response);
-                        } else {
-                            console.error("Weather container not found.");
-                        }
-                    },
-                    error: function (error) {
-                        console.error(error);
-                    }
-                });
-
-                var weatherDataContainer = document.getElementById('weatherDataContainer');
-                if (weatherDataContainer) {
-                    weatherDataContainer.style.display = 'none';
-                }
+            if (existingMarkerIndex !== -1) {
+                var removedMarker = markers.splice(existingMarkerIndex, 1)[0];
+                removedMarker.marker.removeFrom(map);
+                map.setView([46.6031, 1.8883], 5);
             }
+        }
+
+        // Fonction pour supprimer les données météo d'une ville spécifique
+        function suppManageData(city) {
+            $.ajax({
+                type: "DELETE",
+                url: "/suppDataCity",
+                data: { city: city },
+                success: function (response) {
+                    var ManageDays = $('#ManageDays');
+                    if (ManageDays.length > 0) {
+                        ManageDays.empty().html(response);
+                    } else {
+                        console.error("Weather container not found.");
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+
+            var weatherDataContainer = document.getElementById('weatherDataContainer');
+            if (weatherDataContainer) {
+                weatherDataContainer.style.display = 'none';
+            }
+        }
     </script>
 </body>
-
 </html>

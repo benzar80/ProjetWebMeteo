@@ -22,40 +22,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.annotation.PostConstruct;
 
-@EnableScheduling
-@Controller
+@EnableScheduling // Active la planification des tâches
+@Controller // Indique que la classe est un contrôleur Spring
 public class WeatherController {
 	@Autowired
-	WeatherDataRepository repo;
+	WeatherDataRepository repo; // Injecte le dépôt pour accéder aux données météo
 
 	@Autowired
-    private WeatherService weatherService;
+    private WeatherService weatherService; // Injecte le service météo
 
+     // Mapping GET pour accéder à la base de données H2
     @GetMapping("/h2")
     public String accessBDD() {
-        return "/h2"; // Nom du fichier Thymeleaf pour la page de connexion
+        return "/h2"; 
     }
 
+    // Mapping GET pour la page d'accueil
     @GetMapping("/index")
     public String index() {
-        return "index"; // Nom du fichier Thymeleaf pour la page de connexion
+        return "index"; 
     }
     
-    // Page de connexion
+    // Mapping GET pour la page de connexion
     @GetMapping("/login")
     public String login() {
-        return "login"; // Nom du fichier Thymeleaf pour la page de connexion
+        return "login"; 
     }
 
     // Redirection après une connexion réussie
     @GetMapping("/login_success")
     public String loginSuccess() {
-        return "redirect:/admin/indexAdmin"; // Remplacer par la page de destination appropriée
+        return "redirect:/admin/indexAdmin"; 
     }
 
+    // Mapping GET pour l'index administrateur après connexion réussie
     @GetMapping("/admin/indexAdmin")
     public String loginSucces() {
-        return "/admin/indexAdmin"; // Remplacer par la page de destination appropriée
+        return "/admin/indexAdmin"; 
     }
 
     // Redirection après une connexion échouée
@@ -65,11 +68,13 @@ public class WeatherController {
         return "login";
     }
 
+    // Gère la déconnexion
     @GetMapping("/logout")
     public String logout() {
         return "/index";
     }
 
+    // Initialisation des données après la construction du bean
     @PostConstruct
     public void init() {
         Model model = new ExtendedModelMap();
@@ -82,6 +87,7 @@ public class WeatherController {
         submitWeatherData("Toulouse", model);
     }
 
+    // Mise à jour périodique des données météo toutes les 30 minutes
     @Scheduled(fixedDelay = 1800000)
     public void updateWeatherData() {
         List<WeatherDataCity> wdL = repo.findAll();
@@ -96,12 +102,14 @@ public class WeatherController {
     }
     
 
+    // Soumet des données météo pour une ville spécifique
     @PostMapping("/SearchCity")
     public String submitWeatherData(@RequestParam String city, Model model) {
         city = city.toLowerCase();
         try {
             List<WeatherDataCity> weatherDataList = repo.findAllByaddress(city);
             
+            // Si la ville est déjà stockée cela évite un nouvel appel à l'API
             if (Iterables.isEmpty(weatherDataList)) {
                 weatherService.saveDownloadDay(city);
             }  
@@ -116,11 +124,11 @@ public class WeatherController {
 
             // Diviser les heures en groupes de 3
             List<List<WeatherDataHour>> groupedWeatherHours = Lists.partition(weatherHours, 3);
-                // System.out.println(groupedWeatherHours);
+                
             // Ajouter la liste groupée au modèle
             model.addAttribute("groupedWeatherHours", groupedWeatherHours);
 
-                // Obtenez l'heure actuelle
+            // Obtenez l'heure actuelle
             LocalTime currentTime = LocalTime.now();
 
             // Calculez l'index de la slide correspondant à l'heure actuelle (par exemple, division par 3)
@@ -134,6 +142,7 @@ public class WeatherController {
         }
     }
 
+    // Version administrateur de la soumission des données météo
     @PostMapping("/SearchCityAdmin")
     public String submitWeatherDataAdmin(@RequestParam String city, Model model) {
         city = city.toLowerCase();
@@ -144,7 +153,6 @@ public class WeatherController {
                 weatherService.saveDownloadDay(city);
             }  
             weatherDataList = repo.findAllByaddress(city);
-            weatherDataList.get(0).getId();
             
             model.addAttribute("weatherDataLists", weatherDataList);
             // Récupérer la première journée de météo
@@ -173,6 +181,7 @@ public class WeatherController {
         }
     }
 
+    // Gestion des jours pour les utilisateurs normaux
     @PostMapping("/manageDays")
     public String manageDays(Model model) {
         try {
@@ -185,6 +194,7 @@ public class WeatherController {
         }
     }
 
+    // Gestion des jours pour les administrateurs
     @PostMapping("/manageDaysAdmin")
     public String manageDaysAdmin(Model model) {
         try {
@@ -198,6 +208,7 @@ public class WeatherController {
     }
 
 
+    // Suppression des données de la ville
     @DeleteMapping("/suppDataCity")
     public String suppDataCity(String city, Model model) {
         try {
@@ -214,7 +225,7 @@ public class WeatherController {
     }
 
         
-
+    // Gestion des erreurs
     @PostMapping("/error")
     public String manageError(String city, Model model) {
         model.addAttribute("weatherDataLists", "Une erreur est survenu.");  

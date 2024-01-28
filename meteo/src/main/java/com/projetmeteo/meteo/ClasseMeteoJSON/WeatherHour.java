@@ -2,6 +2,8 @@ package com.projetmeteo.meteo.ClasseMeteoJSON;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+//Cette classe intermédiaire permet de récupérer les données JSON des heures et de les transformer en classe JAVA
+
 public class WeatherHour {
     @JsonProperty("datetime")
     private String datetime;

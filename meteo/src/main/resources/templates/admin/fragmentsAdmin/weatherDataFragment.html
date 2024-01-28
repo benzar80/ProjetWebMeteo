@@ -1,38 +1,50 @@
-
 <div th:each="weatherData : ${weatherDataLists}">
     <p style="text-align: center; text-decoration: dashed;"><span th:text="${weatherData.resolvedAddress}"></span></p>
     <p style="color: #90ee90;">*Les champs en vert sont modifiables</p>
     <div th:fragment="weatherConditions">
         <h2>Conditions actuelles</h2>
 
-            <table border="1">
-                <tbody>
-                    <tr>
-                        <th>Fraicheur</th>
-                        <th>Température</th>
-                        <th>Humidité</th>
-                        <th>Précipitations</th>
-                        <th>Vitesse du vent</th>
-                        <th>Conditions</th>
-                        <th>Levé du soleil</th>
-                        <th>Couché du soleil</th>
-                    </tr>
-                    <tr>
-                        <input type="hidden" name="id" th:value="${weatherData.weatherDataCurrentConditions.id}" />
-                        <td th:text="${weatherData.weatherDataCurrentConditions.datetime}"></td>
-                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="temp" th:text="${weatherData.weatherDataCurrentConditions.temp} + ' °C'"></td>
-                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="humidity" th:text="${weatherData.weatherDataCurrentConditions.humidity} + ' %'"></td>
-                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="precipprob" th:text="${weatherData.weatherDataCurrentConditions.precipprob} + ' %'"></td>
-                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="windspeed" th:text="${weatherData.weatherDataCurrentConditions.windspeed} + ' km/h'"></td>
-                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="conditions" th:text="${weatherData.weatherDataCurrentConditions.conditions}"></td>
-                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="sunrise" th:text="${weatherData.weatherDataCurrentConditions.sunrise}"></td>
-                        <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}" th:data-column-name="sunset" th:text="${weatherData.weatherDataCurrentConditions.sunset}"></td>
-                        
-                    </tr>                    
-                </tbody>
-            </table>
+        <table border="1">
+            <tbody>
+                <tr>
+                    <th>Fraicheur</th>
+                    <th>Température</th>
+                    <th>Humidité</th>
+                    <th>Précipitations</th>
+                    <th>Vitesse du vent</th>
+                    <th>Conditions</th>
+                    <th>Levé du soleil</th>
+                    <th>Couché du soleil</th>
+                </tr>
+                <tr>
+                    <input type="hidden" name="id" th:value="${weatherData.weatherDataCurrentConditions.id}" />
+                    <td th:text="${weatherData.weatherDataCurrentConditions.datetime}"></td>
+                    <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}"
+                        th:data-column-name="temp" th:text="${weatherData.weatherDataCurrentConditions.temp} + ' °C'">
+                    </td>
+                    <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}"
+                        th:data-column-name="humidity"
+                        th:text="${weatherData.weatherDataCurrentConditions.humidity} + ' %'"></td>
+                    <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}"
+                        th:data-column-name="precipprob"
+                        th:text="${weatherData.weatherDataCurrentConditions.precipprob} + ' %'"></td>
+                    <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}"
+                        th:data-column-name="windspeed"
+                        th:text="${weatherData.weatherDataCurrentConditions.windspeed} + ' km/h'"></td>
+                    <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}"
+                        th:data-column-name="conditions"
+                        th:text="${weatherData.weatherDataCurrentConditions.conditions}"></td>
+                    <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}"
+                        th:data-column-name="sunrise" th:text="${weatherData.weatherDataCurrentConditions.sunrise}">
+                    </td>
+                    <td class="editable-cell" th:data-weather-id="${weatherData.weatherDataCurrentConditions.id}"
+                        th:data-column-name="sunset" th:text="${weatherData.weatherDataCurrentConditions.sunset}"></td>
+
+                </tr>
+            </tbody>
+        </table>
     </div>
-    
+
     <table border="1">
         <h2>Conditions sur 7 jours</h2>
         <tbody>
@@ -41,10 +53,11 @@
 
                 <td th:each="weatherDay : ${weatherData.weatherDay}">
                     <span th:if="${weatherDay.datetime != null}">
-                        <span th:text="${#strings.capitalize(#temporals.format(weatherDay.datetime, 'EEEE'))}"></span><br/>
+                        <span
+                            th:text="${#strings.capitalize(#temporals.format(weatherDay.datetime, 'EEEE'))}"></span><br />
                         <span th:text="${#temporals.format(weatherDay.datetime, 'd MMMM')}"></span>
                     </span>
-                </td>                
+                </td>
             </tr>
 
             <tr style="text-align: center;">
@@ -55,18 +68,16 @@
             </tr>
             <tr>
                 <th>Température</th>
-                    <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
-                        th:data-weather-id="${weatherData.id}"
-                        th:data-weatherday-id="${weatherDayStat.index}"
-                        th:data-column-name="temp">
+                <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
+                    th:data-weather-id="${weatherData.id}" th:data-weatherday-id="${weatherDayStat.index}"
+                    th:data-column-name="temp">
                     <span th:text="${weatherDay.temp} + ' °C'"></span>
                 </td>
             </tr>
             <tr>
                 <th>Température Min</th>
                 <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
-                    th:data-weather-id="${weatherData.id}"
-                    th:data-weatherday-id="${weatherDayStat.index}"
+                    th:data-weather-id="${weatherData.id}" th:data-weatherday-id="${weatherDayStat.index}"
                     data-column-name="tempmin">
                     <span th:text="${weatherDay.tempmin} + ' °C'"></span>
                 </td>
@@ -74,17 +85,15 @@
             <tr>
                 <th>Température Max</th>
                 <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
-                    th:data-weather-id="${weatherData.id}"
-                    th:data-weatherday-id="${weatherDayStat.index}"
+                    th:data-weather-id="${weatherData.id}" th:data-weatherday-id="${weatherDayStat.index}"
                     data-column-name="tempmax">
                     <span th:text="${weatherDay.tempmax} + ' °C'"></span>
-                </td>   
+                </td>
             </tr>
             <tr>
                 <th>Précipitation</th>
                 <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
-                    th:data-weather-id="${weatherData.id}"
-                    th:data-weatherday-id="${weatherDayStat.index}"
+                    th:data-weather-id="${weatherData.id}" th:data-weatherday-id="${weatherDayStat.index}"
                     data-column-name="precipprob">
                     <span th:text="${weatherDay.precipprob} + ' %'"></span>
                 </td>
@@ -92,28 +101,25 @@
             <tr>
                 <th>Vitesse du vent</th>
                 <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
-                th:data-weather-id="${weatherData.id}"
-                th:data-weatherday-id="${weatherDayStat.index}"
-                data-column-name="windspeed">
-                <span th:text="${weatherDay.windspeed} + ' km/h'"></span>
-            </td>
+                    th:data-weather-id="${weatherData.id}" th:data-weatherday-id="${weatherDayStat.index}"
+                    data-column-name="windspeed">
+                    <span th:text="${weatherDay.windspeed} + ' km/h'"></span>
+                </td>
             </tr>
             <tr>
                 <th>Levé du soleil</th>
                 <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
-                th:data-weather-id="${weatherData.id}"
-                th:data-weatherday-id="${weatherDayStat.index}"
-                data-column-name="sunrise">
-                <span th:text="${weatherDay.sunrise}"></span>
-            </td>
+                    th:data-weather-id="${weatherData.id}" th:data-weatherday-id="${weatherDayStat.index}"
+                    data-column-name="sunrise">
+                    <span th:text="${weatherDay.sunrise}"></span>
+                </td>
             <tr>
                 <th>Couché du soleil</th>
                 <td th:each="weatherDay : ${weatherData.weatherDay}" class="editable-cell"
-                th:data-weather-id="${weatherData.id}"
-                th:data-weatherday-id="${weatherDayStat.index}"
-                data-column-name="sunset">
-                <span th:text="${weatherDay.sunset}"></span>
-            </td>
+                    th:data-weather-id="${weatherData.id}" th:data-weatherday-id="${weatherDayStat.index}"
+                    data-column-name="sunset">
+                    <span th:text="${weatherDay.sunset}"></span>
+                </td>
         </tbody>
     </table>
 
@@ -152,104 +158,106 @@
     </div>
 
     <script th:inline="javascript">
+        // Met à jour le fragment de gestion
         updateManageFragment();
+        // Ajoute un marqueur
         addMarker(/*[[${weatherData.longitude}]]*/ null, /*[[${weatherData.latitude}]]*/ null, /*[[${weatherData.address}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.temp}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.conditions}]]*/ null, /*[[${weatherData.weatherDataCurrentConditions.icon}]]*/ null);
-        
+
+        // Gestion des événements au chargement du document
         $(document).ready(function () {
-        $('.editable-cell').on('click', function () {
-            enableEdit($(this));
-        });
-
-        $('.editable-cell').on('keypress', function (e) {
-        if (e.which == 13) { // 13 est le code de la touche "Entrée"
-            e.preventDefault(); // Empêche le retour à la ligne dans la cellule
-            $(this).blur(); // Déclenche l'événement "blur" pour enregistrer les modifications
-        }
-    });
-
-        $('.editable-cell').on('blur', function () {
-            if($(this).data('weather-id') != undefined && $(this).data('weatherday-id') != undefined && $(this).data('column-name') != undefined){
-                var weatherId = $(this).data('weather-id');
-                var weatherDayId = $(this).data('weatherday-id');
-                var columnName = $(this).data('column-name');
-                console.log('testOK');
-                disableEdit($(this), weatherId, weatherDayId, columnName);
-            }
-            else if($(this).data('weather-id') != undefined && $(this).data('weatherday-id') == undefined && $(this).data('column-name') != undefined){
-                var weatherId = $(this).data('weather-id');
-                var columnName = $(this).data('column-name');
-                console.log('testOK')
-                disableEditCurrentConditions($(this), weatherId, columnName);
-            }
-            else{
-                console.log('testNOK')
-            }
-        });
-
-        function enableEdit(cell) {
-            cell.attr('contenteditable', true);
-            cell.focus();
-        }
-
-        function disableEditCurrentConditions(cell, weatherId, columnName){
-            cell.attr('contenteditable', false);
-
-            if(columnName != "conditions" || columnName != "sunrise" || columnName != "sunset"){
-                var newValue = cell.text().trim().split(' ')[0];
-            }
-            else 
-            {
-                var newValue = cell.text().trim().split(' ');
-            }
-
-            $.ajax({
-                type: 'POST',
-                url: '/updateWeatherData',
-                data: {
-                    id : weatherId,
-                    column: columnName,
-                    value: newValue
-                },
-                success: function (response) {
-                    console.log(response);
-                },
-                error: function (error) {
-                    console.error(error);
+            // Activation de l'édition lors du clic
+            $('.editable-cell').on('click', function () {
+                enableEdit($(this));
+            });
+            // Gestion de la touche "Entrée" pour terminer l'édition
+            $('.editable-cell').on('keypress', function (e) {
+                if (e.which == 13) { // 13 est le code de la touche "Entrée"
+                    e.preventDefault(); // Empêche le retour à la ligne dans la cellule
+                    $(this).blur(); // Déclenche l'événement "blur" pour enregistrer les modifications
                 }
             });
-        }
-
-        function disableEdit(cell, weatherId, weatherDayId, columnName) {
-            cell.attr('contenteditable', false);
-            var newValue = cell.text().trim().split(' ')[0];
-
-            if(columnName != "sunrise" || columnName != "sunset"){
-                var newValue = cell.text().trim().split(' ')[0];
-            }
-            else 
-            {
-                var newValue = cell.text().trim().split(' ');
-            }
-
-            $.ajax({
-                type: 'POST',
-                url: '/updateWeatherData2',
-                data: {
-                    id : weatherId,
-                    idDay: weatherDayId,
-                    column: columnName,
-                    value: newValue
-                },
-                success: function (response) {
-                    console.log(response);
-                },
-                error: function (error) {
-                    console.error(error);
+            // Fin de l'édition et enregistrement des modifications
+            $('.editable-cell').on('blur', function () {
+                if ($(this).data('weather-id') != undefined && $(this).data('weatherday-id') != undefined && $(this).data('column-name') != undefined) {
+                    var weatherId = $(this).data('weather-id');
+                    var weatherDayId = $(this).data('weatherday-id');
+                    var columnName = $(this).data('column-name');
+                    console.log('testOK');
+                    disableEdit($(this), weatherId, weatherDayId, columnName);
+                }
+                else if ($(this).data('weather-id') != undefined && $(this).data('weatherday-id') == undefined && $(this).data('column-name') != undefined) {
+                    var weatherId = $(this).data('weather-id');
+                    var columnName = $(this).data('column-name');
+                    console.log('testOK')
+                    disableEditCurrentConditions($(this), weatherId, columnName);
+                }
+                else {
+                    console.log('testNOK')
                 }
             });
-        }
-    });
-  </script>
+            // Fonction pour activer l'édition
+            function enableEdit(cell) {
+                cell.attr('contenteditable', true);
+                cell.focus();
+            }
+            // Fonction pour désactiver l'édition des conditions actuelles
+            function disableEditCurrentConditions(cell, weatherId, columnName) {
+                cell.attr('contenteditable', false);
+
+                if (columnName != "conditions" || columnName != "sunrise" || columnName != "sunset") {
+                    var newValue = cell.text().trim().split(' ')[0];
+                }
+                else {
+                    var newValue = cell.text().trim().split(' ');
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/updateWeatherData',
+                    data: {
+                        id: weatherId,
+                        column: columnName,
+                        value: newValue
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            }
+            // Fonction pour désactiver l'édition des conditions météorologiques
+            function disableEdit(cell, weatherId, weatherDayId, columnName) {
+                cell.attr('contenteditable', false);
+                var newValue = cell.text().trim().split(' ')[0];
+
+                if (columnName != "sunrise" || columnName != "sunset") {
+                    var newValue = cell.text().trim().split(' ')[0];
+                }
+                else {
+                    var newValue = cell.text().trim().split(' ');
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/updateWeatherData2',
+                    data: {
+                        id: weatherId,
+                        idDay: weatherDayId,
+                        column: columnName,
+                        value: newValue
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            }
+        });
+    </script>
 
 </div>
 <div th:if="${#lists.isEmpty(weatherDataLists)}">

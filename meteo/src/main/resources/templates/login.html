@@ -1,28 +1,28 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head> 
+<head>
     <title>Login</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
     <link rel="stylesheet" href="..\style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="icon" type="image/x-icon" href="..\img\evelyne.ico">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> 
+    <link rel="icon" type="image/x-icon" href="..\img\evelyne.ico"> 
 </head>
 <body>
     <header>
-        <a href="/index">
+        <a href="/index"> 
             <img src="..\img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
         </a>
-        <h1>La météo d'Évelyne Dhéliat</h1>
-        <a href="https://imt-nord-europe.fr">
+        <h1>La météo d'Évelyne Dhéliat</h1> 
+        <a href="https://imt-nord-europe.fr"> 
             <img src="..\img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
         </a>
     </header>
-    <form th:action="@{/login}" method="post">
+    <form th:action="@{/login}" method="post"> <!-- Formulaire de connexion Thymeleaf -->
         <div><label for="username">Nom d'utilisateur <input type="text" name="username" id="username" /></label></div>
         <div><label for="password">Mot de passe <input type="password" name="password" id="password" /></label></div>
-        <div><input type="submit" value="Sign In" id="loginButton" style="align-items: center;"/></div>
-        <div th:if="${error}" style="color: red; text-align: center;"><p>Erreur dans l'identifiant ou mot de passe</p></div>
+        <div><input type="submit" value="Sign In" id="loginButton"/></div> <!-- Bouton de connexion -->
+        <div th:if="${error}" style="color: red; text-align: center;"><p>Erreur d'authentification</p></div> <!-- Message d'erreur -->
     </form>
 </body>
 </html>

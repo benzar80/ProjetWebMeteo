@@ -1,9 +1,13 @@
 <div class="weather-container" style="max-height: 400px; overflow-y: auto;">
+    <!-- Boucle sur chaque élément de weatherDataLists -->
     <div th:each="weatherData, iterStat : ${weatherDataLists}" class="p-2 border-bottom">
+        <!-- Conteneur pour chaque élément de données météo -->
         <div class="d-flex align-items-center justify-content-between">
+            <!-- Bouton affichant l'adresse résolue et déclenchant une fonction JavaScript lorsqu'il est cliqué -->
             <button th:text="${weatherData.resolvedAddress}" class="btn btn-outline-primary btn-block" th:onclick="receptDataAPI([[${weatherData.address}]])"></button>
-
+             <!-- Condition pour afficher le bouton de suppression après les 6 premiers éléments -->
             <span th:if="${iterStat.index > 6}" class="ml-2">
+                <!-- Bouton pour supprimer les données et le marqueur associé sur une carte -->
                 <button class="btn btn-outline-danger btn-block" th:onclick="suppManageData([[${weatherData.address}]]); suppMarker([[${weatherData.latitude}]], [[${weatherData.longitude}]]);">Supprimer</button>
             </span>
         </div>
@@ -17,10 +21,12 @@
                     /*[[${weatherData.weatherDataCurrentConditions.conditions}]]*/ null,
                     /*[[${weatherData.weatherDataCurrentConditions.icon}]]*/ null
                 );
+                // Définit la vue de la carte et ferme les popups actifs
                 map.setView([46.6031, 1.8883], 5);
                 map.closePopup();
             }
         </script>
     </div>
+    <!-- Script pour marquer que les marqueurs ont été initialisés -->
     <script th:inline="javascript">markersInitiase = true;</script>
 </div>

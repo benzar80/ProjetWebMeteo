@@ -4,7 +4,9 @@
             <button th:text="${weatherData.resolvedAddress}" class="btn btn-outline-primary btn-block" th:onclick="receptDataAPI([[${weatherData.address}]])"></button>
         </div>
         <script th:inline="javascript">
+            // Script JavaScript pour initialiser les marqueurs
             if (!markersInitiase) {
+                // Si les marqueurs ne sont pas encore initialisés
                 addMarker(
                     /*[[${weatherData.longitude}]]*/ null,
                     /*[[${weatherData.latitude}]]*/ null,
@@ -13,8 +15,11 @@
                     /*[[${weatherData.weatherDataCurrentConditions.conditions}]]*/ null,
                     /*[[${weatherData.weatherDataCurrentConditions.icon}]]*/ null
                 );
+                // Ajoute un marqueur
                 map.setView([46.6031, 1.8883], 5);
+                 // Définit la vue de la carte
                 map.closePopup();
+                // Ferme les popups de la carte
             }
         </script>
     </div>
