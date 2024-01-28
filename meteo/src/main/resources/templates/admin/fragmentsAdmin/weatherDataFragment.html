@@ -160,6 +160,13 @@
             enableEdit($(this));
         });
 
+        $('.editable-cell').on('keypress', function (e) {
+        if (e.which == 13) { // 13 est le code de la touche "Entrée"
+            e.preventDefault(); // Empêche le retour à la ligne dans la cellule
+            $(this).blur(); // Déclenche l'événement "blur" pour enregistrer les modifications
+        }
+    });
+
         $('.editable-cell').on('blur', function () {
             if($(this).data('weather-id') != undefined && $(this).data('weatherday-id') != undefined && $(this).data('column-name') != undefined){
                 var weatherId = $(this).data('weather-id');

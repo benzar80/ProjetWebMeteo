@@ -24,7 +24,7 @@ public class WeatherControllerRest {
         public void sendWeatherData(
             @RequestParam Long id,
             @RequestParam String column,
-            @RequestParam Object value,
+            @RequestParam String value,
             Model model) {
             try {
                 
@@ -33,16 +33,16 @@ public class WeatherControllerRest {
 
                 switch (column) {
                     case "temp":
-                        weatherDataCurrent.setTemp((double) value);
+                        weatherDataCurrent.setTemp(Double.parseDouble(value));
                         break;
                     case "humidity":
-                        weatherDataCurrent.setHumidity((double) value);
+                        weatherDataCurrent.setHumidity(Double.parseDouble(value));
                         break;
                     case "precipprob":
-                        weatherDataCurrent.setPrecipprob((double) value);
+                        weatherDataCurrent.setPrecipprob(Double.parseDouble(value));
                         break;
                     case "windspeed":
-                        weatherDataCurrent.setWindspeed((double) value);
+                        weatherDataCurrent.setWindspeed(Double.parseDouble(value));
                     case "sunrise":
                         weatherDataCurrent.setSunrise((String) value);
                     case "sunset":
@@ -66,7 +66,7 @@ public class WeatherControllerRest {
             @RequestParam Long id,
             @RequestParam int idDay,
             @RequestParam String column,
-            @RequestParam Object value,
+            @RequestParam String value,
             Model model) {
             try {
 
@@ -75,22 +75,22 @@ public class WeatherControllerRest {
                 
                 switch (column) {
                     case "temp":
-                        weatherDataDayNew.setTemp((double) value);
+                        weatherDataDayNew.setTemp(Double.parseDouble(value));
                         break;
                     case "tempmax":
-                        weatherDataDayNew.setTempmax((double) value);
+                        weatherDataDayNew.setTempmax(Double.parseDouble(value));
                         break;
                     case "tempmin":
-                        weatherDataDayNew.setTempmin((double) value);
+                        weatherDataDayNew.setTempmin(Double.parseDouble(value));
                         break;
                     case "humidity":
-                        weatherDataDayNew.setHumidity((double) value);
+                        weatherDataDayNew.setHumidity(Double.parseDouble(value));
                         break;
                     case "precipprob":
-                        weatherDataDayNew.setPrecipprob((double) value);
+                        weatherDataDayNew.setPrecipprob(Double.parseDouble(value));
                         break;
                     case "windspeed":
-                        weatherDataDayNew.setWindspeed((double) value);
+                        weatherDataDayNew.setWindspeed(Double.parseDouble(value));
                         break;
                     case "sunrise":
                         weatherDataDayNew.setSunrise((String) value);
