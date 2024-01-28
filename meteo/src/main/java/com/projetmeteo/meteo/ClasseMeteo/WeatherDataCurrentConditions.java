@@ -87,8 +87,8 @@ public class WeatherDataCurrentConditions {
         return humidity;
     }
 
-    public void setHumidity(double humidity) {
-        this.humidity = humidity;
+    public void setHumidity(double value) {
+        this.humidity = value;
     }
 
     public double getPrecipprob() {

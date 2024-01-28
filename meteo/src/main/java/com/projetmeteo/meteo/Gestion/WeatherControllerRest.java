@@ -20,11 +20,11 @@ public class WeatherControllerRest {
 
         
 
-    @PostMapping("/sendWeatherData")
+    @PostMapping("/updateWeatherData")
         public void sendWeatherData(
             @RequestParam Long id,
             @RequestParam String column,
-            @RequestParam Double value,
+            @RequestParam Object value,
             Model model) {
             try {
                 
@@ -33,16 +33,20 @@ public class WeatherControllerRest {
 
                 switch (column) {
                     case "temp":
-                        weatherDataCurrent.setTemp(value);
+                        weatherDataCurrent.setTemp((double) value);
                         break;
                     case "humidity":
-                        weatherDataCurrent.setHumidity(value);
+                        weatherDataCurrent.setHumidity((double) value);
                         break;
                     case "precipprob":
-                        weatherDataCurrent.setPrecipprob(value);
+                        weatherDataCurrent.setPrecipprob((double) value);
                         break;
                     case "windspeed":
-                        weatherDataCurrent.setWindspeed(value);
+                        weatherDataCurrent.setWindspeed((double) value);
+                    case "sunrise":
+                        weatherDataCurrent.setSunrise((String) value);
+                    case "sunset":
+                        weatherDataCurrent.setSunset((String) value);
                         break;
                     default:
                         throw new IllegalArgumentException("Invalid column name: " + column);
@@ -62,7 +66,7 @@ public class WeatherControllerRest {
             @RequestParam Long id,
             @RequestParam int idDay,
             @RequestParam String column,
-            @RequestParam Double value,
+            @RequestParam Object value,
             Model model) {
             try {
 
@@ -71,22 +75,28 @@ public class WeatherControllerRest {
                 
                 switch (column) {
                     case "temp":
-                        weatherDataDayNew.setTemp(value);
+                        weatherDataDayNew.setTemp((double) value);
                         break;
                     case "tempmax":
-                        weatherDataDayNew.setTempmax(value);
+                        weatherDataDayNew.setTempmax((double) value);
                         break;
                     case "tempmin":
-                        weatherDataDayNew.setTempmin(value);
+                        weatherDataDayNew.setTempmin((double) value);
                         break;
                     case "humidity":
-                        weatherDataDayNew.setHumidity(value);
+                        weatherDataDayNew.setHumidity((double) value);
                         break;
                     case "precipprob":
-                        weatherDataDayNew.setPrecipprob(value);
+                        weatherDataDayNew.setPrecipprob((double) value);
                         break;
                     case "windspeed":
-                        weatherDataDayNew.setWindspeed(value);
+                        weatherDataDayNew.setWindspeed((double) value);
+                        break;
+                    case "sunrise":
+                        weatherDataDayNew.setSunrise((String) value);
+                        break;
+                    case "sunset":
+                        weatherDataDayNew.setSunset((String) value);
                         break;
                     default:
                         throw new IllegalArgumentException("Invalid column name: " + column);

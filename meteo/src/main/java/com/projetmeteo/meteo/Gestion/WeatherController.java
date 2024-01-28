@@ -31,6 +31,11 @@ public class WeatherController {
 	@Autowired
     private WeatherService weatherService;
 
+    @GetMapping("/h2")
+    public String accessBDD() {
+        return "/h2"; // Nom du fichier Thymeleaf pour la page de connexion
+    }
+
     @GetMapping("/index")
     public String index() {
         return "index"; // Nom du fichier Thymeleaf pour la page de connexion
@@ -56,7 +61,7 @@ public class WeatherController {
     // Redirection après une connexion échouée
     @GetMapping("/login_failure")
     public String loginFailure(Model model) {
-        model.addAttribute("loginError", true);
+        model.addAttribute("error", true);
         return "login";
     }
 
@@ -74,6 +79,7 @@ public class WeatherController {
         submitWeatherData("Marseille", model);
         submitWeatherData("Rennes", model);
         submitWeatherData("Bordeaux", model);
+        submitWeatherData("Toulouse", model);
     }
 
     @Scheduled(fixedDelay = 1800000)
