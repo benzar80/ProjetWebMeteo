@@ -153,7 +153,7 @@
     });
 
     if (existingMarkerIndex !== -1) {
-        var removedMarker = markers.splice(existingMarkerIndex, 1)[0]; // Retire le marqueur du tableau
+        var removedMarker = markers.splice(existingMarkerIndex, 1)[0]; 
         removedMarker.marker.removeFrom(map);
        
 
@@ -198,13 +198,11 @@
                 sunset: $('input[name="sunsetCurrrent"]').val()
             };
 
-            // Envoyer les données au serveur
             $.ajax({
                 type: "POST",
-                url: "/sendWeatherData", // Assurez-vous d'ajuster l'URL en fonction de votre configuration
+                url: "/sendWeatherData", 
                 data: formData,
                 success: function (response) {
-                    // Traiter la réponse du serveur si nécessaire
                     console.log(response);
                 },
                 error: function (error) {

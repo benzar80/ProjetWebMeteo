@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+//Cette classe permet de récupérer via une classe JSON les conditions actuelle d'une ville, elle est ensuite stockée dans la base de données h2
+
 @Entity
 @Table(name="WeatherDataCurrentConditions")
 public class WeatherDataCurrentConditions {

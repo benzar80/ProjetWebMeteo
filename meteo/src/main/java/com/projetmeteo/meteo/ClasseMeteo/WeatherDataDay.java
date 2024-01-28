@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+//Cette classe permet de récupérer via une classe JSON les données d'une ville par jours, elle est ensuite stockée dans la base de données h2
+
 @Entity
 @Table(name="WeatherDataDay")
 public class WeatherDataDay {

@@ -1,9 +1,10 @@
 package com.projetmeteo.meteo.ClasseMeteoJSON;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+
+//Cette classe permet de récupérer via une classe JSON les données d'une ville par jours, elle est ensuite stockée dans la base de données h2
 
 public class WeatherCity {
     @JsonIgnore
