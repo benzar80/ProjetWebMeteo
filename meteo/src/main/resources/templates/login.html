@@ -10,16 +10,19 @@
 </head>
 <body>
     <header>
-        <img src="..\img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
-        <h1>Vous essayer d'entrer dans une zone sécurisée</h1>
-        <img src="..\img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
+        <a href="/index">
+            <img src="..\img\logo_meteo1.png" alt="Left Logo" class="logo left-logo" />
+        </a>
+        <h1>La météo d'Évelyne Dhéliat</h1>
+        <a href="https://imt-nord-europe.fr">
+            <img src="..\img\logo_imt1.jpg" alt="Right Logo" class="logo right-logo" />
+        </a>
     </header>
-        
-        <form th:action="@{/login}" method="post">
-            <div><label for="username">Nom d'utilisateur <input type="text" name="username" id="username" /></label></div>
-            <div><label for="password">Mot de passe <input type="password" name="password" id="password" /></label></div>
-            <div><input type="submit" value="Sign In" id="loginButton" style="align-items: center;"/></div>
-            <div th:if="${error}" style="color: red; text-align: center;"><p>Erreur dans l'identifiant ou mot de passe</p></div>
-        </form>
-    </body>
+    <form th:action="@{/login}" method="post">
+        <div><label for="username">Nom d'utilisateur <input type="text" name="username" id="username" /></label></div>
+        <div><label for="password">Mot de passe <input type="password" name="password" id="password" /></label></div>
+        <div><input type="submit" value="Sign In" id="loginButton" style="align-items: center;"/></div>
+        <div th:if="${error}" style="color: red; text-align: center;"><p>Erreur dans l'identifiant ou mot de passe</p></div>
+    </form>
+</body>
 </html>
