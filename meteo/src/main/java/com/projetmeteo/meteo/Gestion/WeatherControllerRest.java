@@ -45,10 +45,12 @@ public class WeatherControllerRest {
                     break;
                 case "windspeed":
                     weatherDataCurrent.setWindspeed(Double.parseDouble(value));
+                case "conditions":
+                    weatherDataCurrent.setConditions(value);
                 case "sunrise":
-                    weatherDataCurrent.setSunrise((String) value);
+                    weatherDataCurrent.setSunrise(value);
                 case "sunset":
-                    weatherDataCurrent.setSunset((String) value);
+                    weatherDataCurrent.setSunset(value);
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid column name: " + column);
