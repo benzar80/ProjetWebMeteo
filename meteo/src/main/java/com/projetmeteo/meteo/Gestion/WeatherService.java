@@ -2,6 +2,7 @@ package com.projetmeteo.meteo.Gestion;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class WeatherService {
 
     @Value("${weather.api.key}")
     private String apiKey;
+
+    
 
     // Sauvegarde les données météorologiques dans la base de données
     public void saveWeatherData(WeatherDataCity WeatherDataCity) {

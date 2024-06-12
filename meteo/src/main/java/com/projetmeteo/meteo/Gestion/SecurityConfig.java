@@ -56,7 +56,7 @@ public class SecurityConfig {
         // Crée un utilisateur avec le rôle ADMIN
         UserDetails user = User.builder()
             .username("admin") // Définit le nom d'utilisateur comme "admin"
-            .password(passwordEncoder.encode("admin")) // Encode le mot de passe "admin"
+            .password(passwordEncoder.encode("testAdmin**890")) // Encode le mot de passe "admin"
             .roles("ADMIN") // Attribue le rôle ADMIN à l'utilisateur
             .build(); // Construit l'objet UserDetails
     
